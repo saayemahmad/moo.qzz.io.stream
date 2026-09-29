@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -1880,6 +1880,9 @@
     const homeMenu = document.getElementById('homeMenu');
     const backBtn = document.getElementById('backBtn');
 
+    // Track which data loaders have been started (lazy init)
+    const _started = { presence: false, chatbox: false, watch_leaderboard: false };
+
     function showPage(page) {
       currentPage = page;
       // Reset all panels to visible
@@ -1904,14 +1907,17 @@
           if (pChatbox) pChatbox.style.display = 'none';
           if (col2Wrapper) col2Wrapper.style.display = 'none';
           if (deck) deck.style.gridTemplateColumns = '1fr';
+          if (!_started.presence) { _started.presence = true; setTimeout(startPresence, 0); }
         } else if (page === 'chatbox') {
           if (pPresence) pPresence.style.display = 'none';
           if (col2Wrapper) col2Wrapper.style.display = 'none';
           if (deck) deck.style.gridTemplateColumns = '1fr';
+          if (!_started.chatbox) { _started.chatbox = true; setTimeout(startChatViewer, 0); }
         } else if (page === 'watch_leaderboard') {
           if (col1Wrapper) col1Wrapper.style.display = 'none';
           if (deck) deck.style.gridTemplateColumns = '1fr';
           if (col2Wrapper) { col2Wrapper.style.display = ''; col2Wrapper.style.gridColumn = '1'; }
+          if (!_started.watch_leaderboard) { _started.watch_leaderboard = true; setTimeout(() => { loadWatchTime(); startWatchRealtime(); }, 0); }
         }
       }
       // Update active nav link
@@ -2247,7 +2253,7 @@
             <div class="v4-linfo">
               <span class="v4-lname">${u.username}</span>
               <div style="display:flex; justify-content:space-between; align-items:center;">
-                <span class="v4-ltime"><span style="color:#6ec9b8;">${formatDigital(s.watch_seconds)}</span>${u.skipped_seconds ? ` Â· <span style="color:#c97a8a;">${formatDigital(u.skipped_seconds)} skp</span>` : ''}</span>
+                <span class="v4-ltime"><span style="color:#6ec9b8;">${formatDigital(s.watch_seconds)}</span>${u.skipped_seconds ? ` · <span style="color:#c97a8a;">${formatDigital(u.skipped_seconds)} skp</span>` : ''}</span>
                 <span class="v4-lpct">${s.pct}%</span>
               </div>
               <div class="v4-lbar"><div class="v4-lbfill" style="width:${s.pct}%;background:linear-gradient(90deg,${s.color},hsla(${s.hue},85%,75%,0.5));transition:width 0.3s ease;"></div></div>
@@ -2291,7 +2297,7 @@
     async function loadWatchTime() {
       let data;
       try {
-        const res = await fetch('/api/analytics/watch-time');
+        const res = await fetch('https://api.moo.qzz.io/api/analytics/watch-time', { credentials: 'include' });
         if (!res.ok) throw new Error('bad response');
         const json = await res.json();
         data = json.data || [];
@@ -2363,7 +2369,7 @@
       btn.style.pointerEvents = 'none';
 
       try {
-        const res = await fetch('/api/analytics/reset-watch-time', { method: 'POST' });
+        const res = await fetch('https://api.moo.qzz.io/api/analytics/reset-watch-time', { method: 'POST', credentials: 'include' });
         if (res.ok) {
           loadWatchTime(); // Refresh the leaderboard immediately
         }
@@ -2884,17 +2890,14 @@
     masonryMo.observe(document.body, { childList: true, subtree: true });
     observeNewPills();
 
-    if (currentPage === 'watch_leaderboard') {
-      loadWatchTime();
-      // Realtime triggers replacing 10s polling
+    // startWatchRealtime — called lazily by showPage
+    function startWatchRealtime() {
       (async () => {
         try {
           const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js');
           const { getDatabase, ref, onValue } = await import('https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js');
-
           const app = initializeApp({ databaseURL: "https://dev-ca098-default-rtdb.firebaseio.com" }, 'analytics-realtime');
           const db = getDatabase(app);
-
           let firstWatch = true;
           let watchDebounce = null;
           onValue(ref(db, 'watchTimeSessions'), () => {
@@ -2906,14 +2909,6 @@
           });
         } catch (e) { console.error("Realtime trigger error:", e); }
       })();
-    }
-
-    if (currentPage === 'presence') {
-      startPresence();
-    }
-
-    if (currentPage === 'chatbox') {
-      startChatViewer();
     }
   </script>
 </body>
