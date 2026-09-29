@@ -19,3 +19,7 @@ package.json
 # PC backend files (not needed on Render)
 requirements.txt
 backend/
+
+# Arduino / ESP32 hardware files (local only)
+arduino_led.ino
+esp32_notifier.ino
