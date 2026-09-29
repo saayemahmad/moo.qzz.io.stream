@@ -10,4 +10,8 @@ __pycache__/
 uploads_raw/
 media/
 
-
+# PC-only server management files (not needed on Render)
+start_server.bat
+server_manager.py
+ecosystem.config.js
+package.json
