@@ -1,0 +1,14 @@
+﻿# Firebase credentials - NEVER commit this
+serviceAccountKey.json
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Raw uploads and media (too large for git)
+uploads_raw/
+media/
+
+# Render deploy staging folder
+render-deploy/

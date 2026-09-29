@@ -1,0 +1,27 @@
+# ==========================================
+# Cloud Drive / Upload Project Dependencies
+# ==========================================
+
+# Core Web Framework
+fastapi>=0.110.0
+
+# Production ASGI Server (required to run FastAPI)
+uvicorn[standard]>=0.28.0
+
+# Form Data Parser (REQUIRED by FastAPI for Form(...) fields like login)
+python-multipart>=0.0.9
+
+# Asynchronous File I/O (used for streaming & chunked TUS uploads)
+aiofiles>=23.2.1
+
+# Rate Limiting for API Endpoints
+slowapi>=0.1.9
+
+# Bundled FFmpeg & FFprobe binaries (for HLS video packaging & thumbnail generation)
+static-ffmpeg>=2.5
+
+# Firebase Admin SDK (Realtime Database & Authentication)
+firebase-admin>=6.5.0
+
+# Data Validation & Serialization
+pydantic>=2.6.0
