@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -1874,6 +1874,15 @@
       if (link.getAttribute('data-page') === currentPage) {
         link.classList.add('active');
       }
+      // Intercept clicks — use pushState instead of hard navigation
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+        const href = link.getAttribute('href');
+        if (href) {
+          window.history.pushState({}, '', href);
+          window.location.reload();
+        }
+      });
     });
 
     const pPresence = document.getElementById('panel-presence');

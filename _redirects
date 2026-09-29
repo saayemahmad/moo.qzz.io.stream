@@ -1,4 +1,5 @@
-﻿/login              /login.html              200
+/login              /login.html              200
 /analytics          /analytics.html          200
 /analytics/*        /analytics.html          200
 /deleted_messages   /deleted_messages.html   200
+/*                  /index.html              200
