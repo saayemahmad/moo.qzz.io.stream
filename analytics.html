@@ -1868,22 +1868,7 @@
     const path = window.location.pathname;
     const isHome = path === '/analytics' || path === '/analytics/';
     const pageMatch = path.match(/\/analytics\/(presence|chatbox|watch_leaderboard)/);
-    const currentPage = pageMatch ? pageMatch[1] : (isHome ? 'home' : 'presence');
-
-    // Intercept ALL internal analytics links — nav-link and home-btn
-    document.querySelectorAll('.nav-link, .home-btn').forEach(link => {
-      if (link.getAttribute('data-page') === currentPage) {
-        link.classList.add('active');
-      }
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('/analytics')) {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          window.history.pushState({}, '', href);
-          window.location.reload();
-        });
-      }
-    });
+    let currentPage = pageMatch ? pageMatch[1] : (isHome ? 'home' : 'home');
 
     const pPresence = document.getElementById('panel-presence');
     const pChatbox = document.getElementById('panel-chatbox');
@@ -1895,27 +1880,70 @@
     const homeMenu = document.getElementById('homeMenu');
     const backBtn = document.getElementById('backBtn');
 
-    if (currentPage === 'home') {
-      deck.style.display = 'none';
-      deckNav.style.display = 'none';
-      homeMenu.style.display = 'flex';
-    } else {
-      homeMenu.style.display = 'none';
-      backBtn.style.display = 'inline-block';
-      if (currentPage === 'presence') {
-        pChatbox.style.display = 'none';
-        col2Wrapper.style.display = 'none';
-        deck.style.gridTemplateColumns = '1fr';
-      } else if (currentPage === 'chatbox') {
-        pPresence.style.display = 'none';
-        col2Wrapper.style.display = 'none';
-        deck.style.gridTemplateColumns = '1fr';
-      } else if (currentPage === 'watch_leaderboard') {
-        col1Wrapper.style.display = 'none';
-        deck.style.gridTemplateColumns = '1fr';
-        col2Wrapper.style.gridColumn = '1';
+    function showPage(page) {
+      currentPage = page;
+      // Reset all panels to visible
+      if (pPresence) pPresence.style.display = '';
+      if (pChatbox) pChatbox.style.display = '';
+      if (pLeaderboard) pLeaderboard.style.display = '';
+      if (col1Wrapper) col1Wrapper.style.display = '';
+      if (col2Wrapper) col2Wrapper.style.display = '';
+      if (deck) deck.style.gridTemplateColumns = '';
+
+      if (page === 'home') {
+        if (deck) deck.style.display = 'none';
+        if (deckNav) deckNav.style.display = 'none';
+        if (homeMenu) homeMenu.style.display = 'flex';
+        if (backBtn) backBtn.style.display = 'none';
+      } else {
+        if (deck) deck.style.display = '';
+        if (deckNav) deckNav.style.display = '';
+        if (homeMenu) homeMenu.style.display = 'none';
+        if (backBtn) backBtn.style.display = 'inline-block';
+        if (page === 'presence') {
+          if (pChatbox) pChatbox.style.display = 'none';
+          if (col2Wrapper) col2Wrapper.style.display = 'none';
+          if (deck) deck.style.gridTemplateColumns = '1fr';
+        } else if (page === 'chatbox') {
+          if (pPresence) pPresence.style.display = 'none';
+          if (col2Wrapper) col2Wrapper.style.display = 'none';
+          if (deck) deck.style.gridTemplateColumns = '1fr';
+        } else if (page === 'watch_leaderboard') {
+          if (col1Wrapper) col1Wrapper.style.display = 'none';
+          if (deck) deck.style.gridTemplateColumns = '1fr';
+          if (col2Wrapper) { col2Wrapper.style.display = ''; col2Wrapper.style.gridColumn = '1'; }
+        }
       }
+      // Update active nav link
+      document.querySelectorAll('.nav-link').forEach(l => {
+        l.classList.toggle('active', l.getAttribute('data-page') === page);
+      });
     }
+
+    // Intercept ALL internal analytics links — no reload, pure SPA
+    document.querySelectorAll('.nav-link, .home-btn').forEach(link => {
+      const href = link.getAttribute('href') || '';
+      const m = href.match(/\/analytics\/(presence|chatbox|watch_leaderboard)/);
+      if (m) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          showPage(m[1]);
+        });
+      }
+    });
+
+    // Back button → home
+    if (backBtn) {
+      backBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        showPage('home');
+      });
+    }
+
+    // Initial render
+    showPage(currentPage);
+
+
 
     /* ---------------- Utilities ---------------- */
     function pad(n) { return n.toString().padStart(2, '0'); }
