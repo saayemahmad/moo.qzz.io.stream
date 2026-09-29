@@ -1870,19 +1870,19 @@
     const pageMatch = path.match(/\/analytics\/(presence|chatbox|watch_leaderboard)/);
     const currentPage = pageMatch ? pageMatch[1] : (isHome ? 'home' : 'presence');
 
-    document.querySelectorAll('.nav-link').forEach(link => {
+    // Intercept ALL internal analytics links — nav-link and home-btn
+    document.querySelectorAll('.nav-link, .home-btn').forEach(link => {
       if (link.getAttribute('data-page') === currentPage) {
         link.classList.add('active');
       }
-      // Intercept clicks — use pushState instead of hard navigation
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const href = link.getAttribute('href');
-        if (href) {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('/analytics')) {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
           window.history.pushState({}, '', href);
           window.location.reload();
-        }
-      });
+        });
+      }
     });
 
     const pPresence = document.getElementById('panel-presence');
