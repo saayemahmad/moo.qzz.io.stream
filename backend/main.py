@@ -1,4 +1,4 @@
-import os
+﻿import os
 import re
 import sys
 import uuid
@@ -107,7 +107,7 @@ ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(",")
 # Render frontend origin + API subdomain itself
 ALLOWED_ORIGINS = os.getenv(
     "ALLOWED_ORIGINS",
-    "https://moo.qzz.io,https://api.upload.stream.moo.qzz.io"
+    "https://moo.qzz.io,https://api.moo.qzz.io"
 ).split(",")
 
 if ALLOWED_HOSTS != ["*"]:
@@ -962,7 +962,7 @@ def notify_pushover(req: NotifyRequest, request: Request, background_tasks: Back
     return {"status": "queued"}
 
 RENDER_FRONTEND = "https://moo.qzz.io"
-COOKIE_DOMAIN = ".moo.qzz.io"  # shared across moo.qzz.io + api.upload.stream.moo.qzz.io
+COOKIE_DOMAIN = ".moo.qzz.io"  # shared across moo.qzz.io + api.moo.qzz.io
 
 @app.post("/login")
 def login_post(password: str = Form(...)):

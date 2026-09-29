@@ -6,7 +6,7 @@
   // Auth guard — verify cookie with API before rendering
   (async function() {
     try {
-      const res = await fetch('https://api.upload.stream.moo.qzz.io/analytics', {
+      const res = await fetch('https://api.moo.qzz.io/analytics', {
         credentials: 'include'
       });
       if (!res.ok) {

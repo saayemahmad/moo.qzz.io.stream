@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -9,7 +9,7 @@
         if (error) {
           errStr = (error.stack || error.toString());
         }
-        fetch('https://api.upload.stream.moo.qzz.io/log-client-error', {
+        fetch('https://api.moo.qzz.io/log-client-error', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -4360,9 +4360,9 @@ window.withDelay = function(btn, callback) {
         // --- end ESP32 LED Notifier ---
 
         if (action === 'CLOSED' && navigator.sendBeacon) {
-          navigator.sendBeacon('https://api.upload.stream.moo.qzz.io/api/analytics/notify-pushover', new Blob([payload], { type: 'application/json' }));
+          navigator.sendBeacon('https://api.moo.qzz.io/api/analytics/notify-pushover', new Blob([payload], { type: 'application/json' }));
         } else {
-          fetch('https://api.upload.stream.moo.qzz.io/api/analytics/notify-pushover', {
+          fetch('https://api.moo.qzz.io/api/analytics/notify-pushover', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: payload,
@@ -4863,17 +4863,17 @@ window.withDelay = function(btn, callback) {
         }
         
         const fileTypeLabel = file.type.startsWith('video/') ? 'Video' : 'Image';
-        fetch('https://api.upload.stream.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upload_start', filename: file.name, media_type: fileTypeLabel, seconds: 0 }) }).catch(() => { });
+        fetch('https://api.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upload_start', filename: file.name, media_type: fileTypeLabel, seconds: 0 }) }).catch(() => { });
 
         let currentUploadPercent = 0;
         const uploadLogInterval = setInterval(() => {
-            fetch('https://api.upload.stream.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'uploading', filename: file.name, media_type: fileTypeLabel, seconds: currentUploadPercent }) }).catch(() => { });
+            fetch('https://api.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'uploading', filename: file.name, media_type: fileTypeLabel, seconds: currentUploadPercent }) }).catch(() => { });
         }, 1000);
 
         const actualVideoDuration = await getVideoDuration(file);
         
         const upload = new tus.Upload(file, {
-            endpoint: "https://api.upload.stream.moo.qzz.io/uploads",
+            endpoint: "https://api.moo.qzz.io/uploads",
             chunkSize: 1 * 1024 * 1024,
             retryDelays: [0, 3000, 5000, 10000, 20000],
             metadata: {
@@ -4930,7 +4930,7 @@ window.withDelay = function(btn, callback) {
             },
             onSuccess: function () {
               clearInterval(uploadLogInterval);
-              fetch('https://api.upload.stream.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upload_stop', filename: file.name, media_type: fileTypeLabel, seconds: 100 }) }).catch(() => { });
+              fetch('https://api.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upload_stop', filename: file.name, media_type: fileTypeLabel, seconds: 100 }) }).catch(() => { });
 
               if (progStatus) progStatus.innerText = 'প্রসেসিং হচ্ছে...';
               progPercent.innerText = '100%';
@@ -4941,7 +4941,7 @@ window.withDelay = function(btn, callback) {
 
               const uploadId = upload.url.split('/').pop();
 
-              fetch(`https://api.upload.stream.moo.qzz.io/uploads/${uploadId}/finalize`, { method: 'POST' }).then(res => {
+              fetch(`https://api.moo.qzz.io/uploads/${uploadId}/finalize`, { method: 'POST' }).then(res => {
                 if (progStatus) {
                   progStatus.innerText = 'আপলোড সফল!';
                   progStatus.style.color = 'var(--c-pink-shadow)';
@@ -5161,7 +5161,7 @@ window.withDelay = function(btn, callback) {
         }
 
         try {
-          const res = await fetch(`https://api.upload.stream.moo.qzz.io/uploads/${uploadId}/status`);
+          const res = await fetch(`https://api.moo.qzz.io/uploads/${uploadId}/status`);
           if (res.status === 404) {
             notFoundCount++;
             if (notFoundCount >= 3) {
@@ -5268,7 +5268,7 @@ window.withDelay = function(btn, callback) {
           const applyFilter = async (list) => {
             if (!FILTER_MISSING_MEDIA) return list;
             try {
-              const res = await fetch('https://api.upload.stream.moo.qzz.io/uploads', { cache: 'no-store' });
+              const res = await fetch('https://api.moo.qzz.io/uploads', { cache: 'no-store' });
               if (!res.ok) return list;
               const validEntries = await res.json();
               const validIds = new Set(validEntries.map(e => e.id));
@@ -5619,7 +5619,7 @@ window.withDelay = function(btn, callback) {
       // Send backend HTTP fetch immediately on start, stop, skip; throttle watching to every 2.5s
       if (action !== 'watching' || nowMs - _lastBackendFetchTime >= 2500) {
         _lastBackendFetchTime = nowMs;
-        fetch('https://api.upload.stream.moo.qzz.io/log-watch', {
+        fetch('https://api.moo.qzz.io/log-watch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload),
@@ -5884,7 +5884,7 @@ window.withDelay = function(btn, callback) {
 
       // Fetch status for real uploaded files
       try {
-        const res = await fetch(`https://api.upload.stream.moo.qzz.io/uploads/${uploadId}/status`);
+        const res = await fetch(`https://api.moo.qzz.io/uploads/${uploadId}/status`);
         if (!res.ok) throw new Error("Status fetch failed");
         const data = await res.json();
 
@@ -5922,7 +5922,7 @@ window.withDelay = function(btn, callback) {
 
           if (window.currentUser) {
             try {
-              const seekRes = await fetch(`https://api.upload.stream.moo.qzz.io/api/seek-position?filename=${encodeURIComponent(fileName)}&username=${encodeURIComponent(window.currentUser)}`);
+              const seekRes = await fetch(`https://api.moo.qzz.io/api/seek-position?filename=${encodeURIComponent(fileName)}&username=${encodeURIComponent(window.currentUser)}`);
               if (seekRes.ok) {
                 const seekData = await seekRes.json();
                 if (seekData && seekData.seek_position > 0) {
@@ -7814,7 +7814,7 @@ window.withDelay = function(btn, callback) {
     }
 
     function fetchStorageInfo() {
-      fetch('https://api.upload.stream.moo.qzz.io/api/storage')
+      fetch('https://api.moo.qzz.io/api/storage')
         .then(res => res.json())
         .then(data => {
           if (data.error) {
@@ -7886,7 +7886,7 @@ window.withDelay = function(btn, callback) {
     function checkServerHealth() {
       if (isUnloading) return;
 
-      fetch('https://api.upload.stream.moo.qzz.io/api/health')
+      fetch('https://api.moo.qzz.io/api/health')
         .then(response => {
           if (isUnloading) return;
           if (!response.ok) throw new Error('Not OK');
@@ -8172,7 +8172,7 @@ window.withDelay = function(btn, callback) {
     })();
     </script>
 
-<audio id="bgMusicPlayer" loop preload="auto"><source src="https://api.upload.stream.moo.qzz.io/bg_music.mp3" type="audio/mpeg"></audio>
+<audio id="bgMusicPlayer" loop preload="auto"><source src="https://api.moo.qzz.io/bg_music.mp3" type="audio/mpeg"></audio>
 
 <script>
   // Background music - plays on first user interaction after login
