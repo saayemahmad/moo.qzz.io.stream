@@ -1990,7 +1990,7 @@
       const dash = (fillPct / 100) * circ;
       const color = `hsl(${hue},85%,62%)`;
       const mediaId = (v.id && v.id !== 'unknown') ? v.id : (v.filename ? v.filename.replace(/\.[^.]+$/, '') : null);
-      const thumbUrl = mediaId ? `/media/${mediaId}/thumb.jpg?t=${Date.now()}` : null;
+      const thumbUrl = mediaId ? `https://api.moo.qzz.io/media/${mediaId}/thumb.jpg?t=${Date.now()}` : null;
       const isImage = v.duration === 0 || v.media_type === 'Image';
       const shortName = v.filename.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
 

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -4169,8 +4169,8 @@ window.withDelay = function(btn, callback) {
     
         window.isFileGridRevealed = false;
     window.USER_AVATARS = {
-      'Sayem': '/media/avatar-sayem.jpg',
-      'Shajeda': '/media/avatar-shajeda.webp'
+      'Sayem': 'https://api.moo.qzz.io/media/avatar-sayem.jpg',
+      'Shajeda': 'https://api.moo.qzz.io/media/avatar-shajeda.webp'
     };
 
     window.updatePartnerAvatarUI = function (partnerName) {
@@ -4185,7 +4185,7 @@ window.withDelay = function(btn, callback) {
         return;
       }
 
-      const localUrl = partnerName === 'Sayem' ? '/media/avatar-sayem.jpg' : '/media/avatar-shajeda.webp';
+      const localUrl = partnerName === 'Sayem' ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg' : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
       const remoteUrl = window.USER_AVATARS && window.USER_AVATARS[partnerName]
         ? window.USER_AVATARS[partnerName]
         : localUrl;
@@ -4411,9 +4411,9 @@ window.withDelay = function(btn, callback) {
 
         // Dynamically update the profile picture using avatars
         const avatarUrl = pin === '2222'
-          ? '/media/avatar-sayem.jpg'
-          : '/media/avatar-shajeda.webp';
-        const fallbackUrl = pin === '2222' ? '/media/avatar-sayem.jpg' : '/media/avatar-shajeda.webp';
+          ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg'
+          : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
+        const fallbackUrl = pin === '2222' ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg' : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
         document.getElementById('profilePic').innerHTML = `<img src="${avatarUrl}" onerror="this.onerror=null; this.src='${fallbackUrl}'" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;">`;
 
         const partnerName = window.currentUser === 'Sayem' ? 'Shajeda' : 'Sayem';
@@ -4992,7 +4992,7 @@ window.withDelay = function(btn, callback) {
 
       const thumbHTML = startPolling
         ? `<i class="ph ph-spinner ph-spin" id="spin-${uploadId}" style="font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;"></i>`
-        : `<img loading="lazy" src="/media/${uploadId}/thumb.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 1; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
+        : `<img loading="lazy" src="https://api.moo.qzz.io/media/${uploadId}/thumb.jpg" style="width: 100%; height: 100%; object-fit: cover; opacity: 1; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
               ${isVideo ? '<i class="ph-fill ph-video-camera" style="position: absolute; bottom: 8px; left: 8px; color: white; font-size: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); z-index: 5;"></i>' : ''}`;
 
       const timerHTML = expiresAt ? `
@@ -5190,7 +5190,7 @@ window.withDelay = function(btn, callback) {
 
             if (thumbDiv) {
               thumbDiv.insertAdjacentHTML('afterbegin', `
-                          <img loading="eager" src="/media/${uploadId}/thumb.jpg?t=${Date.now()}" style="width: 100%; height: 100%; object-fit: cover; opacity: 1; display: block; position: absolute; inset: 0;" onerror="this.onerror=null; this.outerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;\\'></i>';"/>
+                          <img loading="eager" src="https://api.moo.qzz.io/media/${uploadId}/thumb.jpg?t=${Date.now()}" style="width: 100%; height: 100%; object-fit: cover; opacity: 1; display: block; position: absolute; inset: 0;" onerror="this.onerror=null; this.outerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;\\'></i>';"/>
                           ${isVideo ? '<i class="ph-fill ph-video-camera" style="position: absolute; bottom: 8px; left: 8px; color: white; font-size: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); z-index: 5;"></i>' : ''}
                         `);
             }
@@ -5905,7 +5905,7 @@ window.withDelay = function(btn, callback) {
           videoEl.controls = true;
           videoEl.autoplay = true;
           videoEl.muted = true; // Auto-play requires muted
-          videoEl.poster = `/media/${uploadId}/thumb.jpg`;
+          videoEl.poster = `https://api.moo.qzz.io/media/${uploadId}/thumb.jpg`;
           videoEl.style.maxWidth = '100%';
           videoEl.style.maxHeight = '70vh';
           videoEl.style.objectFit = 'contain';
@@ -5952,7 +5952,7 @@ window.withDelay = function(btn, callback) {
             }
           }
 
-          const masterUrl = `/media/${uploadId}/master.m3u8`;
+          const masterUrl = `https://api.moo.qzz.io/media/${uploadId}/master.m3u8`;
 
           if (videoEl.canPlayType('application/vnd.apple.mpegurl')) {
             // Safari/iOS native HLS
@@ -5985,7 +5985,7 @@ window.withDelay = function(btn, callback) {
         } else {
           modalTitleIcon.className = 'ph-duotone ph-image';
           const imgEl = document.createElement('img');
-          imgEl.src = `/media/${uploadId}/${data.filename}`;
+          imgEl.src = `https://api.moo.qzz.io/media/${uploadId}/${data.filename}`;
           imgEl.style.maxWidth = '100%';
           imgEl.style.maxHeight = '70vh';
           imgEl.style.objectFit = 'contain';
@@ -7704,7 +7704,7 @@ window.withDelay = function(btn, callback) {
       if (forceNew || !window._chatBgVersion) {
         window._chatBgVersion = Date.now();
       }
-      document.documentElement.style.setProperty('--chat-bg-image', `url('/media/chat-bg.jpg?v=${window._chatBgVersion}')`);
+      document.documentElement.style.setProperty('--chat-bg-image', `url('https://api.moo.qzz.io/media/chat-bg.jpg?v=${window._chatBgVersion}')`);
     };
     window.refreshChatBgImage();
     // FIX: previously only read localStorage, so a first-time visitor whose OS
