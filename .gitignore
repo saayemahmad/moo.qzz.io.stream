@@ -10,5 +10,4 @@ __pycache__/
 uploads_raw/
 media/
 
-# Render deploy staging folder
-render-deploy/
+
