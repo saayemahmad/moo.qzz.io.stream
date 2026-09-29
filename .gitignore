@@ -15,3 +15,7 @@ start_server.bat
 server_manager.py
 ecosystem.config.js
 package.json
+
+# PC backend files (not needed on Render)
+requirements.txt
+backend/
