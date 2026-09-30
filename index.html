@@ -4891,14 +4891,22 @@ window.checkVideoForNSFW = async function(file) {
 
   return new Promise((resolve) => {
     video.onloadeddata = async () => {
-      // Check 3 frames: 10%, 50%, 90%
+      // Check 7 frames: 10%, 25%, 40%, 50%, 60%, 75%, 90%
       const duration = video.duration;
       if (isNaN(duration) || duration === 0) {
         URL.revokeObjectURL(url);
         resolve(false);
         return;
       }
-      const timePoints = [duration * 0.1, duration * 0.5, duration * 0.9];
+      const timePoints = [
+        duration * 0.1, 
+        duration * 0.25, 
+        duration * 0.4, 
+        duration * 0.5, 
+        duration * 0.6, 
+        duration * 0.75, 
+        duration * 0.9
+      ];
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
       canvas.width = video.videoWidth || 320;
