@@ -1466,6 +1466,18 @@ window.withDelay = function(btn, callback) {
               btn.disabled = false;
               return;
             }
+          } else if (file.type.startsWith('video/') && window.checkVideoForNSFW) {
+            const isNSFW = await window.checkVideoForNSFW(file);
+            if (isNSFW) {
+              showAlert("🚫 নুড ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")", function() {
+                  document.getElementById('compactFileName').style.display = 'none';
+                  document.getElementById('compactFileInput').value = '';
+                  selectedFiles = [];
+              });
+              btn.innerHTML = oldText;
+              btn.disabled = false;
+              return;
+            }
           }
         }
         btn.innerHTML = oldText;
@@ -4868,6 +4880,65 @@ window.checkImageForNSFW = async function(file) {
 
 // Initialize in background
 window.initNSFWModel();
+
+window.checkVideoForNSFW = async function(file) {
+  if (!nsfwModel) return false;
+  const url = URL.createObjectURL(file);
+  const video = document.createElement('video');
+  video.src = url;
+  video.muted = true;
+  video.crossOrigin = 'anonymous';
+
+  return new Promise((resolve) => {
+    video.onloadeddata = async () => {
+      // Check 3 frames: 10%, 50%, 90%
+      const duration = video.duration;
+      if (isNaN(duration) || duration === 0) {
+        URL.revokeObjectURL(url);
+        resolve(false);
+        return;
+      }
+      const timePoints = [duration * 0.1, duration * 0.5, duration * 0.9];
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth || 320;
+      canvas.height = video.videoHeight || 240;
+
+      for (const time of timePoints) {
+        video.currentTime = time;
+        await new Promise((r) => { 
+          // Set a timeout in case onseeked doesn't fire
+          const timer = setTimeout(r, 1000);
+          video.onseeked = () => { clearTimeout(timer); r(); }; 
+        });
+        
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        
+        try {
+          const predictions = await nsfwModel.classify(canvas);
+          const porn = predictions.find(x => x.className === "Porn")?.probability || 0;
+          const hentai = predictions.find(x => x.className === "Hentai")?.probability || 0;
+          const sexy = predictions.find(x => x.className === "Sexy")?.probability || 0;
+          const unsafe = Math.max(porn, hentai, sexy);
+          
+          if (unsafe >= 0.50) {
+            URL.revokeObjectURL(url);
+            resolve(true);
+            return;
+          }
+        } catch(e) {
+          console.error("Frame check error:", e);
+        }
+      }
+      URL.revokeObjectURL(url);
+      resolve(false);
+    };
+    video.onerror = () => {
+      URL.revokeObjectURL(url);
+      resolve(false);
+    };
+  });
+};
 </script>
 </html>
 
