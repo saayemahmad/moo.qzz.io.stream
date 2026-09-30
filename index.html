@@ -1447,6 +1447,26 @@ window.withDelay = function(btn, callback) {
         return;
       }
 
+      const doResetPanel = () => {
+        document.getElementById('compactFileName').style.display = 'none';
+        document.getElementById('compactFileInput').value = '';
+        selectedFiles = [];
+        
+        selectedCategory = '';
+        document.querySelectorAll('.simple-cat-btn').forEach(b => b.classList.remove('cat-sel-active'));
+        
+        selectedDuration = null;
+        document.getElementById('timerPickerLabel').textContent = 'সময় বেছে নিন';
+        const neverBtn = document.getElementById('neverDeleteBtn');
+        if (neverBtn) {
+          neverBtn.classList.remove('selected');
+          neverBtn.querySelector('.unchecked-icon').style.display = '';
+          neverBtn.querySelector('.checked-icon').style.display = 'none';
+        }
+        const openBtn = document.getElementById('openTimerPickerBtn');
+        if (openBtn) openBtn.style.border = '';
+      };
+
       if (ENABLE_NSFW_FILTER && window.checkImageForNSFW) {
         const btn = document.getElementById('compactStartBtn');
         const oldText = btn.innerHTML;
@@ -1457,11 +1477,7 @@ window.withDelay = function(btn, callback) {
           if (file.type.startsWith('image/')) {
             const isNSFW = await window.checkImageForNSFW(file);
             if (isNSFW) {
-              showAlert("🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")", function() {
-                  document.getElementById('compactFileName').style.display = 'none';
-                  document.getElementById('compactFileInput').value = '';
-                  selectedFiles = [];
-              });
+              showAlert("🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")", doResetPanel);
               btn.innerHTML = oldText;
               btn.disabled = false;
               return;
@@ -1469,11 +1485,7 @@ window.withDelay = function(btn, callback) {
           } else if (file.type.startsWith('video/') && window.checkVideoForNSFW) {
             const isNSFW = await window.checkVideoForNSFW(file);
             if (isNSFW) {
-              showAlert("🚫 নুড ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")", function() {
-                  document.getElementById('compactFileName').style.display = 'none';
-                  document.getElementById('compactFileInput').value = '';
-                  selectedFiles = [];
-              });
+              showAlert("🚫 নুড ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")", doResetPanel);
               btn.innerHTML = oldText;
               btn.disabled = false;
               return;
@@ -2818,14 +2830,14 @@ window.withDelay = function(btn, callback) {
       if (alertModal && typeof alertModal.showModal === 'function') alertModal.showModal();
     }
 
-    function closeCustomAlert() {
+    window.closeCustomAlert = function() {
       const alertModal = document.getElementById('customAlertModal');
       if (alertModal) alertModal.close();
       if (typeof window._currentAlertCallback === 'function') {
         window._currentAlertCallback();
         window._currentAlertCallback = null;
       }
-    }
+    };
 
     // ================================================================
     // CHATBOX STATE MACHINE
