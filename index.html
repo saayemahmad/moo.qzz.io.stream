@@ -39,7 +39,7 @@
   <meta name="viewport"
     content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content" />
   <meta name="theme-color" content="#ffffff" />
-  <title>à¦†à¦®à¦¾à¦° à¦¡à§à¦°à¦¾à¦‡à¦­ - Cloud Drive</title>
+  <title>আমার ড্রাইভ - Cloud Drive</title>
   <link id="appFavicon" rel="icon" type="image/svg+xml"
     href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -220,7 +220,7 @@ window.withDelay = function(btn, callback) {
   <!-- Login Modal -->
   <dialog id="loginModal">
     <div class="modal-header">
-      <h2><i class="ph-bold ph-lock-key"></i> à¦ªà¦¿à¦¨ à¦•à§‹à¦¡ (PIN Code)</h2>
+      <h2><i class="ph-bold ph-lock-key"></i> পিন কোড (PIN Code)</h2>
       <button class="modal-close-btn" onclick="document.getElementById('loginModal').close();
         if (window._startBgMusic) window._startBgMusic();
 
@@ -229,9 +229,9 @@ window.withDelay = function(btn, callback) {
       </button>
     </div>
     <div class="modal-body">
-      <p class="login-modal-subtitle">à¦²à¦—à¦‡à¦¨ à¦•à¦°à¦¤à§‡ à¦†à¦ªà¦¨à¦¾à¦° à¦¬à§à¦¯à¦•à§à¦¤à¦¿à¦—à¦¤ à¦ªà¦¿à¦¨ à¦ªà§à¦°à¦¦à¦¾à¦¨ à¦•à¦°à§à¦¨</p>
-      <input type="text" id="pinInput" maxlength="4" readonly placeholder="â€¢â€¢â€¢â€¢">
-      <div id="pinError">à¦­à§à¦² à¦ªà¦¿à¦¨ à¦•à§‹à¦¡! (Incorrect PIN!)</div>
+      <p class="login-modal-subtitle">লগইন করতে আপনার ব্যক্তিগত পিন প্রদান করুন</p>
+      <input type="text" id="pinInput" maxlength="4" readonly placeholder="••••">
+      <div id="pinError">ভুল পিন কোড! (Incorrect PIN!)</div>
 
       <!-- Custom Keypad -->
       <div class="custom-keypad">
@@ -255,7 +255,7 @@ window.withDelay = function(btn, callback) {
   <!-- Server Offline Modal -->
   <dialog id="serverOfflineModal">
     <div class="modal-header">
-      <h2><i class="ph-bold ph-warning-circle"></i> à¦¸à¦‚à¦¯à§‹à¦— à¦¬à¦¿à¦šà§à¦›à¦¿à¦¨à§à¦¨</h2>
+      <h2><i class="ph-bold ph-warning-circle"></i> সংযোগ বিচ্ছিন্ন</h2>
       <button class="modal-close-btn" onclick="document.getElementById('serverOfflineModal').close();"
         aria-label="Close">
         <i class="ph-bold ph-x"></i>
@@ -263,9 +263,9 @@ window.withDelay = function(btn, callback) {
     </div>
     <div class="modal-body">
       <i class="ph-bold ph-wifi-x offline-icon"></i>
-      <h3 class="offline-title">à¦¸à¦¾à¦°à§à¦­à¦¾à¦°à§‡à¦° à¦¸à¦¾à¦¥à§‡ à¦¸à¦‚à¦¯à§‹à¦— à¦¬à¦¿à¦šà§à¦›à¦¿à¦¨à§à¦¨ à¦¹à§Ÿà§‡à¦›à§‡!</h3>
-      <p class="offline-subtitle" id="offlineSubtitle">à¦¸à¦¾à¦°à§à¦­à¦¾à¦°à¦Ÿà¦¿ à¦°à¦¿à¦¸à§à¦Ÿà¦¾à¦°à§à¦Ÿ à¦¨à¦¿à¦šà§à¦›à§‡à¥¤ à¦¸à§à¦¬à¦¯à¦¼à¦‚à¦•à§à¦°à¦¿à¦¯à¦¼à¦­à¦¾à¦¬à§‡ à¦ªà§à¦¨à¦°à¦¾à¦¯à¦¼ à¦¸à¦‚à¦¯à§à¦•à§à¦¤
-        à¦¹à¦“à¦¯à¦¼à¦¾à¦° à¦šà§‡à¦·à§à¦Ÿà¦¾ à¦•à¦°à¦¾ à¦¹à¦šà§à¦›à§‡...</p>
+      <h3 class="offline-title">সার্ভারের সাথে সংযোগ বিচ্ছিন্ন হয়েছে!</h3>
+      <p class="offline-subtitle" id="offlineSubtitle">সার্ভারটি রিস্টার্ট নিচ্ছে। স্বয়ংক্রিয়ভাবে পুনরায় সংযুক্ত
+        হওয়ার চেষ্টা করা হচ্ছে...</p>
     </div>
   </dialog>
 
@@ -276,33 +276,33 @@ window.withDelay = function(btn, callback) {
   <aside class="sidebar left-sidebar" id="leftSidebar">
     <div class="logo">
       <i class="ph-fill ph-cloud" style="color: var(--c-blue-shadow); font-size: 32px;"></i>
-      à¦†à¦®à¦¾à¦° à¦¡à§à¦°à¦¾à¦‡à¦­
+      আমার ড্রাইভ
     </div>
 
     <div id="sidebarContent" style="display: none; flex-direction: column; flex: 1;">
       <nav class="nav-links">
-        <a href="#" class="active"><i class="ph ph-hard-drive"></i> à¦†à¦®à¦¾à¦° à¦¡à§à¦°à¦¾à¦‡à¦­ (My Drive)</a>
-        <a href="#"><i class="ph ph-users"></i> à¦¶à§‡à¦¯à¦¼à¦¾à¦° à¦•à¦°à¦¾ (Shared)</a>
-        <a href="#"><i class="ph ph-clock"></i> à¦¸à¦¾à¦®à§à¦ªà§à¦°à¦¤à¦¿à¦• (Recent)</a>
-        <a href="#"><i class="ph ph-star"></i> à¦¸à§à¦Ÿà¦¾à¦° à¦•à¦°à¦¾ (Starred)</a>
-        <a href="#"><i class="ph ph-trash"></i> à¦Ÿà§à¦°à§à¦¯à¦¾à¦¶ (Trash)</a>
+        <a href="#" class="active"><i class="ph ph-hard-drive"></i> আমার ড্রাইভ (My Drive)</a>
+        <a href="#"><i class="ph ph-users"></i> শেয়ার করা (Shared)</a>
+        <a href="#"><i class="ph ph-clock"></i> সাম্প্রতিক (Recent)</a>
+        <a href="#"><i class="ph ph-star"></i> স্টার করা (Starred)</a>
+        <a href="#"><i class="ph ph-trash"></i> ট্র্যাশ (Trash)</a>
       </nav>
 
       <div class="storage-info">
-        <p>à¦¸à§à¦Ÿà§‹à¦°à§‡à¦œ (Storage)</p>
+        <p>স্টোরেজ (Storage)</p>
         <div class="storage-bar">
           <div class="storage-used" id="storageUsedBar"></div>
         </div>
-        <span id="storageText">à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡... (Loading...)</span>
+        <span id="storageText">লোড হচ্ছে... (Loading...)</span>
       </div>
     </div>
 
     <div id="sidebarLoginPrompt"
       style="display: flex; flex-direction: column; flex: 1; justify-content: center; align-items: center; text-align: center; gap: 20px;">
       <i class="ph-bold ph-lock-key" style="font-size: 48px; color: var(--text-muted);"></i>
-      <p style="font-weight: 800; font-size: 16px; color: var(--text-muted); margin: 0;">à¦…à§à¦¯à¦¾à¦•à§à¦¸à§‡à¦¸ à¦•à¦°à¦¤à§‡ à¦²à¦—à¦‡à¦¨
-        à¦•à¦°à§à¦¨<br>(Please login to access)</p>
-      <button class="btn1" onclick="performLogin('filedrive-page-area')" style="width: 100%;">à¦²à¦—à¦‡à¦¨ (Login)</button>
+      <p style="font-weight: 800; font-size: 16px; color: var(--text-muted); margin: 0;">অ্যাক্সেস করতে লগইন
+        করুন<br>(Please login to access)</p>
+      <button class="btn1" onclick="performLogin('filedrive-page-area')" style="width: 100%;">লগইন (Login)</button>
     </div>
   </aside>
 
@@ -313,7 +313,7 @@ window.withDelay = function(btn, callback) {
         <button class="menu-toggle" onclick="toggleLeftSidebar()"><i class="ph ph-list"></i></button>
         <div class="search-bar">
           <i class="ph ph-magnifying-glass"></i>
-          <input type="text" id="searchInput" placeholder="à¦¡à§à¦°à¦¾à¦‡à¦­à§‡ à¦–à§à¦à¦œà§à¦¨ (Search in Drive)"
+          <input type="text" id="searchInput" placeholder="ড্রাইভে খুঁজুন (Search in Drive)"
             oninput="window.handleSearchInput()">
         </div>
       </div>
@@ -325,7 +325,7 @@ window.withDelay = function(btn, callback) {
           <div id="settingsDropdown" class="settings-dropdown">
             <button class="btn1 full-width" style="margin-bottom: 0; min-width: unset; padding: 10px;"
               onclick="toggleTheme()">
-              <i class="ph-bold ph-moon"></i> à¦¡à¦¾à¦°à§à¦• à¦®à§‹à¦¡ (Theme)
+              <i class="ph-bold ph-moon"></i> ডার্ক মোড (Theme)
             </button>
           </div>
         </div>
@@ -340,10 +340,10 @@ window.withDelay = function(btn, callback) {
             <button class="btn1 full-width"
               style="margin-bottom: 8px; min-width: unset; padding: 10px; font-size: 13px;"
               onclick="closeProfileDropdown(); window.openAvatarPreview('self');">
-              <i class="ph-bold ph-user-circle" style="font-size: 16px;"></i> à¦›à¦¬à¦¿ à¦¦à§‡à¦–à§à¦¨
+              <i class="ph-bold ph-user-circle" style="font-size: 16px;"></i> ছবি দেখুন
             </button>
             <button id="authBtn" class="btn1 full-width" style="margin-bottom: 0;"
-              onclick="performLogin('top-avatar')">à¦²à¦—à¦‡à¦¨
+              onclick="performLogin('top-avatar')">লগইন
               (Login)</button>
           </div>
         </div>
@@ -373,11 +373,11 @@ window.withDelay = function(btn, callback) {
 
         <div id="loginWarning" class="login-warning" style="display: none;">
           <div class="login-warning-icon"><i class="ph-duotone ph-lock-key"></i></div>
-          <h2>à¦«à¦¾à¦‡à¦²à¦—à§à¦²à§‹ à¦¦à§‡à¦–à¦¤à§‡ à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨</h2>
-          <p>à¦†à¦ªà¦¨à¦¾à¦° à¦¬à§à¦¯à¦•à§à¦¤à¦¿à¦—à¦¤ à¦¡à§à¦°à¦¾à¦‡à¦­ à¦à¦¬à¦‚ à¦«à¦¾à¦‡à¦²à¦—à§à¦²à§‹ à¦…à§à¦¯à¦¾à¦•à§à¦¸à§‡à¦¸ à¦•à¦°à¦¤à§‡ à¦…à¦¨à§à¦—à§à¦°à¦¹ à¦•à¦°à§‡ à¦ªà§à¦°à¦¥à¦®à§‡ à¦†à¦ªà¦¨à¦¾à¦° à¦…à§à¦¯à¦¾à¦•à¦¾à¦‰à¦¨à§à¦Ÿà§‡ à¦ªà§à¦°à¦¬à§‡à¦¶ à¦•à¦°à§à¦¨à¥¤</p>
+          <h2>ফাইলগুলো দেখতে লগইন করুন</h2>
+          <p>আপনার ব্যক্তিগত ড্রাইভ এবং ফাইলগুলো অ্যাক্সেস করতে অনুগ্রহ করে প্রথমে আপনার অ্যাকাউন্টে প্রবেশ করুন।</p>
           <div>
             <button class="btn2" onclick="performLogin('filedrive-page-area')">
-              à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨ (Login)
+              লগইন করুন (Login)
             </button>
           </div>
         </div>
@@ -389,15 +389,15 @@ window.withDelay = function(btn, callback) {
             style="display: flex; flex-direction: column; align-items: center; width: 100%;">
             <div class="login-warning-icon"><i class="ph-duotone ph-eye-slash" style="color: var(--c-blue-dark);"></i>
             </div>
-            <h2 style="margin-bottom: 12px; font-weight: 800; font-family: 'Noto Sans Bengali', sans-serif;">à¦«à¦¾à¦‡à¦²
-              à¦²à§à¦•à¦¾à¦¨à§‹ à¦†à¦›à§‡
+            <h2 style="margin-bottom: 12px; font-weight: 800; font-family: 'Noto Sans Bengali', sans-serif;">ফাইল
+              লুকানো আছে
             </h2>
             <p
               style="margin-bottom: 24px; font-weight: 600; color: var(--text-muted); font-size: 15px; text-align: center; font-family: 'Noto Sans Bengali', sans-serif;">
-              à¦—à§‹à¦ªà¦¨à§€à§Ÿà¦¤à¦¾ à¦¬à¦œà¦¾à§Ÿ à¦°à¦¾à¦–à¦¤à§‡ à¦«à¦¾à¦‡à¦² à¦—à§à¦²à§‹ à¦²à§à¦•à¦¾à¦¨à§‹ à¦¹à§Ÿà§‡à¦›à§‡à¥¤ à¦¦à§‡à¦–à¦¤à§‡ à¦¨à¦¿à¦šà§‡à¦° à¦¬à¦¾à¦Ÿà¦¨à§‡ à¦•à§à¦²à¦¿à¦• à¦•à¦°à§à¦¨à¥¤
+              গোপনীয়তা বজায় রাখতে ফাইল গুলো লুকানো হয়েছে। দেখতে নিচের বাটনে ক্লিক করুন।
             </p>
             <button class="simple-btn" style="padding: 12px 24px; font-size: 16px;" onclick="window.revealFilesGrid()">
-              <i class="ph-bold ph-eye"></i> <span>à¦«à¦¾à¦‡à¦² à¦¦à§‡à¦–à¦¾à¦“</span>
+              <i class="ph-bold ph-eye"></i> <span>ফাইল দেখাও</span>
             </button>
           </div>
         </div>
@@ -418,7 +418,7 @@ window.withDelay = function(btn, callback) {
 
   <!-- Right Sidebar Toggle for smaller screens -->
   <button class="btn1 right-sidebar-toggle" onclick="toggleRightSidebar();">
-    <i class="ph-duotone ph-cloud-arrow-up" style="font-size: 24px;"></i> à¦†à¦ªà¦²à§‹à¦¡ à¦ªà§à¦¯à¦¾à¦¨à§‡à¦²
+    <i class="ph-duotone ph-cloud-arrow-up" style="font-size: 24px;"></i> আপলোড প্যানেল
   </button>
 
   <!-- Right Sidebar (Compact Upload Flow) -->
@@ -426,39 +426,39 @@ window.withDelay = function(btn, callback) {
   <aside class="sidebar right-sidebar" id="rightSidebar" style="overflow-y: auto;">
     <div class="upload-widget" style="display: flex; flex-direction: column; height: 100%; padding: 12px; gap: 8px; box-shadow: none; border: none; margin-top: 0; background: transparent;">
       <h3 style="font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-        <i class="ph-fill ph-cloud-arrow-up" style="color:#45b9c6; font-size: 20px;"></i> à¦«à¦¾à¦‡à¦² à¦†à¦ªà¦²à§‹à¦¡
+        <i class="ph-fill ph-cloud-arrow-up" style="color:#45b9c6; font-size: 20px;"></i> ফাইল আপলোড
       </h3>
 
       <div id="uploadContent" style="display: none; flex-direction: column; gap: 12px;">
         <!-- File Selection -->
         <div class="upload-section" style="margin-bottom: 0;">
-          <label style="font-size: 13px; margin-bottom: 4px;">à§§. à¦•à§‹à¦¨ à¦«à¦¾à¦‡à¦²à¦Ÿà¦¿ à¦¦à§‡à¦¬à§‡à¦¨?</label>
+          <label style="font-size: 13px; margin-bottom: 4px;">১. কোন ফাইলটি দেবেন?</label>
           <input type="file" id="compactFileInput" accept="image/*,video/*" multiple style="display:none" onchange="compactFileSelected()">
           <button class="simple-btn full-width" onclick="document.getElementById('compactFileInput').click();" style="padding: 6px 10px; font-size: 13px; min-height: 32px;">
-            <i class="ph-duotone ph-folder-open" style="font-size: 16px;"></i> à¦—à§à¦¯à¦¾à¦²à¦¾à¦°à¦¿ à¦–à§à¦²à§à¦¨
+            <i class="ph-duotone ph-folder-open" style="font-size: 16px;"></i> গ্যালারি খুলুন
           </button>
           <div id="compactFileName" class="file-name-display" style="font-size: 11px; margin-top: 4px;"></div>
         </div>
 
         <!-- Duration Selection -->
         <div class="upload-section" style="margin-bottom: 0;">
-          <label style="font-size: 13px; margin-bottom: 4px;">à§¨. à¦•à¦¤à¦•à§à¦·à¦£ à¦ªà¦° à¦®à§à¦›à¦¬à§‡?</label>
+          <label style="font-size: 13px; margin-bottom: 4px;">২. কতক্ষণ পর মুছবে?</label>
           <div class="compact-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
             <button class="simple-btn full-width" id="openTimerPickerBtn" onclick="openTimerPickerModal();" style="display:flex; align-items:center; justify-content:center; gap:4px; padding: 6px; font-size: 12px; min-height: 32px;">
               <i class="ph-bold ph-timer" style="font-size:16px;"></i>
-              <span id="timerPickerLabel">à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨</span>
+              <span id="timerPickerLabel">সময় বেছে নিন</span>
             </button>
             <button class="simple-btn duration-btn-never" id="neverDeleteBtn" onclick="compactSelectNever(this);" style="display:flex; align-items:center; justify-content:center; gap:4px; padding: 6px; font-size: 12px; min-height: 32px;">
               <i class="ph-bold ph-square unchecked-icon" style="font-size:16px;"></i>
               <i class="ph-bold ph-check-square checked-icon" style="font-size:16px; display:none; color:#be185d;"></i>
-              à¦•à¦–à¦¨à§‹ à¦®à§à¦›à¦¬à§‡ à¦¨à¦¾
+              কখনো মুছবে না
             </button>
           </div>
         </div>
 
         <!-- Category Selection -->
         <div class="upload-section" id="uploadCategorySection" style="margin-bottom: 0;">
-          <label style="font-size: 13px; margin-bottom: 4px;">à§©. à¦•à§‹à¦¥à¦¾à¦¯à¦¼ à¦¯à§‹à¦— à¦¹à¦¬à§‡?</label>
+          <label style="font-size: 13px; margin-bottom: 4px;">৩. কোথায় যোগ হবে?</label>
           <div class="compact-options" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
             <button class="simple-cat-btn" data-cat="Niqab" onclick="selectUploadCategory(this)" style="padding: 4px; font-size: 11px;">Niqab</button>
             <button class="simple-cat-btn" data-cat="Sayem" onclick="selectUploadCategory(this)" style="padding: 4px; font-size: 11px;">Sayem</button>
@@ -473,7 +473,7 @@ window.withDelay = function(btn, callback) {
         <!-- Start Upload -->
         <div class="upload-section" style="margin-top: 4px; margin-bottom: 0;">
           <button class="simple-btn simple-btn-primary full-width" id="compactStartBtn" onclick="compactStartUpload();" style="padding: 8px 10px; font-size: 14px; min-height: 36px;">
-            à¦†à¦ªà¦²à§‹à¦¡ à¦¶à§à¦°à§ à¦•à¦°à§à¦¨ <i class="ph-bold ph-arrow-up-right" style="font-size: 16px;"></i>
+            আপলোড শুরু করুন <i class="ph-bold ph-arrow-up-right" style="font-size: 16px;"></i>
           </button>
           <div id="uploadProgressContainer" style="display: none; margin-top: 10px; width: 100%; box-sizing: border-box;">
             <div style="padding:8px; border:2px solid var(--ink); box-shadow:2px 2px 0 var(--ink); background: var(--bg); width: 100%; box-sizing: border-box; overflow: hidden;">
@@ -499,14 +499,14 @@ window.withDelay = function(btn, callback) {
 
       <div id="uploadLoginPrompt" style="display: flex; flex-direction: column; flex: 1; justify-content: center; align-items: center; text-align: center; gap: 12px;">
         <i class="ph-bold ph-lock-key" style="font-size: 32px; color: var(--text-muted);"></i>
-        <p style="font-weight: 800; font-size: 13px; color: var(--text-muted); margin: 0;">à¦†à¦ªà¦²à§‹à¦¡ à¦•à¦°à¦¤à§‡ à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨<br>(Please login to upload)</p>
-        <button class="simple-btn" onclick="performLogin('filedrive-page-area')" style="width: 100%; padding: 6px; font-size: 13px;">à¦²à¦—à¦‡à¦¨ (Login)</button>
+        <p style="font-weight: 800; font-size: 13px; color: var(--text-muted); margin: 0;">আপলোড করতে লগইন করুন<br>(Please login to upload)</p>
+        <button class="simple-btn" onclick="performLogin('filedrive-page-area')" style="width: 100%; padding: 6px; font-size: 13px;">লগইন (Login)</button>
       </div>
 
       <!-- Close Panel Button -->
       <div style="margin-top: auto;">
         <button class="simple-btn simple-btn-danger full-width close-panel-btn" onclick="closeAllSidebars()" style="display: none; justify-content: center; padding: 6px; font-size: 13px; min-height: 32px;">
-          <i class="ph-bold ph-x" style="color: var(--c-red-shadow);"></i> à¦ªà§à¦¯à¦¾à¦¨à§‡à¦² à¦¬à¦¨à§à¦§ à¦•à¦°à§à¦¨ (Close)
+          <i class="ph-bold ph-x" style="color: var(--c-red-shadow);"></i> প্যানেল বন্ধ করুন (Close)
         </button>
       </div>
     </div>
@@ -564,7 +564,7 @@ window.withDelay = function(btn, callback) {
     <div class="chat-body">
       <div id="chatInitialLoader" class="chat-loading-placeholder">
         <i class="ph-bold ph-spinner"></i>
-        <span>à¦šà§à¦¯à¦¾à¦Ÿ à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡... (Loading chat...)</span>
+        <span>চ্যাট লোড হচ্ছে... (Loading chat...)</span>
       </div>
     </div>
     <div id="replyPreview"
@@ -578,7 +578,7 @@ window.withDelay = function(btn, callback) {
           class="ph-bold ph-x"></i></button>
     </div>
     <div class="chat-footer">
-      <textarea id="chatInput" placeholder="à¦®à§‡à¦¸à§‡à¦œ à¦²à¦¿à¦–à§à¦¨..." rows="1" autocomplete="off" autocorrect="off"
+      <textarea id="chatInput" placeholder="মেসেজ লিখুন..." rows="1" autocomplete="off" autocorrect="off"
         autocapitalize="sentences" spellcheck="false"></textarea>
       <button class="chat-send" type="button" tabindex="-1" aria-label="Send message"><i
           class="ph-bold ph-paper-plane-right"></i></button>
@@ -618,8 +618,8 @@ window.withDelay = function(btn, callback) {
         style="color: var(--c-red-shadow);"></i></div>
     <h3 id="customAlertMessage" style="font-weight: 800; font-size: 18px; margin: 0 0 24px 0; color: var(--ink);"></h3>
     <button onclick="document.getElementById('customAlertModal').close()"
-      style="background: var(--c-blue-bg); color: var(--ink); border: 2px solid var(--ink); font-weight: 800; font-size: 16px; padding: 8px 32px; cursor: pointer; box-shadow: 4px 4px 0 var(--ink); transition: transform 100ms;">à¦ à¦¿à¦•
-      à¦†à¦›à§‡ (OK)</button>
+      style="background: var(--c-blue-bg); color: var(--ink); border: 2px solid var(--ink); font-weight: 800; font-size: 16px; padding: 8px 32px; cursor: pointer; box-shadow: 4px 4px 0 var(--ink); transition: transform 100ms;">ঠিক
+      আছে (OK)</button>
   </dialog>
 
   <!-- Avatar Preview Modal -->
@@ -660,13 +660,13 @@ window.withDelay = function(btn, callback) {
         } else { isFallback = true; }
       } else {
         const pic = document.getElementById('profilePic');
-        name = window.currentUser || 'à¦†à¦®à¦¿';
+        name = window.currentUser || 'আমি';
         const img = pic ? pic.querySelector('img') : null;
         if (img && img.src) { imgSrc = img.src; }
         else { isFallback = true; }
       }
 
-      const reactions = ['â¤ï¸', 'ðŸ˜', 'ðŸ˜®', 'ðŸ˜‚', 'ðŸ”¥'];
+      const reactions = ['❤️', '😍', '😮', '😂', '🔥'];
       const reactionBtns = reactions.map(e => {
         const imgHTML = (window.renderFbEmoji && window.FB_EMOJI_MAP && window.FB_EMOJI_MAP[e])
           ? window.renderFbEmoji(e)
@@ -838,7 +838,7 @@ window.withDelay = function(btn, callback) {
     }
 
     // toggleChat, toggleChatFullscreen and keyboard/drag/resize logic
-    // are handled by ChatboxSM â€” defined at the bottom of this script block.
+    // are handled by ChatboxSM — defined at the bottom of this script block.
     // window.toggleChat is set there as: () => ChatboxSM.toggle()
 
 
@@ -964,7 +964,7 @@ window.withDelay = function(btn, callback) {
         if (fileRevealBox) fileRevealBox.style.display = 'none';
         if (grid) {
           const cards = grid.querySelectorAll('.file-card-3d');
-          if (cards.length === 0 && grid.innerHTML.includes('à¦–à¦¾à¦²à¦¿ à¦«à§‹à¦²à§à¦¡à¦¾à¦°')) {
+          if (cards.length === 0 && grid.innerHTML.includes('খালি ফোল্ডার')) {
             grid.style.display = 'flex';
             grid.style.flexDirection = 'column';
             grid.style.alignItems = 'center';
@@ -1111,7 +1111,7 @@ window.withDelay = function(btn, callback) {
         window.isFileGridRevealed = false;
         window.updateFileGridRevealUI();
         const authBtn = document.getElementById('authBtn');
-        authBtn.innerText = 'à¦²à¦—à¦†à¦‰à¦Ÿ (Logout)';
+        authBtn.innerText = 'লগআউট (Logout)';
         authBtn.setAttribute('onclick', 'performLogout()');
 
         // Dynamically update the profile picture using avatars
@@ -1197,7 +1197,7 @@ window.withDelay = function(btn, callback) {
       window.isFileGridRevealed = false;
       window.updateFileGridRevealUI();
       const authBtn = document.getElementById('authBtn');
-      authBtn.innerText = 'à¦²à¦—à¦‡à¦¨ (Login)';
+      authBtn.innerText = 'লগইন (Login)';
       authBtn.setAttribute('onclick', "performLogin('top-avatar')");
       document.getElementById('profileDropdown').classList.remove('open');
 
@@ -1259,7 +1259,7 @@ window.withDelay = function(btn, callback) {
         }
         
         if (!allValid) {
-          showAlert("à¦¶à§à¦§à§à¦®à¦¾à¦¤à§à¦° à¦›à¦¬à¦¿ à¦à¦¬à¦‚ à¦­à¦¿à¦¡à¦¿à¦“ à¦†à¦ªà¦²à§‹à¦¡ à¦•à¦°à¦¾ à¦¯à¦¾à¦¬à§‡! (Only images and videos are supported)");
+          showAlert("শুধুমাত্র ছবি এবং ভিডিও আপলোড করা যাবে! (Only images and videos are supported)");
           input.value = '';
           selectedFiles = [];
           display.style.display = 'none';
@@ -1270,7 +1270,7 @@ window.withDelay = function(btn, callback) {
         if (selectedFiles.length === 1) {
             display.innerHTML = `<i class="ph-fill ph-file-text" style="color:var(--c-pink-bg);"></i> ${selectedFiles[0].name}`;
         } else {
-            display.innerHTML = `<i class="ph-fill ph-files" style="color:var(--c-pink-bg);"></i> ${selectedFiles.length}à¦Ÿà¦¿ à¦«à¦¾à¦‡à¦² à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¿à¦¤`;
+            display.innerHTML = `<i class="ph-fill ph-files" style="color:var(--c-pink-bg);"></i> ${selectedFiles.length}টি ফাইল নির্বাচিত`;
         }
         display.style.display = 'block';
       }
@@ -1294,7 +1294,7 @@ window.withDelay = function(btn, callback) {
       }
       if (selectedDuration === 'never') {
         selectedDuration = null;
-        document.getElementById('timerPickerLabel').textContent = 'à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨';
+        document.getElementById('timerPickerLabel').textContent = 'সময় বেছে নিন';
       }
       // Restore picker from selectedDuration if it's a timestamp
       if (selectedDuration && selectedDuration !== 'never') {
@@ -1380,17 +1380,17 @@ window.withDelay = function(btn, callback) {
       const [d, h, m, s] = pickerValues;
       const totalSec = d * 86400 + h * 3600 + m * 60 + s;
       if (totalSec <= 0) {
-        showAlert('à¦…à¦¨à§à¦¤à¦¤ à§§ à¦¸à§‡à¦•à§‡à¦¨à§à¦¡ à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨à¥¤');
+        showAlert('অন্তত ১ সেকেন্ড সময় বেছে নিন।');
         return;
       }
       selectedDuration = new Date(Date.now() + totalSec * 1000).toISOString();
 
       let labelParts = [];
-      if (d > 0) labelParts.push(d + ' à¦¦à¦¿à¦¨');
-      if (h > 0) labelParts.push(h + ' à¦˜à¦¨à§à¦Ÿà¦¾');
-      if (m > 0) labelParts.push(m + ' à¦®à¦¿à¦¨à¦¿à¦Ÿ');
-      if (s > 0) labelParts.push(s + ' à¦¸à§‡à¦•à§‡à¦¨à§à¦¡');
-      const label = labelParts.join(' ') + ' à¦ªà¦°à§‡ à¦®à§à¦›à¦¬à§‡';
+      if (d > 0) labelParts.push(d + ' দিন');
+      if (h > 0) labelParts.push(h + ' ঘন্টা');
+      if (m > 0) labelParts.push(m + ' মিনিট');
+      if (s > 0) labelParts.push(s + ' সেকেন্ড');
+      const label = labelParts.join(' ') + ' পরে মুছবে';
       document.getElementById('timerPickerLabel').textContent = label;
       const openBtn = document.getElementById('openTimerPickerBtn');
       if (openBtn) openBtn.style.border = '2px solid var(--c-green-border)';
@@ -1416,7 +1416,7 @@ window.withDelay = function(btn, callback) {
         btn.classList.add('selected');
         btn.querySelector('.unchecked-icon').style.display = 'none';
         btn.querySelector('.checked-icon').style.display = '';
-        document.getElementById('timerPickerLabel').textContent = 'à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨';
+        document.getElementById('timerPickerLabel').textContent = 'সময় বেছে নিন';
         const openBtn = document.getElementById('openTimerPickerBtn');
         if (openBtn) openBtn.style.border = '';
       }
@@ -1437,11 +1437,11 @@ window.withDelay = function(btn, callback) {
 
     async function compactStartUpload() {
       if (!selectedFiles || selectedFiles.length === 0) {
-        showAlert("à¦¦à¦¯à¦¼à¦¾ à¦•à¦°à§‡ à¦ªà§à¦°à¦¥à¦®à§‡ à¦«à¦¾à¦‡à¦² à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¨ à¦•à¦°à§à¦¨à¥¤ (Please select files first.)");
+        showAlert("দয়া করে প্রথমে ফাইল নির্বাচন করুন। (Please select files first.)");
         return;
       }
       if (!selectedDuration) {
-        showAlert("à¦¦à¦¯à¦¼à¦¾ à¦•à¦°à§‡ à¦®à§‡à¦¯à¦¼à¦¾à¦¦à§‡à¦° à¦¸à¦®à¦¯à¦¼à¦•à¦¾à¦² à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¨ à¦•à¦°à§à¦¨à¥¤ (Please select a duration.)");
+        showAlert("দয়া করে মেয়াদের সময়কাল নির্বাচন করুন। (Please select a duration.)");
         return;
       }
 
@@ -1508,7 +1508,7 @@ window.withDelay = function(btn, callback) {
                 if(cicon) cicon.style.display = 'none';
             }
             const timerLabel = document.getElementById('timerPickerLabel');
-            if(timerLabel) timerLabel.innerText = 'à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨';
+            if(timerLabel) timerLabel.innerText = 'সময় বেছে নিন';
             const timerBtn = document.getElementById('openTimerPickerBtn');
             if (timerBtn) {
                 timerBtn.style.border = '';
@@ -1534,7 +1534,7 @@ window.withDelay = function(btn, callback) {
         const segContainer = document.getElementById('uploadSegments');
         
         if (progStatus) {
-            progStatus.innerText = `à¦†à¦ªà¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡... (${uploadQueue.length}à¦Ÿà¦¿ à¦¬à¦¾à¦•à¦¿)`;
+            progStatus.innerText = `আপলোড হচ্ছে... (${uploadQueue.length}টি বাকি)`;
             progStatus.style.color = 'var(--text-muted)';
         }
         progPercent.innerText = '0%';
@@ -1594,7 +1594,7 @@ window.withDelay = function(btn, callback) {
               if (window.sendClientErrorToServer) window.sendClientErrorToServer(error.message || error.toString(), null, null, null, error, 'tus.Upload.onError');
 
               if (progStatus) {
-                progStatus.innerText = 'à¦¨à§‡à¦Ÿà¦“à§Ÿà¦¾à¦°à§à¦• à¦¸à¦®à¦¸à§à¦¯à¦¾à¥¤ à¦†à¦ªà¦²à§‹à¦¡ à¦¥à§‡à¦®à§‡ à¦—à§‡à¦›à§‡à¥¤';
+                progStatus.innerText = 'নেটওয়ার্ক সমস্যা। আপলোড থেমে গেছে।';
                 progStatus.style.color = 'var(--c-red-shadow)';
               }
 
@@ -1605,14 +1605,14 @@ window.withDelay = function(btn, callback) {
                 resumeBtn.className = 'btn1';
                 resumeBtn.style.marginTop = '10px';
                 resumeBtn.style.width = '100%';
-                resumeBtn.innerHTML = '<i class="ph-bold ph-play"></i> à¦†à¦¬à¦¾à¦° à¦¶à§à¦°à§ à¦•à¦°à§à¦¨ (Resume)';
+                resumeBtn.innerHTML = '<i class="ph-bold ph-play"></i> আবার শুরু করুন (Resume)';
                 document.getElementById('uploadProgressContainer').appendChild(resumeBtn);
               }
               resumeBtn.style.display = '';
               resumeBtn.onclick = () => {
                 resumeBtn.style.display = 'none';
                 if (progStatus) {
-                  progStatus.innerText = `à¦†à¦ªà¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡... (${uploadQueue.length}à¦Ÿà¦¿ à¦¬à¦¾à¦•à¦¿)`;
+                  progStatus.innerText = `আপলোড হচ্ছে... (${uploadQueue.length}টি বাকি)`;
                   progStatus.style.color = 'var(--text-muted)';
                 }
                 upload.start();
@@ -1637,7 +1637,7 @@ window.withDelay = function(btn, callback) {
               clearInterval(uploadLogInterval);
               fetch('https://api.moo.qzz.io/log-watch', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'upload_stop', filename: file.name, media_type: fileTypeLabel, seconds: 100 }) }).catch(() => { });
 
-              if (progStatus) progStatus.innerText = 'à¦ªà§à¦°à¦¸à§‡à¦¸à¦¿à¦‚ à¦¹à¦šà§à¦›à§‡...';
+              if (progStatus) progStatus.innerText = 'প্রসেসিং হচ্ছে...';
               progPercent.innerText = '100%';
               const segments = document.getElementById('uploadSegments').children;
               for (let i = 0; i < 10; i++) {
@@ -1648,7 +1648,7 @@ window.withDelay = function(btn, callback) {
 
               fetch(`https://api.moo.qzz.io/uploads/${uploadId}/finalize`, { method: 'POST' }).then(res => {
                 if (progStatus) {
-                  progStatus.innerText = 'à¦†à¦ªà¦²à§‹à¦¡ à¦¸à¦«à¦²!';
+                  progStatus.innerText = 'আপলোড সফল!';
                   progStatus.style.color = 'var(--c-pink-shadow)';
                 }
 
@@ -1667,7 +1667,7 @@ window.withDelay = function(btn, callback) {
 
               }).catch(err => {
                 if (window.sendClientErrorToServer) window.sendClientErrorToServer(err.message || err.toString(), null, null, null, err, 'finalize_upload');
-                showAlert("à¦«à¦¾à¦‡à¦¨à¦¾à¦² à¦•à¦°à¦¤à§‡ à¦¸à¦®à¦¸à§à¦¯à¦¾!");
+                showAlert("ফাইনাল করতে সমস্যা!");
                 uploadQueue.shift();
                 setTimeout(() => {
                     processUploadQueue();
@@ -1839,7 +1839,7 @@ window.withDelay = function(btn, callback) {
         exitSelectionMode();
       } catch (e) {
         console.error(e);
-        showAlert("à¦®à§à¦›à§‡ à¦«à§‡à¦²à¦¾ à¦¬à§à¦¯à¦°à§à¦¥ à¦¹à¦¯à¦¼à§‡à¦›à§‡! (Deletion failed)");
+        showAlert("মুছে ফেলা ব্যর্থ হয়েছে! (Deletion failed)");
       }
     }
 
@@ -1883,7 +1883,7 @@ window.withDelay = function(btn, callback) {
           const data = await res.json();
           // FIX: `thumbDiv` was declared with `const` only inside the
           // 'ready' branch below, so the 'failed' branch referenced an
-          // undefined variable and threw a ReferenceError â€” silently
+          // undefined variable and threw a ReferenceError — silently
           // caught by the catch block, which meant a failed upload's
           // warning icon never actually rendered. Declared once up top
           // so both branches share it.
@@ -1939,8 +1939,8 @@ window.withDelay = function(btn, callback) {
         if (!data || Object.keys(data).length === 0) {
           grid.innerHTML = `
                   <i class="ph-duotone ph-folder-dashed" style="font-size: 80px; color: var(--ink); margin-bottom: 24px; opacity: 0.8;"></i>
-                  <h2 style="font-size: 24px; font-weight: 900; color: var(--ink); margin-bottom: 12px; margin-top: 0;">à¦•à§‹à¦¨à§‹ à¦«à¦¾à¦‡à¦² à¦¨à§‡à¦‡</h2>
-                  <p style="font-size: 16px; font-weight: 600; color: var(--text-muted); margin-top: 0;">à¦¨à¦¤à§à¦¨ à¦«à¦¾à¦‡à¦² à¦†à¦ªà¦²à§‹à¦¡ à¦•à¦°à¦¤à§‡ à¦¨à¦¿à¦šà§‡à¦° <b style="color:var(--ink)">+</b> à¦¬à¦¾à¦Ÿà¦¨à§‡ à¦•à§à¦²à¦¿à¦• à¦•à¦°à§à¦¨à¥¤</p>
+                  <h2 style="font-size: 24px; font-weight: 900; color: var(--ink); margin-bottom: 12px; margin-top: 0;">কোনো ফাইল নেই</h2>
+                  <p style="font-size: 16px; font-weight: 600; color: var(--text-muted); margin-top: 0;">নতুন ফাইল আপলোড করতে নিচের <b style="color:var(--ink)">+</b> বাটনে ক্লিক করুন।</p>
               `;
           const isRevealed = window.isFileGridRevealed;
           if (isRevealed) {
@@ -1992,8 +1992,8 @@ window.withDelay = function(btn, callback) {
           if (uploads.length === 0) {
             grid.innerHTML = `
                     <i class="ph-duotone ph-folder-dashed" style="font-size: 80px; color: var(--ink); margin-bottom: 24px; opacity: 0.8;"></i>
-                    <h2 style="font-size: 24px; font-weight: 900; color: var(--ink); margin-bottom: 12px; margin-top: 0;">à¦•à§‹à¦¨à§‹ à¦«à¦¾à¦‡à¦² à¦¨à§‡à¦‡</h2>
-                    <p style="font-size: 16px; font-weight: 600; color: var(--text-muted); margin-top: 0;">à¦¨à¦¤à§à¦¨ à¦«à¦¾à¦‡à¦² à¦†à¦ªà¦²à§‹à¦¡ à¦•à¦°à¦¤à§‡ à¦¨à¦¿à¦šà§‡à¦° <b style="color:var(--ink)">+</b> à¦¬à¦¾à¦Ÿà¦¨à§‡ à¦•à§à¦²à¦¿à¦• à¦•à¦°à§à¦¨à¥¤</p>
+                    <h2 style="font-size: 24px; font-weight: 900; color: var(--ink); margin-bottom: 12px; margin-top: 0;">কোনো ফাইল নেই</h2>
+                    <p style="font-size: 16px; font-weight: 600; color: var(--text-muted); margin-top: 0;">নতুন ফাইল আপলোড করতে নিচের <b style="color:var(--ink)">+</b> বাটনে ক্লিক করুন।</p>
                 `;
             const isRevealedEmpty = window.isFileGridRevealed;
             if (isRevealedEmpty) {
@@ -2036,8 +2036,8 @@ window.withDelay = function(btn, callback) {
     }
 
     // --- Search & Filter Logic ---
-    // FIX: the search box and the "à¦¸à¦¬ / à¦›à¦¬à¦¿ / à¦­à¦¿à¦¡à¦¿à¦“ / à¦¡à¦•à§à¦®à§‡à¦¨à§à¦Ÿà¦¸" filter tabs
-    // were pure decoration â€” no id, no event handler, no filtering code
+    // FIX: the search box and the "সব / ছবি / ভিডিও / ডকুমেন্টস" filter tabs
+    // were pure decoration — no id, no event handler, no filtering code
     // anywhere in the file, so typing or tapping them did nothing at all.
     window.currentFileFilter = 'all';
 
@@ -2079,7 +2079,7 @@ window.withDelay = function(btn, callback) {
           emptyMsg = document.createElement('div');
           emptyMsg.id = 'noFilterResults';
           emptyMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); font-weight: 700;';
-          emptyMsg.innerText = 'à¦•à§‹à¦¨à§‹ à¦«à¦²à¦¾à¦«à¦² à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿ (No matching files)';
+          emptyMsg.innerText = 'কোনো ফলাফল পাওয়া যায়নি (No matching files)';
           grid.appendChild(emptyMsg);
         }
       } else if (emptyMsg) {
@@ -2159,7 +2159,7 @@ window.withDelay = function(btn, callback) {
             noMsg.id = 'noFilterResults';
             noMsg.className = 'klipy-gif-card';
             noMsg.style.cssText = 'grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); font-weight: 700;';
-            noMsg.innerText = 'à¦•à§‹à¦¨à§‹ GIF à¦ªà¦¾à¦“à¦¯à¦¼à¦¾ à¦¯à¦¾à¦¯à¦¼à¦¨à¦¿ (No GIFs found)';
+            noMsg.innerText = 'কোনো GIF পাওয়া যায়নি (No GIFs found)';
             grid.appendChild(noMsg);
           }
           isFetchingKlipy = false;
@@ -2183,7 +2183,7 @@ window.withDelay = function(btn, callback) {
           card.style.cursor = 'pointer';
           card.onclick = () => {
             if (!window.currentUser) {
-              document.getElementById('customAlertMessage').innerText = "GIF à¦¸à§‡à¦¨à§à¦¡ à¦•à¦°à¦¤à§‡ à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨! (Please login to chat!)";
+              document.getElementById('customAlertMessage').innerText = "GIF সেন্ড করতে লগইন করুন! (Please login to chat!)";
               document.getElementById('customAlertModal').showModal();
               return;
             }
@@ -2783,13 +2783,13 @@ window.withDelay = function(btn, callback) {
     // States: HIBERNATED | FLOATING | FULLSCREEN
     //
     // Transitions (user-approved design):
-    //   HIBERNATED + [float-btn press]            â†’ FLOATING   (instant)
-    //   FLOATING   + [close-btn]                  â†’ HIBERNATED
-    //   FLOATING   + [input focus, mobile only]   â†’ FULLSCREEN (keyboard opens)
-    //   FLOATING   + [fullscreen-btn]             â†’ FULLSCREEN (no keyboard)
-    //   FULLSCREEN + [fullscreen-btn]             â†’ FLOATING   (blur â†’ keyboard closes)
-    //   FLOATING   + [keyboard detected, mobile]  â†’ FULLSCREEN (auto-upgrade)
-    //   FULLSCREEN + [keyboard closed, mobile]    â†’ FLOATING   (if auto-upgraded)
+    //   HIBERNATED + [float-btn press]            → FLOATING   (instant)
+    //   FLOATING   + [close-btn]                  → HIBERNATED
+    //   FLOATING   + [input focus, mobile only]   → FULLSCREEN (keyboard opens)
+    //   FLOATING   + [fullscreen-btn]             → FULLSCREEN (no keyboard)
+    //   FULLSCREEN + [fullscreen-btn]             → FLOATING   (blur → keyboard closes)
+    //   FLOATING   + [keyboard detected, mobile]  → FULLSCREEN (auto-upgrade)
+    //   FULLSCREEN + [keyboard closed, mobile]    → FLOATING   (if auto-upgraded)
     //   Drag + Resize: blocked when keyboard open
     // ================================================================
     (function () {
@@ -2823,7 +2823,7 @@ window.withDelay = function(btn, callback) {
         // Keyboard detection high-water mark
         _maxViewportH: 0,
 
-        // â”€â”€ Accessors â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Accessors ──────────────────────────────────────────────
         get popup() { return document.getElementById('chatPopup'); },
         get inp() { return document.getElementById('chatInput'); },
 
@@ -2832,7 +2832,7 @@ window.withDelay = function(btn, callback) {
             window.matchMedia('(hover: none) and (pointer: coarse)').matches;
         },
 
-        // â”€â”€ Helper: sync fullscreen-button icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Helper: sync fullscreen-button icon ────────────────────
         _syncFsIcon() {
           const icon = document.querySelector('.chat-fullscreen i');
           if (!icon) return;
@@ -2845,7 +2845,7 @@ window.withDelay = function(btn, callback) {
           }
         },
 
-        // â”€â”€ State transitions â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── State transitions ──────────────────────────────────────
         toHibernated() {
           if (this.state === 'HIBERNATED') return;
           const popup = this.popup;
@@ -2952,7 +2952,7 @@ window.withDelay = function(btn, callback) {
           if (window.updatePresenceState) window.updatePresenceState();
         },
 
-        // â”€â”€ Public toggle (floating-btn + close-btn) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Public toggle (floating-btn + close-btn) ───────────────
         toggle() {
           if (this.state === 'HIBERNATED') {
             this.toFloating();
@@ -2961,7 +2961,7 @@ window.withDelay = function(btn, callback) {
           }
         },
 
-        // â”€â”€ Fullscreen-button click â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Fullscreen-button click ────────────────────────────────
         onFsBtnClick() {
           if (this.state === 'FULLSCREEN') {
             // Blur to dismiss keyboard, then revert to floating
@@ -2978,12 +2978,12 @@ window.withDelay = function(btn, callback) {
           }
         },
 
-        // â”€â”€ Input focus â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Input focus ───────────────────────────────────────────
         onInputFocus() {
           // No longer jumping to fullscreen here; we let CSS handle shrinking above keyboard
         },
 
-        // â”€â”€ Keyboard detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Keyboard detection ─────────────────────────────────────
         detectKeyboard() {
           if (!this.isMobile()) return;
           const vvp = window.visualViewport;
@@ -3008,7 +3008,7 @@ window.withDelay = function(btn, callback) {
           }
         },
 
-        // â”€â”€ Drag â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Drag ──────────────────────────────────────────────────
         onDragStart(e) {
           if (this.state !== 'FLOATING') return;
           if (this.kbOpen) return;                       // blocked when keyboard open
@@ -3059,7 +3059,7 @@ window.withDelay = function(btn, callback) {
           this.popup.classList.remove('cb-interacting');
         },
 
-        // â”€â”€ Resize â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Resize ────────────────────────────────────────────────
         onResizeStart(e, dir) {
           if (this.isMobile()) return;       // resize is desktop-only
           if (this.state !== 'FLOATING') return;
@@ -3133,7 +3133,7 @@ window.withDelay = function(btn, callback) {
           this.popup.classList.remove('cb-interacting');
         },
 
-        // â”€â”€ Initialise â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+        // ── Initialise ────────────────────────────────────────────
         init() {
           const popup = this.popup;
           if (!popup) return;
@@ -3143,7 +3143,7 @@ window.withDelay = function(btn, callback) {
           const handles = popup.querySelectorAll('.resize-handle');
           const inp = this.inp;
 
-          // Fullscreen button â€” preventDefault keeps focus (keyboard stays open)
+          // Fullscreen button — preventDefault keeps focus (keyboard stays open)
           if (fsBtn) {
             fsBtn.addEventListener('pointerdown', (e) => {
               e.preventDefault();
@@ -3168,7 +3168,7 @@ window.withDelay = function(btn, callback) {
             header.addEventListener('touchstart', (e) => this.onDragStart(e), { passive: false });
           }
 
-          // Resize handles â€” desktop (mouse) only
+          // Resize handles — desktop (mouse) only
           handles.forEach(h => {
             h.addEventListener('mousedown', (e) => this.onResizeStart(e, h.dataset.dir));
             // No touchstart: resize is desktop-only
@@ -3275,7 +3275,7 @@ window.withDelay = function(btn, callback) {
     let dbLastSeen = {};
     let _lastNotifMsgCount = 0;
 
-    // Track Shajeda's previous online state so we can detect offlineâ†’online transition
+    // Track Shajeda's previous online state so we can detect offline→online transition
     let _shajedaWasOnline = false;
 
     window.currentMenuMsgId = null;
@@ -3452,10 +3452,10 @@ window.withDelay = function(btn, callback) {
             // Play a 1-second beep sound
             if (window.playBeepSound) window.playBeepSound(800);
 
-            // She just came online â€” fire a notification if browser tab is not focused
+            // She just came online — fire a notification if browser tab is not focused
             if (document.visibilityState !== 'visible' || document.hidden) {
               if ('Notification' in window && Notification.permission === 'granted') {
-                const onlineNotif = new Notification('Shajeda is online! ðŸŸ¢', {
+                const onlineNotif = new Notification('Shajeda is online! 🟢', {
                   body: 'Shajeda has just come online.',
                   icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%2322c55e' stroke='%23ffffff' stroke-width='5'/></svg>",
                   badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
@@ -3474,10 +3474,10 @@ window.withDelay = function(btn, callback) {
             // Play a 1-second lower beep sound for offline
             if (window.playBeepSound) window.playBeepSound(300);
 
-            // She just went offline â€” fire a notification if browser tab is not focused
+            // She just went offline — fire a notification if browser tab is not focused
             if (document.visibilityState !== 'visible' || document.hidden) {
               if ('Notification' in window && Notification.permission === 'granted') {
-                const offlineNotif = new Notification('Shajeda went offline ðŸ”´', {
+                const offlineNotif = new Notification('Shajeda went offline 🔴', {
                   body: 'Shajeda has just gone offline.',
                   icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%23ef4444' stroke='%23ffffff' stroke-width='5'/></svg>",
                   badge: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
@@ -3733,7 +3733,7 @@ window.withDelay = function(btn, callback) {
         if (e.isComposing || e.keyCode === 229 || e.repeat) return;
 
         if (isMobileDevice()) {
-          // Mobile: always let Enter create a new line naturally â€” do nothing
+          // Mobile: always let Enter create a new line naturally — do nothing
           return;
         }
 
@@ -3841,7 +3841,7 @@ window.withDelay = function(btn, callback) {
     window.sendChatMessage = function () {
       if (_isSendingChat) return;
       if (!window.currentUser) {
-        document.getElementById('customAlertMessage').innerText = "à¦šà§à¦¯à¦¾à¦Ÿ à¦•à¦°à¦¤à§‡ à¦…à¦¨à§à¦—à§à¦°à¦¹ à¦•à¦°à§‡ à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨! (Please login to chat!)";
+        document.getElementById('customAlertMessage').innerText = "চ্যাট করতে অনুগ্রহ করে লগইন করুন! (Please login to chat!)";
         document.getElementById('customAlertModal').showModal();
         return;
       }
@@ -3854,7 +3854,7 @@ window.withDelay = function(btn, callback) {
         const replyId = window.currentlyReplyingToMsgId || null;
         const editId = window.currentlyEditingMsgId;
 
-        // Immediate UI reset â€” clear timeout FIRST before wiping input,
+        // Immediate UI reset — clear timeout FIRST before wiping input,
         // so the pending 50ms draft-save timer can never fire with the old text.
         if (draftTimeout) { clearTimeout(draftTimeout); draftTimeout = null; }
         window._suppressDraftSave = true; // block input-event from re-queuing a save
@@ -4038,8 +4038,8 @@ window.withDelay = function(btn, callback) {
       // If user is truly not logged in (and not auto-logging in)
       if (!window.currentUser && !hasSavedPin) {
         chatBody.innerHTML = `
-          <div id="demoMsg1" class="chat-msg bot-msg">à¦²à¦—à¦‡à¦¨ à¦•à¦°à§‡ à¦šà§à¦¯à¦¾à¦Ÿ à¦¶à§à¦°à§ à¦•à¦°à§à¦¨! (Login to start chatting!)</div>
-          <button class="btn2" onclick="performLogin('chatbox')" style="margin-top: 10px; font-size: 14px; padding: 6px 12px; align-self: flex-start;">à¦²à¦—à¦‡à¦¨ à¦•à¦°à§à¦¨ (Login)</button>
+          <div id="demoMsg1" class="chat-msg bot-msg">লগইন করে চ্যাট শুরু করুন! (Login to start chatting!)</div>
+          <button class="btn2" onclick="performLogin('chatbox')" style="margin-top: 10px; font-size: 14px; padding: 6px 12px; align-self: flex-start;">লগইন করুন (Login)</button>
         `;
         return;
       }
@@ -4049,14 +4049,14 @@ window.withDelay = function(btn, callback) {
         chatBody.innerHTML = `
           <div class="chat-loading-placeholder">
             <i class="ph-bold ph-spinner"></i>
-            <span>à¦®à§‡à¦¸à§‡à¦œ à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡... (Loading messages...)</span>
+            <span>মেসেজ লোড হচ্ছে... (Loading messages...)</span>
           </div>
         `;
         return;
       }
 
       if (chatMessages.length === 0) {
-        chatBody.innerHTML = `<div id="demoMsg1" class="chat-msg bot-msg">à¦†à¦ªà¦¨à¦¾à¦°à¦¾ à¦à¦–à¦¾à¦¨à§‡ à¦²à¦¾à¦‡à¦­ à¦šà§à¦¯à¦¾à¦Ÿ à¦•à¦°à¦¤à§‡ à¦ªà¦¾à¦°à¦¬à§‡à¦¨! (You can chat live here!)</div>`;
+        chatBody.innerHTML = `<div id="demoMsg1" class="chat-msg bot-msg">আপনারা এখানে লাইভ চ্যাট করতে পারবেন! (You can chat live here!)</div>`;
         return;
       }
 
@@ -4065,7 +4065,7 @@ window.withDelay = function(btn, callback) {
         const loadMoreBtn = document.createElement('div');
         loadMoreBtn.id = 'chatLoadMore';
         loadMoreBtn.className = 'chat-load-more';
-        loadMoreBtn.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> à¦†à¦—à§‡à¦° à¦®à§‡à¦¸à§‡à¦œ à¦¦à§‡à¦–à§à¦¨</span>';
+        loadMoreBtn.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> আগের মেসেজ দেখুন</span>';
         loadMoreBtn.onclick = () => window.loadOlderChatMessages();
         fragment.appendChild(loadMoreBtn);
       }
@@ -4095,7 +4095,7 @@ window.withDelay = function(btn, callback) {
       isLoadingOlder = true;
       const loadMoreEl = document.getElementById('chatLoadMore');
       if (loadMoreEl) {
-        loadMoreEl.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i><span>à¦²à§‹à¦¡ à¦¹à¦šà§à¦›à§‡...</span>';
+        loadMoreEl.innerHTML = '<i class="ph-bold ph-spinner ph-spin"></i><span>লোড হচ্ছে...</span>';
         loadMoreEl.style.pointerEvents = 'none';
       }
 
@@ -4124,7 +4124,7 @@ window.withDelay = function(btn, callback) {
           hasMoreOlder = false;
           if (loadMoreEl) loadMoreEl.remove();
         } else if (loadMoreEl) {
-          loadMoreEl.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> à¦†à¦—à§‡à¦° à¦®à§‡à¦¸à§‡à¦œ à¦¦à§‡à¦–à§à¦¨</span>';
+          loadMoreEl.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> আগের মেসেজ দেখুন</span>';
           loadMoreEl.style.pointerEvents = 'auto';
         }
 
@@ -4157,7 +4157,7 @@ window.withDelay = function(btn, callback) {
       } catch (err) {
         console.error("Error loading older messages:", err);
         if (loadMoreEl) {
-          loadMoreEl.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> à¦†à¦—à§‡à¦° à¦®à§‡à¦¸à§‡à¦œ à¦¦à§‡à¦–à§à¦¨</span>';
+          loadMoreEl.innerHTML = '<span><i class="ph-bold ph-arrow-up"></i> আগের মেসেজ দেখুন</span>';
           loadMoreEl.style.pointerEvents = 'auto';
         }
       } finally {
@@ -4241,7 +4241,7 @@ window.withDelay = function(btn, callback) {
     });
 
     // --- Web Notifications (Sayem) ---
-    // No service worker needed â€” these fire while the browser is open but the tab is hidden.
+    // No service worker needed — these fire while the browser is open but the tab is hidden.
     window.requestSayemNotifPermission = function () {
       if (!('Notification' in window)) return;
       if (Notification.permission === 'default') {
@@ -4249,7 +4249,7 @@ window.withDelay = function(btn, callback) {
           console.log('Notification permission:', permission);
           if (permission === 'granted') {
             // Confirm to user that notifications are enabled
-            new Notification('Notifications enabled âœ…', {
+            new Notification('Notifications enabled ✅', {
               body: "You'll be notified when Shajeda messages or comes online.",
               icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
               tag: 'notif-enabled'
@@ -4277,7 +4277,7 @@ window.withDelay = function(btn, callback) {
       _lastNotifMsgCount = totalMsgs;
 
       const latest = unread[unread.length - 1];
-      const body = latest.text || (latest.fileUrl ? (latest.fileName ? `ðŸ“Ž ${latest.fileName}` : 'ðŸ“Ž File') : '...');
+      const body = latest.text || (latest.fileUrl ? (latest.fileName ? `📎 ${latest.fileName}` : '📎 File') : '...');
       const title = unread.length > 1 ? `Shajeda sent ${unread.length} messages` : 'New message from Shajeda';
 
       const notif = new Notification(title, {
@@ -4530,13 +4530,13 @@ window.withDelay = function(btn, callback) {
           const totalStr = formatBytes(data.total_bytes);
 
           const engToBen = (str) => {
-            const bnDigits = ['à§¦', 'à§§', 'à§¨', 'à§©', 'à§ª', 'à§«', 'à§¬', 'à§­', 'à§®', 'à§¯'];
+            const bnDigits = ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯'];
             return str.replace(/\d/g, d => bnDigits[d])
-              .replace('Bytes', 'à¦¬à¦¾à¦‡à¦Ÿ')
-              .replace('KB', 'à¦•à§‡à¦¬à¦¿')
-              .replace('MB', 'à¦à¦®à¦¬à¦¿')
-              .replace('GB', 'à¦œà¦¿à¦¬à¦¿')
-              .replace('TB', 'à¦Ÿà¦¿à¦¬à¦¿');
+              .replace('Bytes', 'বাইট')
+              .replace('KB', 'কেবি')
+              .replace('MB', 'এমবি')
+              .replace('GB', 'জিবি')
+              .replace('TB', 'টিবি');
           };
 
           const usedBn = engToBen(usedStr);
@@ -4544,7 +4544,7 @@ window.withDelay = function(btn, callback) {
 
           const textEl = document.getElementById('storageText');
           if (textEl) {
-            textEl.innerText = `${totalBn} à¦à¦° à¦®à¦§à§à¦¯à§‡ ${usedBn} à¦¬à§à¦¯à¦¬à¦¹à§ƒà¦¤`;
+            textEl.innerText = `${totalBn} এর মধ্যে ${usedBn} ব্যবহৃত`;
           }
 
           const barEl = document.getElementById('storageUsedBar');
@@ -4603,7 +4603,7 @@ window.withDelay = function(btn, callback) {
             const modal = document.getElementById('serverOfflineModal');
             const subtitle = document.getElementById('offlineSubtitle');
             if (modal && modal.open) {
-              if (subtitle) subtitle.textContent = 'âœ“ à¦¸à¦‚à¦¯à§‹à¦— à¦ªà§à¦¨à¦°à¦¾à¦¯à¦¼ à¦¸à§à¦¥à¦¾à¦ªà¦¿à¦¤ à¦¹à¦¯à¦¼à§‡à¦›à§‡! à¦‰à¦‡à¦¨à§à¦¡à§‹ à¦¬à¦¨à§à¦§ à¦¹à¦šà§à¦›à§‡...';
+              if (subtitle) subtitle.textContent = '✓ সংযোগ পুনরায় স্থাপিত হয়েছে! উইন্ডো বন্ধ হচ্ছে...';
               setTimeout(() => {
                 if (modal.open) modal.close();
               }, 1500);
@@ -4625,7 +4625,7 @@ window.withDelay = function(btn, callback) {
           if (serverOffline) {
             const subtitle = document.getElementById('offlineSubtitle');
             if (subtitle) {
-              subtitle.textContent = `à¦¸à¦¾à¦°à§à¦­à¦¾à¦°à¦Ÿà¦¿ à¦°à¦¿à¦¸à§à¦Ÿà¦¾à¦°à§à¦Ÿ à¦¨à¦¿à¦šà§à¦›à§‡à¥¤ à¦ªà§à¦¨à¦°à¦¾à¦¯à¦¼ à¦¸à¦‚à¦¯à§à¦•à§à¦¤ à¦¹à¦“à¦¯à¦¼à¦¾à¦° à¦šà§‡à¦·à§à¦Ÿà¦¾ à¦šà¦²à¦›à§‡... (${failCount})`;
+              subtitle.textContent = `সার্ভারটি রিস্টার্ট নিচ্ছে। পুনরায় সংযুক্ত হওয়ার চেষ্টা চলছে... (${failCount})`;
             }
           }
         });
@@ -4687,13 +4687,13 @@ window.withDelay = function(btn, callback) {
     <div id="timerPickerModal" style="display:none; position:fixed; inset:0; z-index:10000; align-items:flex-end; justify-content:center; background:rgba(0,0,0,0.65); backdrop-filter:blur(6px);">
       <div class="timer-picker-sheet">
         <div class="timer-picker-header">
-          <span class="timer-picker-title">&#9201; à¦•à¦¤à¦•à§à¦·à¦£ à¦ªà¦° à¦®à§à¦›à¦¬à§‡?</span>
+          <span class="timer-picker-title">&#9201; কতক্ষণ পর মুছবে?</span>
           <button class="timer-picker-close-btn" onclick="closeTimerPickerModal()"><i class="ph-bold ph-x"></i></button>
         </div>
-        <div class="timer-picker-hint">à¦¸à§à¦•à§à¦°à¦² à¦•à¦°à§‡ à¦¬à¦¾ à¦•à§à¦²à¦¿à¦• à¦•à¦°à§‡ à¦¸à¦®à¦¯à¦¼ à¦¬à§‡à¦›à§‡ à¦¨à¦¿à¦¨</div>
+        <div class="timer-picker-hint">স্ক্রল করে বা ক্লিক করে সময় বেছে নিন</div>
         <div class="timer-picker-body">
           <div class="picker-col">
-            <div class="picker-label">à¦¦à¦¿à¦¨</div>
+            <div class="picker-label">দিন</div>
             <div class="picker-viewport">
               <div class="picker-fade-top"></div>
               <div class="picker-strip" id="pickerStrip_0"></div>
@@ -4703,7 +4703,7 @@ window.withDelay = function(btn, callback) {
           </div>
           <div class="picker-separator">:</div>
           <div class="picker-col">
-            <div class="picker-label">à¦˜à¦¨à§à¦Ÿà¦¾</div>
+            <div class="picker-label">ঘন্টা</div>
             <div class="picker-viewport">
               <div class="picker-fade-top"></div>
               <div class="picker-strip" id="pickerStrip_1"></div>
@@ -4713,7 +4713,7 @@ window.withDelay = function(btn, callback) {
           </div>
           <div class="picker-separator">:</div>
           <div class="picker-col">
-            <div class="picker-label">à¦®à¦¿à¦¨à¦¿à¦Ÿ</div>
+            <div class="picker-label">মিনিট</div>
             <div class="picker-viewport">
               <div class="picker-fade-top"></div>
               <div class="picker-strip" id="pickerStrip_2"></div>
@@ -4723,7 +4723,7 @@ window.withDelay = function(btn, callback) {
           </div>
           <div class="picker-separator">:</div>
           <div class="picker-col">
-            <div class="picker-label">à¦¸à§‡à¦•à§‡à¦¨à§à¦¡</div>
+            <div class="picker-label">সেকেন্ড</div>
             <div class="picker-viewport">
               <div class="picker-fade-top"></div>
               <div class="picker-strip" id="pickerStrip_3"></div>
@@ -4733,8 +4733,8 @@ window.withDelay = function(btn, callback) {
           </div>
         </div>
         <div class="timer-picker-footer">
-          <button class="btn2" style="flex:1;" onclick="closeTimerPickerModal()">à¦¬à¦¾à¦¤à¦¿à¦²</button>
-          <button class="btn3" style="flex:2;" onclick="confirmTimerPicker()"><i class="ph-bold ph-check" style="margin-right:6px;"></i>à¦¨à¦¿à¦°à§à¦¬à¦¾à¦šà¦¨ à¦•à¦°à§à¦¨</button>
+          <button class="btn2" style="flex:1;" onclick="closeTimerPickerModal()">বাতিল</button>
+          <button class="btn3" style="flex:2;" onclick="confirmTimerPicker()"><i class="ph-bold ph-check" style="margin-right:6px;"></i>নির্বাচন করুন</button>
         </div>
       </div>
     </div>
