@@ -1,4 +1,4 @@
-﻿# Firebase credentials - NEVER commit this
+# Firebase credentials - NEVER commit this
 serviceAccountKey.json
 
 # Python cache
@@ -23,3 +23,6 @@ backend/
 # Arduino / ESP32 hardware files (local only)
 arduino_led.ino
 esp32_notifier.ino
+
+# Ignore New folder
+New folder/
