@@ -617,7 +617,7 @@ window.withDelay = function(btn, callback) {
     <div style="font-size: 48px; margin-bottom: 16px;"><i class="ph-duotone ph-warning-circle"
         style="color: var(--c-red-shadow);"></i></div>
     <h3 id="customAlertMessage" style="font-weight: 800; font-size: 18px; margin: 0 0 24px 0; color: var(--ink);"></h3>
-    <button onclick="document.getElementById('customAlertModal').close()"
+    <button onclick="closeCustomAlert()"
       style="background: var(--c-blue-bg); color: var(--ink); border: 2px solid var(--ink); font-weight: 800; font-size: 16px; padding: 8px 32px; cursor: pointer; box-shadow: 4px 4px 0 var(--ink); transition: transform 100ms;">ঠিক
       আছে (OK)</button>
   </dialog>
@@ -1457,7 +1457,11 @@ window.withDelay = function(btn, callback) {
           if (file.type.startsWith('image/')) {
             const isNSFW = await window.checkImageForNSFW(file);
             if (isNSFW) {
-              showAlert("🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")");
+              showAlert("🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")", function() {
+                  document.getElementById('compactFileName').style.display = 'none';
+                  document.getElementById('compactFileInput').value = '';
+                  selectedFiles = [];
+              });
               btn.innerHTML = oldText;
               btn.disabled = false;
               return;
@@ -2794,11 +2798,21 @@ window.withDelay = function(btn, callback) {
     }
 
     // --- Custom Alert Logic ---
-    function showAlert(msg) {
+    function showAlert(msg, onOkCallback = null) {
       const alertModal = document.getElementById('customAlertModal');
       const alertMsg = document.getElementById('customAlertMessage');
       if (alertMsg) alertMsg.innerText = msg;
+      window._currentAlertCallback = onOkCallback;
       if (alertModal && typeof alertModal.showModal === 'function') alertModal.showModal();
+    }
+
+    function closeCustomAlert() {
+      const alertModal = document.getElementById('customAlertModal');
+      if (alertModal) alertModal.close();
+      if (typeof window._currentAlertCallback === 'function') {
+        window._currentAlertCallback();
+        window._currentAlertCallback = null;
+      }
     }
 
     // ================================================================
