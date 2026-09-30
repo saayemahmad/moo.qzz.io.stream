@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -1435,6 +1435,8 @@ window.withDelay = function(btn, callback) {
       });
     }
 
+    const ENABLE_NSFW_FILTER = true; // Toggle this feature on off
+
     async function compactStartUpload() {
       if (!selectedFiles || selectedFiles.length === 0) {
         showAlert("দয়া করে প্রথমে ফাইল নির্বাচন করুন। (Please select files first.)");
@@ -1443,6 +1445,27 @@ window.withDelay = function(btn, callback) {
       if (!selectedDuration) {
         showAlert("দয়া করে মেয়াদের সময়কাল নির্বাচন করুন। (Please select a duration.)");
         return;
+      }
+
+      if (ENABLE_NSFW_FILTER && window.checkImageForNSFW) {
+        const btn = document.getElementById('compactStartBtn');
+        const oldText = btn.innerHTML;
+        btn.innerHTML = 'NSFW Checking... <i class="ph-bold ph-spinner ph-spin"></i>';
+        btn.disabled = true;
+
+        for (const file of selectedFiles) {
+          if (file.type.startsWith('image/')) {
+            const isNSFW = await window.checkImageForNSFW(file);
+            if (isNSFW) {
+              showAlert("🚫 NSFW content detected in " + file.name + ". Upload aborted.");
+              btn.innerHTML = oldText;
+              btn.disabled = false;
+              return;
+            }
+          }
+        }
+        btn.innerHTML = oldText;
+        btn.disabled = false;
       }
 
       const btn = document.getElementById('compactStartBtn');
@@ -4789,7 +4812,49 @@ window.withDelay = function(btn, callback) {
   })();
 </script>
 </body>
+<script type="module">
+import * as tf from "https://esm.sh/@tensorflow/tfjs@4.22.0";
+import * as nsfwjs from "https://esm.sh/nsfwjs@4.4.0?bundle";
 
+let nsfwModel = null;
+
+window.initNSFWModel = async function() {
+  try {
+    await tf.ready();
+    nsfwModel = await nsfwjs.load();
+    console.log("NSFW model loaded successfully");
+  } catch (err) {
+    console.error("NSFW model failed to load:", err);
+  }
+};
+
+window.checkImageForNSFW = async function(file) {
+  if (!nsfwModel) return false;
+  const url = URL.createObjectURL(file);
+  const img = new Image();
+  img.src = url;
+  try {
+    await new Promise((resolve, reject) => {
+      img.onload = resolve;
+      img.onerror = reject;
+    });
+    const predictions = await nsfwModel.classify(img);
+    const porn = predictions.find(x => x.className === "Porn")?.probability || 0;
+    const hentai = predictions.find(x => x.className === "Hentai")?.probability || 0;
+    const sexy = predictions.find(x => x.className === "Sexy")?.probability || 0;
+    const unsafe = Math.max(porn, hentai, sexy);
+    URL.revokeObjectURL(url);
+    return unsafe >= 0.50;
+  } catch (err) {
+    console.error("NSFW check failed:", err);
+    URL.revokeObjectURL(url);
+    return false;
+  }
+};
+
+// Initialize in background
+window.initNSFWModel();
+</script>
 </html>
 
 

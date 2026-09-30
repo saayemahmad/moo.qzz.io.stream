@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NSFW Detector Test</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:#eee;font-family:Arial,sans-serif;min-height:100vh;display:grid;place-items:center;padding:20px}
+.box{width:min(650px,100%);background:#181818;border:1px solid #333;padding:28px}
+h1{margin:0 0 8px}.sub{color:#999;margin-bottom:22px}
+label{display:block;border:1px dashed #555;padding:38px;text-align:center;cursor:pointer}
+label:hover{border-color:#aaa}input{display:none}
+#status{display:none;margin-top:20px;padding:15px;border:1px solid #333}
+#preview{display:none;max-width:100%;max-height:430px;margin:20px auto 0}
+.ok{border-color:#39734b!important;color:#91e3a7}
+.bad{border-color:#a44343!important;color:#ff9c9c}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>NSFW / Nudity Detector</h1>
+<div class="sub">Select an image. Nothing is uploaded.</div>
+
+<label for="file">
+  Click to select an image
+  <br><small>JPG / PNG / WEBP</small>
+  <input id="file" type="file" accept="image/*">
+</label>
+
+<div id="status"></div>
+<img id="preview" alt="Preview">
+</div>
+
+<script type="module">
+import * as tf from "https://esm.sh/@tensorflow/tfjs@4.22.0";
+import * as nsfwjs from "https://esm.sh/nsfwjs@4.4.0?bundle";
+
+const input = document.getElementById("file");
+const statusBox = document.getElementById("status");
+const preview = document.getElementById("preview");
+
+let model = null;
+
+function show(text,type=""){
+  statusBox.style.display="block";
+  statusBox.className=type;
+  statusBox.textContent=text;
+}
+
+async function init(){
+  try{
+    show("Loading AI detector...");
+    await tf.ready();
+
+    /*
+      The ESM build is used here instead of the old Browserify
+      model.min.js/shard setup. NSFWJS 4.x ships bundled model
+      definitions for its normal module import.
+    */
+    model = await nsfwjs.load();
+
+    show("✅ Detector ready. Select an image.","ok");
+  }catch(err){
+    console.error(err);
+    show("❌ Detector failed: "+err.message,"bad");
+  }
+}
+
+input.addEventListener("change",async()=>{
+  const file=input.files[0];
+  if(!file||!model)return;
+
+  show("🔎 Checking image...");
+
+  const url=URL.createObjectURL(file);
+  preview.src=url;
+  preview.style.display="block";
+
+  try{
+    await new Promise((resolve,reject)=>{
+      preview.onload=resolve;
+      preview.onerror=reject;
+    });
+
+    const predictions=await model.classify(preview);
+
+    const porn=predictions.find(x=>x.className==="Porn")?.probability||0;
+    const hentai=predictions.find(x=>x.className==="Hentai")?.probability||0;
+    const sexy=predictions.find(x=>x.className==="Sexy")?.probability||0;
+
+    const unsafe=Math.max(porn,hentai,sexy);
+
+    console.log("NSFWJS predictions:",predictions);
+
+    if(unsafe>=0.50){
+      show("🚫 Potentially NSFW content detected.","bad");
+    }else{
+      show("✅ No strong NSFW signal detected.","ok");
+    }
+  }catch(err){
+    console.error(err);
+    show("❌ Detection failed: "+err.message,"bad");
+  }
+});
+
+init();
+</script>
+</body>
+</html>
