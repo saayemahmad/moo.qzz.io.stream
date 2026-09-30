@@ -324,8 +324,8 @@ window.withDelay = function(btn, callback) {
           <i class="ph ph-gear" onclick="toggleSettingsDropdown()" style="cursor: pointer;"></i>
           <div id="settingsDropdown" class="settings-dropdown">
             <button class="btn1 full-width" style="margin-bottom: 0; min-width: unset; padding: 10px;"
-              onclick="toggleTheme()">
-              <i class="ph-bold ph-moon"></i> ডার্ক মোড (Theme)
+              onclick="toggleNSFW()">
+              <i class="ph-bold ph-shield-check" id="nsfwToggleIcon" style="color:var(--c-blue-bg);"></i> <span id="nsfwToggleText">NSFW Filter (ON)</span>
             </button>
           </div>
         </div>
@@ -1435,7 +1435,7 @@ window.withDelay = function(btn, callback) {
       });
     }
 
-    const ENABLE_NSFW_FILTER = true; // Toggle this feature on off
+    let ENABLE_NSFW_FILTER = true; // Toggle this feature on off
 
     async function compactStartUpload() {
       if (!selectedFiles || selectedFiles.length === 0) {
@@ -4489,15 +4489,26 @@ window.withDelay = function(btn, callback) {
     };
     window.syncThemeColorMeta(savedTheme);
 
-    window.toggleTheme = function () {
-      const currentTheme = document.documentElement.getAttribute('data-theme');
-      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      window.syncThemeColorMeta(newTheme);
-
-      if (window.currentUser === 'Shajeda' && window.saveGlobalTheme) {
-        window.saveGlobalTheme(newTheme);
+    window.toggleNSFW = function () {
+      const pin = prompt("Please enter the PIN to toggle NSFW filter:");
+      if (pin === "198110") {
+        ENABLE_NSFW_FILTER = !ENABLE_NSFW_FILTER;
+        const icon = document.getElementById('nsfwToggleIcon');
+        const text = document.getElementById('nsfwToggleText');
+        if (icon && text) {
+          if (ENABLE_NSFW_FILTER) {
+            icon.className = 'ph-bold ph-shield-check';
+            icon.style.color = 'var(--c-blue-bg)';
+            text.innerText = 'NSFW Filter (ON)';
+          } else {
+            icon.className = 'ph-bold ph-shield-warning';
+            icon.style.color = 'var(--c-red-shadow)';
+            text.innerText = 'NSFW Filter (OFF)';
+          }
+        }
+        alert(ENABLE_NSFW_FILTER ? "NSFW filter has been turned ON." : "NSFW filter has been turned OFF.");
+      } else if (pin !== null) {
+        alert("Incorrect PIN!");
       }
     };
 
