@@ -1457,7 +1457,7 @@ window.withDelay = function(btn, callback) {
           if (file.type.startsWith('image/')) {
             const isNSFW = await window.checkImageForNSFW(file);
             if (isNSFW) {
-              showAlert("🚫 NSFW content detected in " + file.name + ". Upload aborted.");
+              showAlert("🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")");
               btn.innerHTML = oldText;
               btn.disabled = false;
               return;
