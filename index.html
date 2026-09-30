@@ -4862,13 +4862,19 @@ window.withDelay = function(btn, callback) {
 </script>
 </body>
 <script type="module">
-import * as tf from "https://esm.sh/@tensorflow/tfjs@4.22.0";
-import * as nsfwjs from "https://esm.sh/nsfwjs@4.4.0?bundle";
-
 let nsfwModel = null;
+let tf = null;
+let nsfwjs = null;
 
 window.initNSFWModel = async function() {
+  if (nsfwModel) return;
   try {
+    if (!tf) {
+      tf = await import("https://esm.sh/@tensorflow/tfjs@4.22.0");
+    }
+    if (!nsfwjs) {
+      nsfwjs = await import("https://esm.sh/nsfwjs@4.4.0?bundle");
+    }
     await tf.ready();
     nsfwModel = await nsfwjs.load();
     console.log("NSFW model loaded successfully");
@@ -4878,6 +4884,7 @@ window.initNSFWModel = async function() {
 };
 
 window.checkImageForNSFW = async function(file) {
+  await window.initNSFWModel();
   if (!nsfwModel) return false;
   const url = URL.createObjectURL(file);
   const img = new Image();
@@ -4901,10 +4908,11 @@ window.checkImageForNSFW = async function(file) {
   }
 };
 
-// Initialize in background
-window.initNSFWModel();
+// Removed auto initialization
+// window.initNSFWModel();
 
 window.checkVideoForNSFW = async function(file) {
+  await window.initNSFWModel();
   if (!nsfwModel) return false;
   const url = URL.createObjectURL(file);
   const video = document.createElement('video');
