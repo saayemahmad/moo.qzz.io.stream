@@ -4013,6 +4013,75 @@ window.withDelay = function(btn, callback) {
       return _graphemeSegmenter ? Array.from(_graphemeSegmenter.segment(clean)).length : Array.from(clean).length;
     };
 
+    window.refreshTimestampDividers = function() {
+      const chatBody = document.querySelector('.chat-body');
+      if (!chatBody) return;
+      
+      const oldDividers = chatBody.querySelectorAll('.chat-timestamp-divider');
+      oldDividers.forEach(d => d.remove());
+
+      const msgs = Array.from(chatBody.querySelectorAll('.chat-msg[data-timestamp]'));
+      if (msgs.length === 0) return;
+
+      let lastTs = null;
+      const GAP_MS = 5 * 60 * 1000;
+      
+      msgs.forEach(msgEl => {
+        const ts = parseInt(msgEl.dataset.timestamp, 10);
+        if (isNaN(ts) || ts <= 0) return;
+        
+        let needsDivider = false;
+        if (lastTs === null) {
+          needsDivider = true;
+        } else {
+          if (ts - lastTs >= GAP_MS) {
+            needsDivider = true;
+          } else {
+            const dateCurrent = new Date(ts);
+            const dateLast = new Date(lastTs);
+            if (dateCurrent.toDateString() !== dateLast.toDateString()) {
+              needsDivider = true;
+            }
+          }
+        }
+        
+        if (needsDivider) {
+          const div = document.createElement('div');
+          div.className = 'chat-timestamp-divider';
+          div.style.textAlign = 'center';
+          div.style.fontSize = '11px';
+          div.style.fontWeight = '700';
+          div.style.color = 'var(--text-muted)';
+          div.style.margin = '16px 0 8px 0';
+          div.style.opacity = '0.6';
+          
+          const d = new Date(ts);
+          const now = new Date();
+          const isToday = d.toDateString() === now.toDateString();
+          
+          let dateStr = '';
+          if (isToday) {
+            dateStr = 'Today';
+          } else {
+            const yesterday = new Date(now);
+            yesterday.setDate(yesterday.getDate() - 1);
+            if (d.toDateString() === yesterday.toDateString()) {
+              dateStr = 'Yesterday';
+            } else {
+              const opts = { month: 'short', day: 'numeric' };
+              if (d.getFullYear() !== now.getFullYear()) opts.year = 'numeric';
+              dateStr = d.toLocaleDateString('en-US', opts);
+            }
+          }
+          const timeStr = d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+          
+          div.innerText = `${dateStr} at ${timeStr}`;
+          msgEl.parentNode.insertBefore(div, msgEl);
+        }
+        lastTs = ts;
+      });
+    };
+
     window._buildMsgElement = function (msg, container) {
       const div = document.createElement('div');
       const isUser = window.currentUser === msg.sender;
@@ -4061,6 +4130,7 @@ window.withDelay = function(btn, callback) {
 
       div.className = 'chat-msg ' + (isUser ? 'user-msg' : 'bot-msg') + extraClass;
       div.dataset.msgId = msg.id || '';
+      if (msg.timestamp) div.dataset.timestamp = msg.timestamp;
       div.innerHTML = displayMsg;
 
       if (msg.id) {
@@ -4110,6 +4180,7 @@ window.withDelay = function(btn, callback) {
       if (placeholder) placeholder.remove();
       if (loginBtn && window.currentUser) loginBtn.remove();
       window._buildMsgElement(msg, chatBody);
+      if (window.refreshTimestampDividers) window.refreshTimestampDividers();
     };
 
     // --- Message Rendering & Lazy Loading ---
@@ -4166,6 +4237,8 @@ window.withDelay = function(btn, callback) {
       chatMessages.forEach(msg => window._buildMsgElement(msg, fragment));
       chatBody.innerHTML = '';
       chatBody.appendChild(fragment);
+
+      if (window.refreshTimestampDividers) window.refreshTimestampDividers();
 
       if (window.scrollToBottom) window.scrollToBottom();
     };
@@ -4236,6 +4309,9 @@ window.withDelay = function(btn, callback) {
           } else {
             chatBody.appendChild(frag);
           }
+          
+          if (window.refreshTimestampDividers) window.refreshTimestampDividers();
+          
           chatBody.scrollTop = chatBody.scrollHeight - prevScrollHeight + prevScrollTop;
         }
       } catch (err) {
@@ -4308,6 +4384,8 @@ window.withDelay = function(btn, callback) {
             }
           }
         });
+
+        if (window.refreshTimestampDividers) window.refreshTimestampDividers();
 
         if (wasAtBottom && window.scrollToBottom) window.scrollToBottom();
       }
