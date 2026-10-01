@@ -3477,7 +3477,7 @@ mark,
     scroll-padding-top:env(safe-area-inset-top,0px);
 }
 
-#loginModal.login-console-modal{
+#loginModal.login-console-modal[open]{
     min-height:100%;
     min-height:100dvh;
 
