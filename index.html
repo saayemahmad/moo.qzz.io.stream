@@ -546,9 +546,6 @@ window.withDelay = function(btn, callback) {
             <div id="partnerName" style="font-size: 14px; font-weight: 800; color: var(--ink); flex-shrink: 0;">Partner</div>
             <div id="partnerStatus" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Offline</div>
           </div>
-          <div id="partnerContextBar" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 3px; max-height: 40px; overflow: hidden;">
-            <!-- Context badges injected here -->
-          </div>
         </div>
       </div>
       <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;">
@@ -558,6 +555,9 @@ window.withDelay = function(btn, callback) {
         <button class="chat-fullscreen" type="button"><i class="ph-bold ph-arrows-out"></i></button>
         <button class="chat-close" onclick="toggleChat()"><i class="ph-bold ph-x"></i></button>
       </div>
+    </div>
+    <div id="partnerContextBarWrapper" style="display: none; background: var(--bg-alt); border-bottom: 2px solid var(--border); padding: 5px 12px; overflow-x: auto; scrollbar-width: none;">
+      <div id="partnerContextBar" style="display: flex; gap: 6px; flex-wrap: nowrap; width: max-content; align-items: center;"></div>
     </div>
     <div class="chat-body">
       <div id="chatInitialLoader" class="chat-loading-placeholder">
@@ -3675,31 +3675,43 @@ window.withDelay = function(btn, callback) {
           }
 
           const ctxBar = document.getElementById('partnerContextBar');
+          const ctxBarWrapper = document.getElementById('partnerContextBarWrapper');
           if (ctxBar) ctxBar.innerHTML = '';
+          let hasBadges = false;
           
           if (partnerName === 'Shajeda' && isPartnerOnline) {
             if (partnerDriveStatus) {
+              hasBadges = true;
               const isClosed = partnerDriveStatus !== 'opened';
-              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Drive: ${isClosed ? 'Closed' : 'Opened'}"><i class="ph-bold ${isClosed ? 'ph-folder-notch' : 'ph-folder-open'}"></i><span>${isClosed ? 'Drive Closed' : 'Drive Open'}</span></span>`;
+              const colorClass = isClosed ? 'active-red' : 'active-green';
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge ${colorClass}" title="Drive: ${isClosed ? 'Closed' : 'Opened'}"><i class="ph-bold ${isClosed ? 'ph-folder-notch' : 'ph-folder-open'}"></i><span>${isClosed ? 'D-C' : 'D-O'}</span></span>`;
             }
             if (partnerLoginSource) {
+              hasBadges = true;
               const sourceMap = {
-                'filedrive-page-area': { label: 'Main Page', icon: 'ph-house' },
-                'top-avatar': { label: 'Top Bar', icon: 'ph-user-circle' },
+                'filedrive-page-area': { label: 'Main page', icon: 'ph-house' },
+                'top-avatar': { label: 'Top bar', icon: 'ph-user-circle' },
                 'chatbox': { label: 'Chatbox', icon: 'ph-chat-circle-dots' }
               };
               const src = sourceMap[partnerLoginSource] || { label: partnerLoginSource, icon: 'ph-map-pin' };
-              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Logged in from: ${src.label}"><i class="ph-bold ${src.icon}"></i><span>${src.label}</span></span>`;
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(234, 179, 8, 0.15); color: #facc15; border-color: rgba(234, 179, 8, 0.4);" title="Logged in from: ${src.label}"><i class="ph-bold ${src.icon}"></i><span>${src.label}</span></span>`;
             }
             if (partnerChatMode) {
+              hasBadges = true;
               const isFull = partnerChatMode === 'fullscreen';
-              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Chat Mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS Mode' : 'FL Mode'}</span></span>`;
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" title="Chat Mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS' : 'FL'}</span></span>`;
             }
             if (partnerWatchingFile) {
+              hasBadges = true;
               if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge active-green" title="Watching: ${partnerWatchingFile}"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
             } else {
+              hasBadges = true;
               if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge active-red" title="Not watching any file"><i class="ph-bold ph-eye-slash"></i><span>Nothing</span></span>`;
             }
+          }
+
+          if (ctxBarWrapper) {
+            ctxBarWrapper.style.display = hasBadges ? 'block' : 'none';
           }
         }
 
