@@ -4876,6 +4876,18 @@
             ? "active"
             : "hibernate";
 
+        const previousPresence = window._lastComputedPresence;
+        window._lastComputedPresence = presenceName;
+        
+        if (window.currentUser === "Shajeda" && previousPresence && previousPresence !== presenceName) {
+            // Trigger notifications for important transitions
+            if (previousPresence === "away" && (presenceName === "active" || presenceName === "hibernate")) {
+                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("BACK ONLINE");
+            } else if (previousPresence === "hibernate" && presenceName === "active") {
+                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("OPENED CHAT");
+            }
+        }
+
         const connData = {
           state: presenceName,
           presence_name: presenceName,
