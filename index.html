@@ -1239,9 +1239,15 @@ window.withDelay = function(btn, callback) {
         }
 
         setStatus("গোপন কথা খুলে গেছে ♡", false);
-        const successEl = document.getElementById("success");
-        if(successEl) successEl.classList.add("show");
-        celebrate();
+        
+        setTimeout(() => {
+             executeLogin();
+             clearPin();
+             if (lock) {
+                 lock.innerHTML = LOCK_CLOSED;
+                 lock.classList.remove("open");
+             }
+        }, 600);
       } else {
         const mascot = document.getElementById("mascot");
         if(mascot) {
