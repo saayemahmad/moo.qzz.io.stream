@@ -1296,7 +1296,9 @@ window.withDelay = function(btn, callback) {
       }
 
       if (document.visibilityState === 'visible') {
-        notifyMainSitePresence();
+        if (typeof notifyMainSitePresence === 'function') {
+          notifyMainSitePresence();
+        }
       }
       if (window.updateFaviconNotification) {
         window.updateFaviconNotification();
