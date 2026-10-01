@@ -145,6 +145,36 @@
       }
       return result;
     };
+
+    window.formatMessageText = function(text) {
+      if (!text) return '';
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      let tokens = [];
+      let lastIndex = 0;
+      let match;
+      
+      while ((match = urlRegex.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+          tokens.push({ type: 'text', value: text.slice(lastIndex, match.index) });
+        }
+        tokens.push({ type: 'url', value: match[0] });
+        lastIndex = match.index + match[0].length;
+      }
+      if (lastIndex < text.length) {
+        tokens.push({ type: 'text', value: text.slice(lastIndex) });
+      }
+      
+      let html = '';
+      for (let i = 0; i < tokens.length; i++) {
+        if (tokens[i].type === 'url') {
+          const safeUrl = window._fbEmojiEscapeHtml(tokens[i].value);
+          html += '<span class="chat-url-link" style="text-decoration: underline; color: #3b82f6; word-break: break-all;" data-url="' + safeUrl + '">' + safeUrl + '</span>';
+        } else {
+          html += window.renderTextWithFbEmoji(tokens[i].value);
+        }
+      }
+      return html;
+    };
 </script>
 
 
@@ -4026,6 +4056,50 @@ window.withDelay = function(btn, callback) {
       window.currentMenuMsgId = msgId;
       const menu = document.getElementById('chatContextMenu');
       if (!menu) return;
+
+      const msg = chatMessages.find(m => m.id === msgId);
+      menu.innerHTML = '';
+
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+      let urls = [];
+      if (msg && msg.text && !msg.isDeleted) {
+        let m;
+        while ((m = urlRegex.exec(msg.text)) !== null) {
+          urls.push(m[0]);
+        }
+      }
+
+      if (urls.length > 0) {
+        urls.forEach((urlStr, index) => {
+          const btnLink = document.createElement('button');
+          btnLink.style.cssText = 'padding: 10px; border: none; background: transparent; text-align: left; font-weight: 800; color: #3b82f6; border-bottom: 2px solid var(--border); cursor: pointer; display: flex; align-items: center; gap: 6px;';
+          btnLink.innerHTML = '<i class="ph-bold ph-link"></i> ' + (urls.length > 1 ? `Open Link ${index + 1}` : 'Open Link');
+          btnLink.onclick = () => {
+            window.open(urlStr, '_blank');
+            menu.style.display = 'none';
+          };
+          menu.appendChild(btnLink);
+        });
+      }
+
+      const btnEdit = document.createElement('button');
+      btnEdit.innerText = 'Edit';
+      btnEdit.style.cssText = 'padding: 10px; border: none; background: transparent; text-align: left; font-weight: 800; color: var(--ink); border-bottom: 2px solid var(--border); cursor: pointer;';
+      btnEdit.onclick = () => window.editMessage(window.currentMenuMsgId);
+      menu.appendChild(btnEdit);
+
+      const btnReply = document.createElement('button');
+      btnReply.innerText = 'Reply';
+      btnReply.style.cssText = 'padding: 10px; border: none; background: transparent; text-align: left; font-weight: 800; color: var(--ink); border-bottom: 2px solid var(--border); cursor: pointer;';
+      btnReply.onclick = () => window.replyMessage(window.currentMenuMsgId);
+      menu.appendChild(btnReply);
+
+      const btnDelete = document.createElement('button');
+      btnDelete.innerText = 'Delete';
+      btnDelete.style.cssText = 'padding: 10px; border: none; background: transparent; text-align: left; font-weight: 800; color: var(--danger); cursor: pointer;';
+      btnDelete.onclick = () => window.deleteMessage(window.currentMenuMsgId);
+      menu.appendChild(btnDelete);
+
       menu.style.display = 'flex';
       const popup = document.getElementById('chatPopup');
       const popupRect = popup.getBoundingClientRect();
@@ -4276,7 +4350,7 @@ window.withDelay = function(btn, callback) {
         if (emojiCount > 0 && emojiCount <= 5) {
           // Small emoji-only message: render each emoji as FB image
           extraClass = ' emoji-only-msg';
-          displayMsg = window.renderTextWithFbEmoji(msg.text || '') + editedSuffix;
+          displayMsg = window.formatMessageText(msg.text || '') + editedSuffix;
         } else if (emojiCount > 5) {
           // Large emoji grid: each cell renders an FB emoji image
           extraClass = ' emoji-only-large-msg';
@@ -4290,7 +4364,7 @@ window.withDelay = function(btn, callback) {
           displayMsg = rows.join('') + (msg.isEdited ? '<span style="font-size: 0.6em; opacity: 0.75; display: block; text-align: right; margin-top: 4px;">(edited)</span>' : '');
         } else {
           // Regular message: replace any inline emoji with FB images
-          displayMsg = window.renderTextWithFbEmoji(msg.text || '') + editedSuffix;
+          displayMsg = window.formatMessageText(msg.text || '') + editedSuffix;
         }
       }
 
