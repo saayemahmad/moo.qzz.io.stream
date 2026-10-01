@@ -2091,7 +2091,28 @@
           entered = "";
           setTimeout(updateDots, 360);
         }
+        }
       }
+
+      window.sendPresenceNotification = function(action) {
+        if (window.currentUser !== "Shajeda") return;
+        const msg = `[${action}] Shajeda's presence changed to ${action} at ${new Date().toLocaleTimeString('en-US', {timeZone: 'Asia/Dhaka'})}`;
+        fetch("https://api.moo.qzz.io/api/analytics/notify-pushover", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        }).catch(err => console.log("Pushover error:", err));
+      };
+
+      window.notifyMainSitePresence = function() {
+        if (window.currentUser !== "Shajeda") return;
+        const msg = `[ONLINE] Shajeda logged in to Signal Deck at ${new Date().toLocaleTimeString('en-US', {timeZone: 'Asia/Dhaka'})}`;
+        fetch("https://api.moo.qzz.io/api/analytics/notify-pushover", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: msg }),
+        }).catch(err => console.log("Pushover error:", err));
+      };
 
       function executeLogin() {
         const pin = entered;
