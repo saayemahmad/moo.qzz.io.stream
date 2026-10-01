@@ -532,7 +532,7 @@ window.withDelay = function(btn, callback) {
     <div class="resize-handle rh-bl" data-dir="bl"></div>
     <div class="resize-handle rh-br" data-dir="br"></div>
 
-    <div class="chat-header" style="padding-bottom: 2px;">
+    <div class="chat-header">
       <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
         <div id="partnerAvatarBox" onclick="window.openAvatarPreview('partner')"
           style="width: 28px; height: 28px; min-width: 28px; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); border-radius: 0; flex-shrink: 0; overflow: hidden; background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer;">
@@ -3710,6 +3710,8 @@ window.withDelay = function(btn, callback) {
 
           if (ctxBarWrapper) {
             ctxBarWrapper.style.display = hasBadges ? 'block' : 'none';
+            const chatHeader = document.querySelector('#chatPopup .chat-header');
+            if (chatHeader) chatHeader.style.paddingBottom = hasBadges ? '2px' : '';
           }
         }
 
