@@ -5060,23 +5060,27 @@
                     "Notification" in window &&
                     Notification.permission === "granted"
                   ) {
-                    const onlineNotif = new Notification(
-                      "Shajeda is online! 🟢",
-                      {
-                        body: "Shajeda has just come online.",
-                        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%2322c55e' stroke='%23ffffff' stroke-width='5'/></svg>",
-                        badge:
-                          "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
-                        tag: "shajeda-online",
-                        renotify: false,
-                        silent: false,
-                      },
-                    );
-                    onlineNotif.onclick = function () {
-                      window.focus();
-                      onlineNotif.close();
-                    };
-                    setTimeout(() => onlineNotif.close(), 7000);
+                    try {
+                      const onlineNotif = new Notification(
+                        "Shajeda is online! 🟢",
+                        {
+                          body: "Shajeda has just come online.",
+                          icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%2322c55e' stroke='%23ffffff' stroke-width='5'/></svg>",
+                          badge:
+                            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
+                          tag: "shajeda-online",
+                          renotify: false,
+                          silent: false,
+                        },
+                      );
+                      onlineNotif.onclick = function () {
+                        window.focus();
+                        onlineNotif.close();
+                      };
+                      setTimeout(() => onlineNotif.close(), 7000);
+                    } catch (e) {
+                      console.warn("Notification error:", e);
+                    }
                   }
                 }
               } else if (!shajedaIsOnlineNow && _shajedaWasOnline) {
@@ -5089,23 +5093,27 @@
                     "Notification" in window &&
                     Notification.permission === "granted"
                   ) {
-                    const offlineNotif = new Notification(
-                      "Shajeda went offline 🔴",
-                      {
-                        body: "Shajeda has just gone offline.",
-                        icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%23ef4444' stroke='%23ffffff' stroke-width='5'/></svg>",
-                        badge:
-                          "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
-                        tag: "shajeda-offline",
-                        renotify: false,
-                        silent: false,
-                      },
-                    );
-                    offlineNotif.onclick = function () {
-                      window.focus();
-                      offlineNotif.close();
-                    };
-                    setTimeout(() => offlineNotif.close(), 7000);
+                    try {
+                      const offlineNotif = new Notification(
+                        "Shajeda went offline 🔴",
+                        {
+                          body: "Shajeda has just gone offline.",
+                          icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%23ef4444' stroke='%23ffffff' stroke-width='5'/></svg>",
+                          badge:
+                            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23fee2e2' stroke='%23dc2626' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%23dc2626' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
+                          tag: "shajeda-offline",
+                          renotify: false,
+                          silent: false,
+                        },
+                      );
+                      offlineNotif.onclick = function () {
+                        window.focus();
+                        offlineNotif.close();
+                      };
+                      setTimeout(() => offlineNotif.close(), 7000);
+                    } catch (e) {
+                      console.warn("Notification error:", e);
+                    }
                   }
                 }
               }
@@ -6185,12 +6193,16 @@
           Notification.requestPermission().then(function (permission) {
             console.log("Notification permission:", permission);
             if (permission === "granted") {
-              // Confirm to user that notifications are enabled
-              new Notification("Notifications enabled ✅", {
-                body: "You'll be notified when Shajeda messages or comes online.",
-                icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
-                tag: "notif-enabled",
-              });
+              try {
+                // Confirm to user that notifications are enabled
+                new Notification("Notifications enabled ✅", {
+                  body: "You'll be notified when Shajeda messages or comes online.",
+                  icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
+                  tag: "notif-enabled",
+                });
+              } catch (e) {
+                console.warn("Notification error:", e);
+              }
             }
           });
         }
@@ -6234,28 +6246,32 @@
             ? `Shajeda sent ${unread.length} messages`
             : "New message from Shajeda";
 
-        const notif = new Notification(title, {
-          body,
-          icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%23ef4444' stroke='%23ffffff' stroke-width='5'/></svg>",
-          badge:
-            "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
-          tag: "shajeda-chat",
-          renotify: true,
-        });
+        try {
+          const notif = new Notification(title, {
+            body,
+            icon: "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/><circle cx='80' cy='20' r='16' fill='%23ef4444' stroke='%23ffffff' stroke-width='5'/></svg>",
+            badge:
+              "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect x='5' y='5' width='90' height='90' fill='%23b5e765' stroke='%2319301d' stroke-width='8'/><path d='M50 80 L50 20 M30 40 L50 20 L70 40' stroke='%2319301d' stroke-width='12' stroke-linecap='square' fill='none'/></svg>",
+            tag: "shajeda-chat",
+            renotify: true,
+          });
 
-        notif.onclick = function () {
-          window.focus();
-          const popup = document.getElementById("chatPopup");
-          if (
-            popup &&
-            !popup.classList.contains("cb-floating") &&
-            !popup.classList.contains("cb-fullscreen") &&
-            window.toggleChat
-          )
-            window.toggleChat();
-          notif.close();
-        };
-        setTimeout(() => notif.close(), 8000);
+          notif.onclick = function () {
+            window.focus();
+            const popup = document.getElementById("chatPopup");
+            if (
+              popup &&
+              !popup.classList.contains("cb-floating") &&
+              !popup.classList.contains("cb-fullscreen") &&
+              window.toggleChat
+            )
+              window.toggleChat();
+            notif.close();
+          };
+          setTimeout(() => notif.close(), 8000);
+        } catch (e) {
+          console.warn("Notification error:", e);
+        }
       };
 
       // --- Favicon Unread Dot ---
