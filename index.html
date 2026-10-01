@@ -542,15 +542,13 @@ window.withDelay = function(btn, callback) {
             style="font-size: 18px; color: var(--ink); display: block;"></i>
         </div>
         <div id="partnerPresence" style="display: none; flex-direction: column; line-height: 1.2; min-width: 0;">
-          <div style="display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap;">
-            <div id="partnerName" style="font-size: 14px; font-weight: 800; color: var(--ink); flex-shrink: 0;">Partner
-            </div>
-            <span id="partnerLoginBadge" class="partner-login-badge" style="display: none;"></span>
-            <span id="partnerSourceBadge" class="partner-login-badge badge-source" style="display: none;"></span>
+          <div style="display: flex; align-items: baseline; gap: 6px; flex-wrap: nowrap; white-space: nowrap;">
+            <div id="partnerName" style="font-size: 14px; font-weight: 800; color: var(--ink); flex-shrink: 0;">Partner</div>
+            <div id="partnerStatus" style="font-size: 11px; font-weight: 700; color: var(--text-muted);">Offline</div>
           </div>
-          <div id="partnerStatus"
-            style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 5px; flex-wrap: nowrap; white-space: nowrap; margin-top: 2px;">
-            Offline</div>
+          <div id="partnerContextBar" style="display: flex; align-items: center; gap: 4px; flex-wrap: wrap; margin-top: 3px; max-height: 40px; overflow: hidden;">
+            <!-- Context badges injected here -->
+          </div>
         </div>
       </div>
       <div style="display: flex; gap: 8px; flex-shrink: 0; align-items: center;">
@@ -3678,58 +3676,45 @@ window.withDelay = function(btn, callback) {
             window._lastBirdOnline = isPartnerOnline;
           }
 
-          if (partnerName === 'Shajeda' && isPartnerOnline && (partnerLoginSource || partnerDriveStatus)) {
-            const isClosed = partnerDriveStatus !== 'opened';
-            loginBadgeEl.className = `partner-login-badge ${isClosed ? 'badge-drive-closed' : 'badge-drive-opened'}`;
-            loginBadgeEl.innerHTML = `<i class="ph-bold ${isClosed ? 'ph-folder-notch' : 'ph-folder-open'}"></i><span>${isClosed ? 'D-C' : 'D-O'}</span>`;
-            loginBadgeEl.title = `Shajeda: ${isClosed ? 'Drive closed' : 'Drive opened'}`;
-            loginBadgeEl.style.display = 'inline-flex';
-
-            if (sourceBadgeEl && partnerLoginSource) {
-              const sourceMap = {
-                'filedrive-page-area': { label: 'Main page', icon: 'ph-house', cls: 'badge-source' },
-                'top-avatar': { label: 'Top bar', icon: 'ph-user-circle', cls: 'badge-top-avatar' },
-                'chatbox': { label: 'Chatbox', icon: 'ph-chat-circle-dots', cls: 'badge-chatbox' }
-              };
-              const src = sourceMap[partnerLoginSource] || { label: partnerLoginSource, icon: 'ph-map-pin', cls: 'badge-source' };
-              sourceBadgeEl.className = `partner-login-badge ${src.cls}`;
-              sourceBadgeEl.innerHTML = `<i class="ph-bold ${src.icon}"></i><span>${src.label}</span>`;
-              sourceBadgeEl.title = `Shajeda logged in from: ${src.label}`;
-              sourceBadgeEl.style.display = 'inline-flex';
-            } else if (sourceBadgeEl) {
-              sourceBadgeEl.style.display = 'none';
+          const ctxBar = document.getElementById('partnerContextBar');
+          if (ctxBar) ctxBar.innerHTML = '';
+          
+          if (partnerName === 'Shajeda' && isPartnerOnline) {
+            if (partnerDriveStatus) {
+              const isClosed = partnerDriveStatus !== 'opened';
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Drive: ${isClosed ? 'Closed' : 'Opened'}"><i class="ph-bold ${isClosed ? 'ph-folder-notch' : 'ph-folder-open'}"></i><span>${isClosed ? 'Drive Closed' : 'Drive Open'}</span></span>`;
             }
-          } else {
-            loginBadgeEl.style.display = 'none';
-            if (sourceBadgeEl) sourceBadgeEl.style.display = 'none';
-          }
-        }
-
-        let modeBadgeHtml = '';
-        if (partnerName === 'Shajeda' && partnerChatMode && (isActive || isAway || isOnline || isHibernate)) {
-          const isFull = partnerChatMode === 'fullscreen';
-          modeBadgeHtml = `<span class="partner-mode-badge ${isFull ? 'badge-fullscreen' : 'badge-floating'}" title="Shajeda's chat mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS' : 'FL'}</span></span>`;
-        }
-
-        let watchingBadgeHtml = '';
-        if (partnerName === 'Shajeda' && (isActive || isAway || isOnline || isHibernate)) {
-          if (partnerWatchingFile) {
-            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is watching: ${partnerWatchingFile}" style="background-color: #dcfce7; color: #166534; border-color: #22c55e; border-style: solid; border-width: 1px; margin-left: 4px;"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
-          } else {
-            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is not watching any file" style="background-color: #fee2e2; color: #991b1b; border-color: #ef4444; border-style: solid; border-width: 1px; margin-left: 4px;"><i class="ph-bold ph-eye-slash"></i><span>[Nothing]</span></span>`;
+            if (partnerLoginSource) {
+              const sourceMap = {
+                'filedrive-page-area': { label: 'Main Page', icon: 'ph-house' },
+                'top-avatar': { label: 'Top Bar', icon: 'ph-user-circle' },
+                'chatbox': { label: 'Chatbox', icon: 'ph-chat-circle-dots' }
+              };
+              const src = sourceMap[partnerLoginSource] || { label: partnerLoginSource, icon: 'ph-map-pin' };
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Logged in from: ${src.label}"><i class="ph-bold ${src.icon}"></i><span>${src.label}</span></span>`;
+            }
+            if (partnerChatMode) {
+              const isFull = partnerChatMode === 'fullscreen';
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" title="Chat Mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS Mode' : 'FL Mode'}</span></span>`;
+            }
+            if (partnerWatchingFile) {
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge active-green" title="Watching: ${partnerWatchingFile}"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
+            } else {
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge active-red" title="Not watching any file"><i class="ph-bold ph-eye-slash"></i><span>Nothing</span></span>`;
+            }
           }
         }
 
         if (isTyping) {
-          statusEl.innerHTML = `<span>Typing</span><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Typing</span><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>`;
         } else if (isActive) {
-          statusEl.innerHTML = `<span>Active</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Active</span>`;
         } else if (isHibernate) {
-          statusEl.innerHTML = `<span>Hibernate</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Hibernate</span>`;
         } else if (isOnline) {
-          statusEl.innerHTML = `<span>Online</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Online</span>`;
         } else if (isAway) {
-          statusEl.innerHTML = `<span>Away</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Away</span>`;
         } else {
           const lastOnline = data?.lastOnline || null;
           if (!lastOnline) {
