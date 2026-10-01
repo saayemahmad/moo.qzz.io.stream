@@ -3729,7 +3729,7 @@ mark,
     top:0;
 
     height:100%;
-    width:calc(44px + (100% - 44px) * var(--p) / 100);
+    width:calc(24px + (100% - 24px) * var(--p) / 100);
 
     border-radius:999px;
 
@@ -3755,7 +3755,7 @@ mark,
 
 .mascot{
     position:absolute;
-    right:-28px;
+    right:-14px;
     top:-14px;
 
     width:56px;
