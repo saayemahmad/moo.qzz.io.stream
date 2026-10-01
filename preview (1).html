@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
+<meta name="theme-color" content="#2b1e27">
+<title>সাজেদা × সায়েম</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600;800&display=swap" rel="stylesheet">
+
+<style>
+/* =========================================================
+   TOKENS — candy language
+   ledge = solid darker shadow under every element
+   gloss = white inset line on top
+========================================================= */
+:root{
+    --bg:#2b1e27;
+    --card:#37262f;
+    --card-ledge:#1e141b;
+
+    --text:#fff;
+    --muted:#d9b8c8;
+    --muted-2:#a98396;
+
+    --pink:#ff5c9b;
+    --pink-hi:#ff86b6;
+    --pink-lip:#c92f6f;
+    --pink-ink:#9c1f55;
+
+    --pale:#f7c3da;
+    --pale-hi:#fcdceb;
+    --pale-lip:#dc8fb4;
+    --pale-ink:#a8336a;
+
+    --track:#f4b6d2;
+    --track-lip:#df88b0;
+    --face:#a02356;
+
+    --violet-light:#c9bdff;
+
+    --font:"Baloo Da 2","Baloo 2","Noto Sans Bengali","Hind Siliguri","Nunito","Trebuchet MS",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;
+
+    --key-h:60px;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html{
+    height:100%;
+    scroll-padding-top:env(safe-area-inset-top,0px);
+}
+
+body{
+    min-height:100%;
+    min-height:100dvh;
+
+    padding:
+        calc(16px + env(safe-area-inset-top,0px))
+        14px
+        calc(16px + env(safe-area-inset-bottom,0px));
+
+    display:grid;
+    place-items:center;
+
+    overflow-x:hidden;
+
+    color:var(--text);
+    background:var(--bg);
+
+    font-family:var(--font);
+    font-weight:600;
+    line-height:1.4;
+}
+
+:focus-visible{
+    outline:3px solid #fff;
+    outline-offset:3px;
+}
+
+
+/* =========================================================
+   AMBIENT
+========================================================= */
+
+.scene{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    pointer-events:none;
+}
+
+.star{
+    position:absolute;
+    color:rgba(255,160,200,.4);
+    font-size:18px;
+    animation:drift 7s ease-in-out infinite;
+}
+
+.star-a{top:15%;left:7%}
+.star-b{top:26%;right:8%;animation-delay:1.7s}
+.star-c{bottom:17%;right:10%;animation-delay:3s}
+.star-d{bottom:10%;left:12%;animation-delay:4.1s}
+
+@keyframes drift{
+    0%,100%{transform:translateY(0) rotate(0);opacity:.3}
+    50%{transform:translateY(-10px) rotate(12deg);opacity:.65}
+}
+
+
+/* =========================================================
+   CONSOLE
+========================================================= */
+
+.console{
+    position:relative;
+
+    width:min(420px,100%);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    padding:26px 24px 20px;
+
+    border-radius:36px;
+    background:var(--card);
+
+    box-shadow:
+        0 8px 0 var(--card-ledge),
+        0 28px 50px rgba(0,0,0,.35),
+        inset 0 3px 0 rgba(255,255,255,.07);
+
+    isolation:isolate;
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.header{
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+
+    font-size:30px;
+    font-weight:800;
+    line-height:1.4;
+
+    text-shadow:0 3px 0 rgba(0,0,0,.28);
+}
+
+.brand .sajeda{color:var(--pink-hi)}
+.brand .sayem{color:var(--violet-light)}
+.brand .x{color:#fff1f6;font-size:22px}
+
+.tag{
+    margin-top:2px;
+    font-size:14px;
+    font-weight:800;
+    color:var(--muted);
+}
+
+.divider{
+    width:100%;
+    margin-top:12px;
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.divider-line{
+    flex:1;
+    height:4px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+}
+
+.divider-heart{
+    color:var(--pink-hi);
+    font-size:15px;
+    line-height:1;
+}
+
+
+/* =========================================================
+   LOCK TILE
+========================================================= */
+
+.lock-wrap{
+    margin-top:20px;
+    margin-bottom:10px;
+}
+
+.lock{
+    width:72px;
+    height:72px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:24px;
+
+    background:linear-gradient(var(--pink-hi),var(--pink));
+
+    box-shadow:
+        0 7px 0 var(--pink-lip),
+        0 14px 16px rgba(0,0,0,.25),
+        inset 0 3px 0 rgba(255,255,255,.45);
+
+    transition:
+        transform .4s cubic-bezier(.3,1.5,.5,1),
+        background .3s ease,
+        box-shadow .3s ease;
+}
+
+.lock.open{
+    background:linear-gradient(var(--pale-hi),var(--pale));
+
+    box-shadow:
+        0 7px 0 var(--pale-lip),
+        0 14px 16px rgba(0,0,0,.25),
+        inset 0 3px 0 rgba(255,255,255,.7);
+
+    transform:rotate(-6deg) scale(1.06);
+}
+
+.lock svg{
+    width:32px;
+    height:32px;
+
+    fill:none;
+    stroke:#fff;
+    stroke-width:2.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+
+    filter:drop-shadow(0 2px 0 var(--pink-ink));
+}
+
+.lock.open svg{
+    stroke:var(--pale-ink);
+    filter:none;
+}
+
+
+/* =========================================================
+   TITLE
+========================================================= */
+
+.title{
+    margin-top:6px;
+    font-size:26px;
+    font-weight:800;
+    line-height:1.4;
+}
+
+.subtitle{
+    margin-top:0;
+    font-size:15px;
+    font-weight:600;
+    color:var(--muted);
+    text-align:center;
+}
+
+
+/* =========================================================
+   PIN BAR — the signature component
+   fill = digits entered, mascot rides the tip
+========================================================= */
+
+.pin-bar{
+    --p:0;
+
+    position:relative;
+
+    width:calc(100% - 28px);
+    height:40px;
+
+    margin:34px 14px 24px;
+
+    border-radius:999px;
+
+    background:linear-gradient(var(--pale-hi),var(--track));
+
+    box-shadow:
+        0 7px 0 var(--track-lip),
+        inset 0 3px 0 rgba(255,255,255,.55);
+}
+
+.pin-fill{
+    position:absolute;
+    left:0;
+    top:0;
+
+    height:100%;
+    width:calc(24px + (100% - 24px) * var(--p) / 100);
+
+    border-radius:999px;
+
+    background:linear-gradient(var(--pink-hi),var(--pink));
+
+    box-shadow:
+        0 7px 0 var(--pink-lip),
+        inset 0 3px 0 rgba(255,255,255,.4);
+
+    transition:width .4s cubic-bezier(.3,1.4,.5,1);
+}
+
+.pin-fill::before{
+    content:"";
+    position:absolute;
+    left:14px;
+    right:30px;
+    top:6px;
+    height:6px;
+    border-radius:99px;
+    background:rgba(255,255,255,.45);
+}
+
+.mascot{
+    position:absolute;
+    right:-14px;
+    top:-14px;
+
+    width:56px;
+    height:56px;
+
+    border-radius:18px;
+
+    background:linear-gradient(var(--pink-hi),var(--pink));
+
+    box-shadow:
+        0 5px 0 var(--pink-lip),
+        0 10px 14px rgba(0,0,0,.25),
+        inset 0 3px 0 rgba(255,255,255,.45);
+
+    transform:rotate(-3deg);
+    transition:transform .2s ease;
+}
+
+.mascot i{
+    position:absolute;
+    top:20px;
+    width:7px;
+    height:9px;
+    border-radius:50%;
+    background:var(--face);
+    animation:blink 4.5s infinite;
+}
+
+.mascot i:nth-child(1){left:16px}
+.mascot i:nth-child(2){right:16px}
+
+.mascot b{
+    position:absolute;
+    left:50%;
+    top:31px;
+    width:14px;
+    height:7px;
+    margin-left:-7px;
+    border-bottom:3px solid var(--face);
+    border-radius:0 0 14px 14px;
+}
+
+.mascot u{
+    position:absolute;
+    top:30px;
+    width:9px;
+    height:6px;
+    border-radius:50%;
+    background:rgba(255,255,255,.45);
+}
+
+.mascot u:nth-of-type(1){left:7px}
+.mascot u:nth-of-type(2){right:7px}
+
+.mascot.blink i{animation:blinkNow .22s ease}
+
+.mascot.sad{animation:wobble .35s ease}
+
+.mascot.sad b{
+    top:35px;
+    border-bottom:0;
+    border-top:3px solid var(--face);
+    border-radius:14px 14px 0 0;
+}
+
+@keyframes blink{
+    0%,94%,100%{transform:scaleY(1)}
+    97%{transform:scaleY(.1)}
+}
+
+@keyframes blinkNow{
+    0%,100%{transform:scaleY(1)}
+    50%{transform:scaleY(.08)}
+}
+
+@keyframes wobble{
+    0%,100%{transform:rotate(-3deg)}
+    25%{transform:rotate(-12deg)}
+    75%{transform:rotate(7deg)}
+}
+
+
+/* =========================================================
+   KEYPAD
+========================================================= */
+
+.keypad{
+    width:100%;
+    max-width:330px;
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:14px;
+}
+
+.key{
+    appearance:none;
+    border:0;
+
+    height:var(--key-h);
+
+    border-radius:22px;
+    cursor:pointer;
+
+    color:var(--pale-ink);
+
+    font:inherit;
+    font-size:26px;
+    font-weight:800;
+
+    background:linear-gradient(var(--pale-hi),var(--pale));
+
+    box-shadow:
+        0 6px 0 var(--pale-lip),
+        inset 0 3px 0 rgba(255,255,255,.7);
+
+    transition:transform .08s ease,box-shadow .08s ease;
+}
+
+.key:active{
+    transform:translateY(4px);
+    box-shadow:
+        0 2px 0 var(--pale-lip),
+        inset 0 3px 0 rgba(255,255,255,.7);
+}
+
+.key.enter{
+    color:#fff;
+    text-shadow:0 2px 0 var(--pink-ink);
+
+    background:linear-gradient(var(--pink-hi),var(--pink));
+
+    box-shadow:
+        0 6px 0 var(--pink-lip),
+        inset 0 3px 0 rgba(255,255,255,.4);
+}
+
+.key.enter:active{
+    box-shadow:
+        0 2px 0 var(--pink-lip),
+        inset 0 3px 0 rgba(255,255,255,.4);
+}
+
+.key-inner{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    height:100%;
+}
+
+.key svg{
+    width:26px;
+    height:26px;
+
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2.4;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.key.enter svg{
+    filter:drop-shadow(0 2px 0 var(--pink-ink));
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status{
+    margin-top:auto;
+    min-height:30px;
+    padding-top:18px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+
+    color:var(--muted-2);
+
+    font-size:14px;
+    font-weight:800;
+
+    text-align:center;
+}
+
+.status-dot{
+    width:7px;
+    height:7px;
+    border-radius:50%;
+    background:var(--pale-lip);
+}
+
+.status.error{
+    color:var(--pink-hi);
+    animation:shake .3s ease;
+}
+
+.status.error .status-dot{background:var(--pink)}
+
+@keyframes shake{
+    0%,100%{transform:translateX(0)}
+    25%{transform:translateX(-6px)}
+    75%{transform:translateX(6px)}
+}
+
+
+/* =========================================================
+   SUCCESS
+========================================================= */
+
+.success{
+    position:absolute;
+    inset:0;
+
+    border-radius:36px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    padding:24px;
+
+    opacity:0;
+    visibility:hidden;
+    transform:scale(.96);
+
+    background:var(--card);
+
+    transition:
+        opacity .3s ease,
+        visibility .3s ease,
+        transform .3s ease;
+
+    z-index:50;
+}
+
+.success.show{
+    opacity:1;
+    visibility:visible;
+    transform:scale(1);
+}
+
+.success-icon{
+    width:92px;
+    height:92px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:30px;
+    margin-bottom:24px;
+
+    background:linear-gradient(var(--pink-hi),var(--pink));
+
+    box-shadow:
+        0 8px 0 var(--pink-lip),
+        0 18px 24px rgba(0,0,0,.3),
+        inset 0 3px 0 rgba(255,255,255,.45);
+}
+
+.success.show .success-icon{
+    animation:pop .55s cubic-bezier(.3,1.5,.5,1);
+}
+
+.success-icon svg{
+    width:42px;
+    height:42px;
+    fill:#fff;
+    filter:drop-shadow(0 3px 0 var(--pink-ink));
+}
+
+.success-title{
+    font-size:34px;
+    font-weight:800;
+    line-height:1.4;
+    text-shadow:0 3px 0 rgba(0,0,0,.25);
+}
+
+.success-subtitle{
+    margin-top:8px;
+    font-size:16px;
+    color:var(--muted);
+    text-align:center;
+}
+
+.success-button{
+    margin-top:26px;
+
+    border:0;
+    border-radius:999px;
+    padding:15px 30px;
+
+    cursor:pointer;
+
+    font:inherit;
+    font-size:18px;
+    font-weight:800;
+
+    color:var(--pale-ink);
+    background:linear-gradient(var(--pale-hi),var(--pale));
+
+    box-shadow:
+        0 6px 0 var(--pale-lip),
+        inset 0 3px 0 rgba(255,255,255,.7);
+
+    transition:transform .08s ease,box-shadow .08s ease;
+}
+
+.success-button:active{
+    transform:translateY(4px);
+    box-shadow:
+        0 2px 0 var(--pale-lip),
+        inset 0 3px 0 rgba(255,255,255,.7);
+}
+
+@keyframes pop{
+    0%{opacity:0;transform:scale(.45) rotate(-12deg)}
+    70%{transform:scale(1.08) rotate(4deg)}
+    100%{opacity:1;transform:scale(1) rotate(0)}
+}
+
+
+/* =========================================================
+   PARTICLES
+========================================================= */
+
+.particle{
+    position:fixed;
+    z-index:100;
+    pointer-events:none;
+
+    font-size:16px;
+    color:var(--pink-hi);
+
+    animation:particleUp 2.4s ease-out forwards;
+}
+
+@keyframes particleUp{
+    from{opacity:0;transform:translate3d(0,0,0) scale(.5) rotate(0)}
+    12%{opacity:1}
+    to{opacity:0;transform:translate3d(var(--x),-180px,0) scale(1.15) rotate(22deg)}
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-height:760px){
+    :root{--key-h:52px}
+
+    .console{padding-top:20px;padding-bottom:16px}
+    .lock-wrap{margin-top:14px;margin-bottom:6px}
+    .lock{width:62px;height:62px;border-radius:21px}
+    .pin-bar{margin-top:30px;margin-bottom:20px}
+    .keypad{gap:12px}
+    .key{font-size:23px}
+}
+
+@media (max-width:360px){
+    .console{padding-left:18px;padding-right:18px;border-radius:30px}
+    .brand{font-size:26px}
+    .keypad{gap:11px}
+}
+
+@media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation:none !important;
+        transition:none !important;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<div class="scene" aria-hidden="true">
+    <div class="star star-a">✦</div>
+    <div class="star star-b">✦</div>
+    <div class="star star-c">✧</div>
+    <div class="star star-d">♡</div>
+</div>
+
+
+<main class="console">
+
+    <header class="header">
+
+        <div class="brand">
+            <span class="sajeda">সাজেদা</span>
+            <span class="x">×</span>
+            <span class="sayem">সায়েম</span>
+        </div>
+
+        <div class="tag">আমাদের ছোট্ট গোপন কথা</div>
+
+        <div class="divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-heart">♥</span>
+            <span class="divider-line"></span>
+        </div>
+
+    </header>
+
+
+    <div class="lock-wrap">
+        <div class="lock" id="lock">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="10" rx="2"/>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+        </div>
+    </div>
+
+
+    <div class="title">পিন দাও</div>
+    <div class="subtitle">দুটি মনের ছোট্ট একটা গোপন কথা</div>
+
+
+    <div
+        class="pin-bar"
+        id="pinBar"
+        role="progressbar"
+        aria-label="পিনের কতগুলো সংখ্যা দেওয়া হয়েছে"
+        aria-valuemin="0"
+        aria-valuemax="4"
+        aria-valuenow="0"
+    >
+        <div class="pin-fill">
+            <div class="mascot" id="mascot" aria-hidden="true">
+                <i></i><i></i><b></b><u></u><u></u>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="keypad">
+
+        <button class="key" onclick="press('1')">১</button>
+        <button class="key" onclick="press('2')">২</button>
+        <button class="key" onclick="press('3')">৩</button>
+        <button class="key" onclick="press('4')">৪</button>
+        <button class="key" onclick="press('5')">৫</button>
+        <button class="key" onclick="press('6')">৬</button>
+        <button class="key" onclick="press('7')">৭</button>
+        <button class="key" onclick="press('8')">৮</button>
+        <button class="key" onclick="press('9')">৯</button>
+
+        <button class="key clear" onclick="clearPin()" aria-label="মুছুন">
+            <span class="key-inner">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12l6-6h11v12H9l-6-6z"/>
+                    <path d="m13 9 4 6"/>
+                    <path d="m17 9-4 6"/>
+                </svg>
+            </span>
+        </button>
+
+        <button class="key" onclick="press('0')">০</button>
+
+        <button class="key enter" onclick="unlock()" aria-label="খুলুন">
+            <span class="key-inner">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 8a8 8 0 1 0 1 4"/>
+                    <path d="M20 4v6h-6"/>
+                    <path d="m8.5 12.5 2.2 2.2 4.8-5"/>
+                </svg>
+            </span>
+        </button>
+
+    </div>
+
+
+    <div class="status" id="status" role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="statusText">সাজেদা ও সায়েমের জন্য</span>
+    </div>
+
+
+    <section class="success" id="success">
+
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.8 8.9c0 5.6-8.8 10.2-8.8 10.2S3.2 14.5 3.2 8.9C3.2 6.5 5 5 7.2 5c1.7 0 3.1.9 3.8 2.1C11.7 5.9 13.1 5 14.8 5c2.2 0 4 1.5 4 3.9Z"/>
+            </svg>
+        </div>
+
+        <div class="success-title">খুলে গেছে</div>
+        <div class="success-subtitle">ফিরে এসো, ছোট্ট দুই পাখি ♡</div>
+
+        <button class="success-button" onclick="resetLock()">আবার তালা দাও</button>
+
+    </section>
+
+</main>
+
+
+<script>
+
+/* =========================================================
+   SETTINGS
+========================================================= */
+
+const CORRECT_PIN = "2008";
+const PIN_LENGTH = 4;
+
+let entered = "";
+
+const LOCK_CLOSED = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="5" y="10" width="14" height="10" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>`;
+
+const LOCK_OPEN = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="5" y="10" width="14" height="10" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 7.2-2.4"/>
+        <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>`;
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+function press(number){
+
+    if(entered.length >= PIN_LENGTH){
+        return;
+    }
+
+    document.getElementById("mascot").classList.remove("sad");
+
+    entered += number;
+
+    updateDots();
+    spawnParticle();
+
+    if(entered.length === PIN_LENGTH){
+        setTimeout(unlock, 260);
+    }
+
+}
+
+
+/* =========================================================
+   MASCOT BLINK
+========================================================= */
+
+function blinkMascot(){
+
+    const mascot = document.getElementById("mascot");
+
+    mascot.classList.remove("blink");
+    void mascot.offsetWidth;
+    mascot.classList.add("blink");
+
+    setTimeout(() => mascot.classList.remove("blink"), 260);
+
+}
+
+/* blink once the bar has finished moving */
+
+document.querySelector(".pin-fill").addEventListener(
+    "transitionend",
+    event => {
+
+        if(
+            event.target === event.currentTarget &&
+            event.propertyName === "width"
+        ){
+            blinkMascot();
+        }
+
+    }
+);
+
+
+/* =========================================================
+   PIN BAR
+========================================================= */
+
+function updateDots(){
+
+    const bar = document.getElementById("pinBar");
+
+    bar.style.setProperty(
+        "--p",
+        (entered.length / PIN_LENGTH) * 100
+    );
+
+    bar.setAttribute("aria-valuenow", entered.length);
+
+}
+
+
+/* =========================================================
+   CLEAR
+========================================================= */
+
+function clearPin(){
+
+    entered = "";
+
+    updateDots();
+
+    document.getElementById("mascot").classList.remove("sad");
+
+    setStatus("তুমি রেডি হলেই শুরু করো ♡", false);
+
+}
+
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+function setStatus(message, error = false){
+
+    const status = document.getElementById("status");
+    const text = document.getElementById("statusText");
+
+    text.textContent = message;
+
+    status.classList.remove("error");
+
+    if(error){
+        void status.offsetWidth;
+        status.classList.add("error");
+    }
+
+}
+
+
+/* =========================================================
+   UNLOCK
+========================================================= */
+
+function unlock(){
+
+    if(entered.length !== PIN_LENGTH){
+        return;
+    }
+
+    if(entered === CORRECT_PIN){
+
+        const lock = document.getElementById("lock");
+
+        lock.innerHTML = LOCK_OPEN;
+        lock.classList.add("open");
+
+        setStatus("গোপন কথা খুলে গেছে ♡", false);
+
+        document.getElementById("success").classList.add("show");
+
+        celebrate();
+
+        return;
+    }
+
+    /* wrong */
+
+    const mascot = document.getElementById("mascot");
+
+    mascot.classList.remove("sad");
+    void mascot.offsetWidth;
+    mascot.classList.add("sad");
+
+    setStatus("এটা তো আমাদের গোপন কথা না", true);
+
+    entered = "";
+
+    setTimeout(updateDots, 360);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function resetLock(){
+
+    entered = "";
+
+    updateDots();
+
+    document.getElementById("success").classList.remove("show");
+    document.getElementById("mascot").classList.remove("sad");
+
+    const lock = document.getElementById("lock");
+
+    lock.classList.remove("open");
+    lock.innerHTML = LOCK_CLOSED;
+
+    setStatus("সাজেদা ও সায়েমের জন্য", false);
+
+}
+
+
+/* =========================================================
+   PARTICLE
+========================================================= */
+
+function spawnParticle(){
+
+    const particle = document.createElement("div");
+
+    particle.className = "particle";
+
+    const symbols = ["♡", "✦", "✧", "·"];
+
+    particle.textContent =
+        symbols[Math.floor(Math.random() * symbols.length)];
+
+    particle.style.left = (38 + Math.random() * 24) + "%";
+    particle.style.bottom = "36%";
+
+    particle.style.setProperty(
+        "--x",
+        (Math.random() * 80 - 40) + "px"
+    );
+
+    document.body.appendChild(particle);
+
+    setTimeout(() => particle.remove(), 2400);
+
+}
+
+
+/* =========================================================
+   CELEBRATION
+========================================================= */
+
+function celebrate(){
+
+    for(let i = 0; i < 20; i++){
+        setTimeout(spawnParticle, i * 65);
+    }
+
+}
+
+
+/* =========================================================
+   KEYBOARD
+========================================================= */
+
+document.addEventListener("keydown", event => {
+
+    const key = event.key;
+
+    if(key >= "0" && key <= "9" && key.length === 1){
+        press(key);
+    }
+
+    if(key === "Backspace"){
+        entered = entered.slice(0, -1);
+        updateDots();
+    }
+
+    if(key === "Escape"){
+        clearPin();
+    }
+
+    if(key === "Enter"){
+        unlock();
+    }
+
+});
+
+</script>
+
+</body>
+</html>

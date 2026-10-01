@@ -1081,7 +1081,9 @@ window.withDelay = function(btn, callback) {
         window.currentLoginSource = source;
       }
       document.getElementById('profileDropdown').classList.remove('open');
-      if (typeof resetLock === 'function') resetLock();
+      const pinInput = document.getElementById('pinInput');
+      pinInput.value = '';
+      document.getElementById('pinError').style.display = 'none';
       document.getElementById('loginModal').showModal();
     }
 
@@ -1288,11 +1290,7 @@ window.withDelay = function(btn, callback) {
       }
 
       if (document.visibilityState === 'visible') {
-        if (typeof notifyMainSitePresence === 'function') {
-          notifyMainSitePresence();
-        } else if (typeof window.notifyMainSitePresence === 'function') {
-          window.notifyMainSitePresence();
-        }
+        notifyMainSitePresence();
       }
       if (window.updateFaviconNotification) {
         window.updateFaviconNotification();
