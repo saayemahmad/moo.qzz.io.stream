@@ -2439,6 +2439,8 @@ window.withDelay = function(btn, callback) {
       }
 
       currentWatchingFile = fileName;
+      window.currentWatchingFile = fileName;
+      if (window.updatePresenceState) window.updatePresenceState();
       currentWatchingType = type;
       currentSessionId = resumedSessionId || generateSessionId();
       _watchAccumulated = initialWatchSec;
@@ -2784,6 +2786,8 @@ window.withDelay = function(btn, callback) {
         const finalPos = (vid && !vid.ended) ? vid.currentTime : 0;
         _sendWatchLog('stop', currentWatchingFile, currentWatchingType, _watchAccumulated, finalPos, _skippedAccumulated, _skipCount, _skipEvents, _watchedSegments);
         currentWatchingFile = null;
+        window.currentWatchingFile = null;
+        if (window.updatePresenceState) window.updatePresenceState();
         currentWatchingType = null;
         currentSessionId = null;
       }
@@ -3384,6 +3388,14 @@ window.withDelay = function(btn, callback) {
         const driveStatus = window.isFileGridRevealed ? 'opened' : 'closed';
         connData.drive_status = driveStatus;
         parentData.drive_status = driveStatus;
+
+        if (window.currentWatchingFile) {
+          connData.watching_file = window.currentWatchingFile;
+          parentData.watching_file = window.currentWatchingFile;
+        } else {
+          connData.watching_file = null;
+          parentData.watching_file = null;
+        }
       }
 
       set(myConnectionRef, connData);
@@ -3585,13 +3597,14 @@ window.withDelay = function(btn, callback) {
           else if (directState === 'away') isAway = true;
         }
 
-        let partnerChatMode = null, partnerLoginSource = null, partnerDriveStatus = 'closed';
+        let partnerChatMode = null, partnerLoginSource = null, partnerDriveStatus = 'closed', partnerWatchingFile = null;
         if (partnerName === 'Shajeda') {
           connections.forEach(conn => {
             if (typeof conn === 'object') {
               if (conn.chat_mode) partnerChatMode = conn.chat_mode;
               if (conn.login_source) partnerLoginSource = conn.login_source;
               if (conn.drive_status === 'opened') partnerDriveStatus = 'opened';
+              if (conn.watching_file !== undefined) partnerWatchingFile = conn.watching_file;
             }
           });
           if (!partnerChatMode && data?.chat_mode) partnerChatMode = data.chat_mode;
@@ -3599,6 +3612,7 @@ window.withDelay = function(btn, callback) {
           if (partnerDriveStatus !== 'opened' && data?.drive_status === 'opened' && (isActive || isHibernate || isOnline || isAway)) {
             partnerDriveStatus = 'opened';
           }
+          if (partnerWatchingFile === null && data?.watching_file !== undefined) partnerWatchingFile = data.watching_file;
         }
 
         const loginBadgeEl = document.getElementById('partnerLoginBadge');
@@ -3697,16 +3711,25 @@ window.withDelay = function(btn, callback) {
           modeBadgeHtml = `<span class="partner-mode-badge ${isFull ? 'badge-fullscreen' : 'badge-floating'}" title="Shajeda's chat mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'Fullscreen' : 'Floating'}</span></span>`;
         }
 
+        let watchingBadgeHtml = '';
+        if (partnerName === 'Shajeda' && (isActive || isAway || isOnline || isHibernate)) {
+          if (partnerWatchingFile) {
+            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is watching: ${partnerWatchingFile}" style="background-color: var(--c-green-bg, #dcfce7); color: var(--c-green-shadow, #166534); border-color: var(--c-green-border, #22c55e);"><i class="ph-bold ph-eye"></i><span>[watching file: ${partnerWatchingFile}]</span></span>`;
+          } else {
+            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is not watching any file" style="background-color: var(--c-red-bg, #fee2e2); color: var(--c-red-shadow, #991b1b); border-color: var(--c-red-border, #ef4444);"><i class="ph-bold ph-eye-slash"></i><span>[Nothing]</span></span>`;
+          }
+        }
+
         if (isTyping) {
-          statusEl.innerHTML = `<span>Typing</span><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Typing</span><span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
         } else if (isActive) {
-          statusEl.innerHTML = `<span>Active</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Active</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
         } else if (isHibernate) {
-          statusEl.innerHTML = `<span>Hibernate</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Hibernate</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
         } else if (isOnline) {
-          statusEl.innerHTML = `<span>Online</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Online</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
         } else if (isAway) {
-          statusEl.innerHTML = `<span>Away</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}`;
+          statusEl.innerHTML = `<span>Away</span>${modeBadgeHtml ? ' ' + modeBadgeHtml : ''}${watchingBadgeHtml ? ' ' + watchingBadgeHtml : ''}`;
         } else {
           const lastOnline = data?.lastOnline || null;
           if (!lastOnline) {
