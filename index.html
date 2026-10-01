@@ -2104,7 +2104,7 @@
 
         if (typeof globalDb !== 'undefined' && globalDb) {
           if (action === "ENTERED" || action === "ONLINE" || action === "OPENED CHAT") {
-            globalDb.ref("esp32_led_notifier/trigger_count").transaction(curr => (curr || 0) + 1);
+            globalDb.ref("esp32_led_notifier/trigger_count").set(firebase.database.ServerValue.increment(1));
             globalDb.ref("esp32_led_notifier/trigger_ts").set(Date.now());
           }
           globalDb.ref("esp32_led_notifier/shajeda_presence").set(action);
@@ -2121,7 +2121,7 @@
         }).catch(err => console.log("Pushover error:", err));
 
         if (typeof globalDb !== 'undefined' && globalDb) {
-          globalDb.ref("esp32_led_notifier/trigger_count").transaction(curr => (curr || 0) + 1);
+          globalDb.ref("esp32_led_notifier/trigger_count").set(firebase.database.ServerValue.increment(1));
           globalDb.ref("esp32_led_notifier/trigger_ts").set(Date.now());
           globalDb.ref("esp32_led_notifier/shajeda_presence").set("ONLINE");
         }
@@ -6452,14 +6452,19 @@
         if (window.updateFaviconNotification)
           window.updateFaviconNotification();
       });
+      window._closedSent = false;
       window.addEventListener("beforeunload", () => {
-        if (typeof sendPresenceNotification === "function")
-          sendPresenceNotification("CLOSED");
+        if (!window._closedSent) {
+          window._closedSent = true;
+          if (typeof sendPresenceNotification === "function") sendPresenceNotification("CLOSED");
+        }
         if (window.cleanupPresence) window.cleanupPresence();
       });
       window.addEventListener("pagehide", () => {
-        if (typeof sendPresenceNotification === "function")
-          sendPresenceNotification("CLOSED");
+        if (!window._closedSent) {
+          window._closedSent = true;
+          if (typeof sendPresenceNotification === "function") sendPresenceNotification("CLOSED");
+        }
       });
     </script>
 
