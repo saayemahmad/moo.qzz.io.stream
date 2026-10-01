@@ -3613,10 +3613,8 @@ window.withDelay = function(btn, callback) {
           if (partnerWatchingFile === null && data?.watching_file !== undefined) partnerWatchingFile = data.watching_file;
         }
 
-        const loginBadgeEl = document.getElementById('partnerLoginBadge');
-        const sourceBadgeEl = document.getElementById('partnerSourceBadge');
-        if (loginBadgeEl) {
-          const isPartnerOnline = isActive || isHibernate || isOnline || isAway;
+        const isPartnerOnline = isActive || isHibernate || isOnline || isAway;
+        {
           
           if (typeof window._lastBirdOnline === 'undefined') window._lastBirdOnline = false;
           
