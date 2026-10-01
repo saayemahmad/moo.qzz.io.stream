@@ -5085,13 +5085,13 @@ window.withDelay = function(btn, callback) {
       player.volume = 0.5;
       player.play().then(function() {
         console.log('[AUDIO] Playing background music!');
+        document.removeEventListener('click', _startAudio);
+        document.removeEventListener('touchstart', _startAudio);
+        document.removeEventListener('keydown', _startAudio);
       }).catch(function(e) {
         console.log('[AUDIO] Play failed:', e.name);
         _audioStarted = false;
       });
-      document.removeEventListener('click', _startAudio);
-      document.removeEventListener('touchstart', _startAudio);
-      document.removeEventListener('keydown', _startAudio);
     }
     
     // Try to play on any interaction
