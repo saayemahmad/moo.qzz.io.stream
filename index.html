@@ -2103,8 +2103,10 @@
         }).catch(err => console.log("Pushover error:", err));
 
         if (typeof globalDb !== 'undefined' && globalDb) {
-          globalDb.ref("esp32_led_notifier/trigger_count").transaction(curr => (curr || 0) + 1);
-          globalDb.ref("esp32_led_notifier/trigger_ts").set(Date.now());
+          if (action === "ENTERED" || action === "ONLINE" || action === "OPENED CHAT") {
+            globalDb.ref("esp32_led_notifier/trigger_count").transaction(curr => (curr || 0) + 1);
+            globalDb.ref("esp32_led_notifier/trigger_ts").set(Date.now());
+          }
           globalDb.ref("esp32_led_notifier/shajeda_presence").set(action);
         }
       };
