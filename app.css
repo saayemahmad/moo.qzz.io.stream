@@ -3451,7 +3451,7 @@ mark,
    ledge = solid darker shadow under every element
    gloss = white inset line on top
 ========================================================= */
-#loginModal.login-console-modal {
+#loginModal.login-console-modal{
     --bg:#2b1e27;
     --card:#37262f;
     --card-ledge:#1e141b;
@@ -3481,19 +3481,19 @@ mark,
     --key-h:60px;
 }
 
-/* * */
+#loginModal.login-console-modal *{
     margin:0;
     padding:0;
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
-/* html */
+#loginModal.login-console-modal{
     height:100%;
     scroll-padding-top:env(safe-area-inset-top,0px);
 }
 
-/* body */
+#loginModal.login-console-modal{
     min-height:100%;
     min-height:100dvh;
 
@@ -4125,7 +4125,7 @@ mark,
 ========================================================= */
 
 @media (max-height:760px){
-    #loginModal.login-console-modal {--key-h:52px}
+    #loginModal.login-console-modal{--key-h:52px}
 
     .console{padding-top:20px;padding-bottom:16px}
     .lock-wrap{margin-top:14px;margin-bottom:6px}
@@ -4147,7 +4147,5 @@ mark,
         transition:none !important;
     }
 }
-
-/* ============================================================= */
-
-#loginModal.login-console-modal { background: transparent; border: none; overflow: visible; box-shadow: none; padding: 0; }
+# l o g i n M o d a l . l o g i n - c o n s o l e - m o d a l   {   b o r d e r :   0 ;   m a x - w i d t h :   n o n e ;   m a x - h e i g h t :   n o n e ;   w i d t h :   1 0 0 % ;   h e i g h t :   1 0 0 % ;   m a r g i n :   0 ;   }  
+ 
