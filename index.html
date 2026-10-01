@@ -218,107 +218,130 @@ window.withDelay = function(btn, callback) {
   </div>
 
   <dialog id="loginModal" class="login-console-modal">
-    <div class="scene" aria-hidden="true">
-        <div class="star star-a">✦</div>
-        <div class="star star-b">✦</div>
-        <div class="star star-c">✧</div>
-        <div class="star star-d">♡</div>
-    </div>
-    <main class="console">
+<div class="scene" aria-hidden="true">
+    <div class="star star-a">✦</div>
+    <div class="star star-b">✦</div>
+    <div class="star star-c">✧</div>
+    <div class="star star-d">♡</div>
+</div>
+
+
+<main class="console">
       <button class="modal-close-btn" style="position:absolute; top:16px; right:16px; z-index:10; border: none; background: transparent; box-shadow: none; color: var(--muted);" onclick="document.getElementById('loginModal').close(); if (window._startBgMusic) window._startBgMusic();" aria-label="Close">
         <i class="ph-bold ph-x"></i>
       </button>
 
-      <header class="header">
-          <div class="brand">
-              <span class="sajeda">সাজেদা</span>
-              <span class="x">×</span>
-              <span class="sayem">সায়েম</span>
-          </div>
-          <div class="tag">আমাদের ছোট্ট গোপন কথা</div>
-          <div class="divider" aria-hidden="true">
-              <span class="divider-line"></span>
-              <span class="divider-heart">♥</span>
-              <span class="divider-line"></span>
-          </div>
-      </header>
 
-      <div class="lock-wrap">
-          <div class="lock" id="lock">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <rect x="5" y="10" width="14" height="10" rx="2"/>
-                  <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
-                  <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
-              </svg>
-          </div>
-      </div>
+    <header class="header">
 
-      <div class="title">পিন দাও</div>
-      <div class="subtitle">দুটি মনের ছোট্ট একটা গোপন কথা</div>
+        <div class="brand">
+            <span class="sajeda">সাজেদা</span>
+            <span class="x">×</span>
+            <span class="sayem">সায়েম</span>
+        </div>
 
-      <div
-          class="pin-bar"
-          id="pinBar"
-          role="progressbar"
-          aria-label="পিনের কতগুলো সংখ্যা দেওয়া হয়েছে"
-          aria-valuemin="0"
-          aria-valuemax="4"
-          aria-valuenow="0"
-      >
-          <div class="pin-fill">
-              <div class="mascot" id="mascot" aria-hidden="true">
-                  <i></i><i></i><b></b><u></u><u></u>
-              </div>
-          </div>
-      </div>
+        <div class="tag">আমাদের ছোট্ট গোপন কথা</div>
 
-      <div class="keypad">
-          <button class="key" onclick="handleKeypad('1')">১</button>
-          <button class="key" onclick="handleKeypad('2')">২</button>
-          <button class="key" onclick="handleKeypad('3')">৩</button>
-          <button class="key" onclick="handleKeypad('4')">৪</button>
-          <button class="key" onclick="handleKeypad('5')">৫</button>
-          <button class="key" onclick="handleKeypad('6')">৬</button>
-          <button class="key" onclick="handleKeypad('7')">৭</button>
-          <button class="key" onclick="handleKeypad('8')">৮</button>
-          <button class="key" onclick="handleKeypad('9')">৯</button>
-          <button class="key clear" onclick="clearPin()" aria-label="মুছুন">
-              <span class="key-inner">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M3 12l6-6h11v12H9l-6-6z"/>
-                      <path d="m13 9 4 6"/>
-                      <path d="m17 9-4 6"/>
-                  </svg>
-              </span>
-          </button>
-          <button class="key" onclick="handleKeypad('0')">০</button>
-          <button class="key enter" onclick="verifyPin()" aria-label="খুলুন">
-              <span class="key-inner">
-                  <svg viewBox="0 0 24 24" aria-hidden="true">
-                      <path d="M20 8a8 8 0 1 0 1 4"/>
-                      <path d="M20 4v6h-6"/>
-                      <path d="m8.5 12.5 2.2 2.2 4.8-5"/>
-                  </svg>
-              </span>
-          </button>
-      </div>
+        <div class="divider" aria-hidden="true">
+            <span class="divider-line"></span>
+            <span class="divider-heart">♥</span>
+            <span class="divider-line"></span>
+        </div>
 
-      <div class="status" id="status" role="status" aria-live="polite">
-          <span class="status-dot"></span>
-          <span id="statusText">সাজেদা ও সায়েমের জন্য</span>
-      </div>
+    </header>
 
-      <section class="success" id="success">
-          <div class="success-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M20.8 8.9c0 5.6-8.8 10.2-8.8 10.2S3.2 14.5 3.2 8.9C3.2 6.5 5 5 7.2 5c1.7 0 3.1.9 3.8 2.1C11.7 5.9 13.1 5 14.8 5c2.2 0 4 1.5 4 3.9Z"/>
-              </svg>
-          </div>
-          <div class="success-title">খুলে গেছে</div>
-          <div class="success-subtitle">ফিরে এসো, ছোট্ট দুই পাখি ♡</div>
-          <button class="success-button" onclick="executeLogin()">প্রবেশ করুন</button>
-      </section>
-    </main>
+
+    <div class="lock-wrap">
+        <div class="lock" id="lock">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="10" rx="2"/>
+                <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+            </svg>
+        </div>
+    </div>
+
+
+    <div class="title">পিন দাও</div>
+    <div class="subtitle">দুটি মনের ছোট্ট একটা গোপন কথা</div>
+
+
+    <div
+        class="pin-bar"
+        id="pinBar"
+        role="progressbar"
+        aria-label="পিনের কতগুলো সংখ্যা দেওয়া হয়েছে"
+        aria-valuemin="0"
+        aria-valuemax="4"
+        aria-valuenow="0"
+    >
+        <div class="pin-fill">
+            <div class="mascot" id="mascot" aria-hidden="true">
+                <i></i><i></i><b></b><u></u><u></u>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="keypad">
+
+        <button class="key" onclick="handleKeypad('1')">১</button>
+        <button class="key" onclick="handleKeypad('2')">২</button>
+        <button class="key" onclick="handleKeypad('3')">৩</button>
+        <button class="key" onclick="handleKeypad('4')">৪</button>
+        <button class="key" onclick="handleKeypad('5')">৫</button>
+        <button class="key" onclick="handleKeypad('6')">৬</button>
+        <button class="key" onclick="handleKeypad('7')">৭</button>
+        <button class="key" onclick="handleKeypad('8')">৮</button>
+        <button class="key" onclick="handleKeypad('9')">৯</button>
+
+        <button class="key clear" onclick="clearPin()" aria-label="মুছুন">
+            <span class="key-inner">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M3 12l6-6h11v12H9l-6-6z"/>
+                    <path d="m13 9 4 6"/>
+                    <path d="m17 9-4 6"/>
+                </svg>
+            </span>
+        </button>
+
+        <button class="key" onclick="handleKeypad('0')">০</button>
+
+        <button class="key enter" onclick="verifyPin()" aria-label="খুলুন">
+            <span class="key-inner">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 8a8 8 0 1 0 1 4"/>
+                    <path d="M20 4v6h-6"/>
+                    <path d="m8.5 12.5 2.2 2.2 4.8-5"/>
+                </svg>
+            </span>
+        </button>
+
+    </div>
+
+
+    <div class="status" id="status" role="status" aria-live="polite">
+        <span class="status-dot"></span>
+        <span id="statusText">সাজেদা ও সায়েমের জন্য</span>
+    </div>
+
+
+    <section class="success" id="success">
+
+        <div class="success-icon">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20.8 8.9c0 5.6-8.8 10.2-8.8 10.2S3.2 14.5 3.2 8.9C3.2 6.5 5 5 7.2 5c1.7 0 3.1.9 3.8 2.1C11.7 5.9 13.1 5 14.8 5c2.2 0 4 1.5 4 3.9Z"/>
+            </svg>
+        </div>
+
+        <div class="success-title">খুলে গেছে</div>
+        <div class="success-subtitle">ফিরে এসো, ছোট্ট দুই পাখি ♡</div>
+
+        <button class="success-button" onclick="resetLock()">আবার তালা দাও</button>
+
+    </section>
+
+</main>
   </dialog>
 
   <!-- Server Offline Modal -->
