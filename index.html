@@ -3708,15 +3708,15 @@ window.withDelay = function(btn, callback) {
         let modeBadgeHtml = '';
         if (partnerName === 'Shajeda' && partnerChatMode && (isActive || isAway || isOnline || isHibernate)) {
           const isFull = partnerChatMode === 'fullscreen';
-          modeBadgeHtml = `<span class="partner-mode-badge ${isFull ? 'badge-fullscreen' : 'badge-floating'}" title="Shajeda's chat mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'Fullscreen' : 'Floating'}</span></span>`;
+          modeBadgeHtml = `<span class="partner-mode-badge ${isFull ? 'badge-fullscreen' : 'badge-floating'}" title="Shajeda's chat mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS' : 'FL'}</span></span>`;
         }
 
         let watchingBadgeHtml = '';
         if (partnerName === 'Shajeda' && (isActive || isAway || isOnline || isHibernate)) {
           if (partnerWatchingFile) {
-            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is watching: ${partnerWatchingFile}" style="background-color: var(--c-green-bg, #dcfce7); color: var(--c-green-shadow, #166534); border-color: var(--c-green-border, #22c55e);"><i class="ph-bold ph-eye"></i><span>[watching file: ${partnerWatchingFile}]</span></span>`;
+            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is watching: ${partnerWatchingFile}" style="background-color: #dcfce7; color: #166534; border-color: #22c55e; border-style: solid; border-width: 1px; margin-left: 4px;"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
           } else {
-            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is not watching any file" style="background-color: var(--c-red-bg, #fee2e2); color: var(--c-red-shadow, #991b1b); border-color: var(--c-red-border, #ef4444);"><i class="ph-bold ph-eye-slash"></i><span>[Nothing]</span></span>`;
+            watchingBadgeHtml = `<span class="partner-mode-badge" title="Shajeda is not watching any file" style="background-color: #fee2e2; color: #991b1b; border-color: #ef4444; border-style: solid; border-width: 1px; margin-left: 4px;"><i class="ph-bold ph-eye-slash"></i><span>[Nothing]</span></span>`;
           }
         }
 
