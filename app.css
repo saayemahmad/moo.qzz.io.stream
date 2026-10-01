@@ -1,4 +1,4 @@
-﻿/* Base font â€” emoji rendered via FB emoji <img> tags */
+/* Base font â€” emoji rendered via FB emoji <img> tags */
     body,
     input,
     textarea,
@@ -836,18 +836,6 @@ mark,
       pointer-events: none;
     }
 
-    .btn1::after {
-      content: "";
-      position: absolute;
-      left: 13px;
-      right: 13px;
-      bottom: -9px;
-      height: 8px;
-      background: var(--c-blue-dark);
-      transform: skewX(-28deg);
-      z-index: -1;
-    }
-
     .btn1:active {
       transform: translateY(6px);
       box-shadow:
@@ -861,10 +849,6 @@ mark,
       border-color: var(--c-red-border);
       color: var(--c-red-dark);
       box-shadow: 0 7px 0 var(--c-red-shadow), 0 11px 17px rgba(248, 113, 113, 0.22);
-    }
-
-    .btn1.btn-red::after {
-      background: var(--c-red-dark);
     }
 
     .btn1.btn-red:active {
@@ -3745,7 +3729,7 @@ mark,
     top:0;
 
     height:100%;
-    width:calc(24px + (100% - 24px) * var(--p) / 100);
+    width:calc(44px + (100% - 44px) * var(--p) / 100);
 
     border-radius:999px;
 
@@ -3771,7 +3755,7 @@ mark,
 
 .mascot{
     position:absolute;
-    right:-14px;
+    right:-28px;
     top:-14px;
 
     width:56px;
