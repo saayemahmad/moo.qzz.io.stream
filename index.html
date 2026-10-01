@@ -1081,9 +1081,7 @@ window.withDelay = function(btn, callback) {
         window.currentLoginSource = source;
       }
       document.getElementById('profileDropdown').classList.remove('open');
-      const pinInput = document.getElementById('pinInput');
-      pinInput.value = '';
-      document.getElementById('pinError').style.display = 'none';
+      if (typeof resetLock === 'function') resetLock();
       document.getElementById('loginModal').showModal();
     }
 
