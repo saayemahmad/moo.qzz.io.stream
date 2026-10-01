@@ -532,7 +532,7 @@ window.withDelay = function(btn, callback) {
     <div class="resize-handle rh-bl" data-dir="bl"></div>
     <div class="resize-handle rh-br" data-dir="br"></div>
 
-    <div class="chat-header">
+    <div class="chat-header" style="padding-bottom: 2px;">
       <div style="display: flex; align-items: center; gap: 8px; min-width: 0; flex: 1;">
         <div id="partnerAvatarBox" onclick="window.openAvatarPreview('partner')"
           style="width: 28px; height: 28px; min-width: 28px; border: 2px solid var(--ink); box-shadow: 2px 2px 0 var(--ink); border-radius: 0; flex-shrink: 0; overflow: hidden; background: var(--bg); display: flex; align-items: center; justify-content: center; cursor: pointer;">
@@ -554,7 +554,7 @@ window.withDelay = function(btn, callback) {
         <button class="chat-close" onclick="toggleChat()"><i class="ph-bold ph-x"></i></button>
       </div>
     </div>
-    <div id="partnerContextBarWrapper" style="display: none; background: var(--bg-alt); border-bottom: 2px solid var(--border); padding: 5px 12px; overflow-x: auto; scrollbar-width: none;">
+    <div id="partnerContextBarWrapper" style="display: none; background: var(--bg-alt); padding: 2px 12px 6px 12px; overflow-x: auto; scrollbar-width: none;">
       <div id="partnerContextBar" style="display: flex; gap: 6px; flex-wrap: nowrap; width: max-content; align-items: center;"></div>
     </div>
     <div class="chat-body">
