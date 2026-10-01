@@ -1,0 +1,64 @@
+4: <script>
+82: <script src="https://unpkg.com/@phosphor-icons/web"></script>
+84: <!-- Firebase SDK -->
+85: <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+86: <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+87: <script>
+99: <!-- External Libraries -->
+100: <script src="/hls.min.js"></script>
+101: <script src="/tus.min.js"></script>
+103: <!-- Facebook Emoji dataset (window.EMOJI_DATA) -->
+104: <script src="/emoji-fb-main/emoji-data.js"></script>
+106: <!-- FB Emoji CSS -->
+108: <!-- FB Emoji helper functions -->
+109: <script>
+217: <script>
+273: <dialog id="loginModal" class="login-console-modal">
+281: <main class="console">
+393: <section class="success" id="success">
+412: <!-- Server Offline Modal -->
+413: <dialog id="serverOfflineModal">
+434: <!-- Sidebar Overlay -->
+441: <!-- Left Sidebar -->
+442: <aside class="sidebar left-sidebar" id="leftSidebar">
+510: <!-- Main Content -->
+511: <main class="main-content">
+599: <section class="section" id="mainFileSection">
+600: <!-- Filter Tabs -->
+675: <!-- Main section upload disabled warning removed per request -->
+696: <!-- fileRevealBox: Shows when files are hidden -->
+702: <!-- When hidden: Standard 'File Dekhao' Card -->
+753: <!-- Selection Action Bar -->
+763: <!-- Right Sidebar Toggle for smaller screens -->
+769: <!-- Right Sidebar (Compact Upload Flow) -->
+770: <!-- Right Sidebar (Compact Upload Flow) -->
+771: <aside
+810: <!-- File Selection -->
+838: <!-- Duration Selection -->
+891: <!-- Category Selection -->
+967: <!-- Start Upload -->
+1081: <!-- Segments injected by JS -->
+1123: <!-- Close Panel Button -->
+1143: <!-- Floating Chat Button -->
+1152: <!-- Fake Chat Popup -->
+1163: <!-- Resize Handles -->
+1438: <!-- Lightbox Dialog -->
+1439: <dialog id="previewModal">
+1454: <!-- Media injected here -->
+1462: <!-- Custom Alert Modal -->
+1463: <dialog
+1507: <!-- Avatar Preview Modal -->
+1508: <dialog id="avatarPreviewModal">
+1509: <!-- .avatar-modal-inner injected by JS -->
+1512: <script>
+4737: <!-- Firebase Realtime Chat Logic -->
+4738: <script type="module">
+6402: <!-- Theme & Settings Logic -->
+6403: <script>
+6606: <script>
+6637: <script>
+6696: <script type="module">
+6747: <!-- ===== Timer Picker Modal ===== -->
+6831: <script>
+6847: <script>
+6884: <script type="module">
