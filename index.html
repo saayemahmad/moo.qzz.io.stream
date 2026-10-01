@@ -217,38 +217,101 @@ window.withDelay = function(btn, callback) {
 
   </div>
 
-  <!-- Login Modal -->
-  <dialog id="loginModal">
-    <div class="modal-header">
-      <h2><i class="ph-bold ph-lock-key"></i> পিন কোড (PIN Code)</h2>
-      <button class="modal-close-btn" onclick="document.getElementById('loginModal').close();
-        if (window._startBgMusic) window._startBgMusic();
-
-" aria-label="Close">
+  <dialog id="loginModal" class="login-console-modal">
+    <div class="console">
+      <button class="modal-close-btn" style="position:absolute; top:16px; right:16px; z-index:10; background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:24px;" onclick="document.getElementById('loginModal').close(); if (window._startBgMusic) window._startBgMusic();" aria-label="Close">
         <i class="ph-bold ph-x"></i>
       </button>
-    </div>
-    <div class="modal-body">
-      <p class="login-modal-subtitle">লগইন করতে আপনার ব্যক্তিগত পিন প্রদান করুন</p>
-      <input type="text" id="pinInput" maxlength="4" readonly placeholder="••••">
-      <div id="pinError">ভুল পিন কোড! (Incorrect PIN!)</div>
 
-      <!-- Custom Keypad -->
-      <div class="custom-keypad">
-        <button class="keypad-btn" onclick="handleKeypad('1')">1</button>
-        <button class="keypad-btn" onclick="handleKeypad('2')">2</button>
-        <button class="keypad-btn" onclick="handleKeypad('3')">3</button>
-        <button class="keypad-btn" onclick="handleKeypad('4')">4</button>
-        <button class="keypad-btn" onclick="handleKeypad('5')">5</button>
-        <button class="keypad-btn" onclick="handleKeypad('6')">6</button>
-        <button class="keypad-btn" onclick="handleKeypad('7')">7</button>
-        <button class="keypad-btn" onclick="handleKeypad('8')">8</button>
-        <button class="keypad-btn" onclick="handleKeypad('9')">9</button>
-        <div style="visibility: hidden;"></div>
-        <button class="keypad-btn" onclick="handleKeypad('0')">0</button>
-        <button class="keypad-btn keypad-backspace" onclick="handleKeypad('backspace')" aria-label="Backspace"><i
-            class="ph-bold ph-backspace"></i></button>
+      <header class="header">
+          <div class="brand">
+              <span class="sajeda">সাজেদা</span>
+              <span class="x">×</span>
+              <span class="sayem">সায়েম</span>
+          </div>
+          <div class="tag">আমাদের ছোট্ট গোপন কথা</div>
+          <div class="divider" aria-hidden="true">
+              <span class="divider-line"></span>
+              <span class="divider-heart">♥</span>
+              <span class="divider-line"></span>
+          </div>
+      </header>
+
+      <div class="lock-wrap">
+          <div class="lock" id="lock">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="5" y="10" width="14" height="10" rx="2"/>
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+                  <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+              </svg>
+          </div>
       </div>
+
+      <div class="title">পিন দাও</div>
+      <div class="subtitle">দুটি মনের ছোট্ট একটা গোপন কথা</div>
+
+      <div
+          class="pin-bar"
+          id="pinBar"
+          role="progressbar"
+          aria-label="পিনের কতগুলো সংখ্যা দেওয়া হয়েছে"
+          aria-valuemin="0"
+          aria-valuemax="4"
+          aria-valuenow="0"
+      >
+          <div class="pin-fill">
+              <div class="mascot" id="mascot" aria-hidden="true">
+                  <i></i><i></i><b></b><u></u><u></u>
+              </div>
+          </div>
+      </div>
+
+      <div class="keypad">
+          <button class="key" onclick="handleKeypad('1')">১</button>
+          <button class="key" onclick="handleKeypad('2')">২</button>
+          <button class="key" onclick="handleKeypad('3')">৩</button>
+          <button class="key" onclick="handleKeypad('4')">৪</button>
+          <button class="key" onclick="handleKeypad('5')">৫</button>
+          <button class="key" onclick="handleKeypad('6')">৬</button>
+          <button class="key" onclick="handleKeypad('7')">৭</button>
+          <button class="key" onclick="handleKeypad('8')">৮</button>
+          <button class="key" onclick="handleKeypad('9')">৯</button>
+          <button class="key clear" onclick="clearPin()" aria-label="মুছুন">
+              <span class="key-inner">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M3 12l6-6h11v12H9l-6-6z"/>
+                      <path d="m13 9 4 6"/>
+                      <path d="m17 9-4 6"/>
+                  </svg>
+              </span>
+          </button>
+          <button class="key" onclick="handleKeypad('0')">০</button>
+          <button class="key enter" onclick="verifyPin()" aria-label="খুলুন">
+              <span class="key-inner">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="M20 8a8 8 0 1 0 1 4"/>
+                      <path d="M20 4v6h-6"/>
+                      <path d="m8.5 12.5 2.2 2.2 4.8-5"/>
+                  </svg>
+              </span>
+          </button>
+      </div>
+
+      <div class="status" id="status" role="status" aria-live="polite">
+          <span class="status-dot"></span>
+          <span id="statusText">সাজেদা ও সায়েমের জন্য</span>
+      </div>
+
+      <section class="success" id="success">
+          <div class="success-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20.8 8.9c0 5.6-8.8 10.2-8.8 10.2S3.2 14.5 3.2 8.9C3.2 6.5 5 5 7.2 5c1.7 0 3.1.9 3.8 2.1C11.7 5.9 13.1 5 14.8 5c2.2 0 4 1.5 4 3.9Z"/>
+              </svg>
+          </div>
+          <div class="success-title">খুলে গেছে</div>
+          <div class="success-subtitle">ফিরে এসো, ছোট্ট দুই পাখি ♡</div>
+          <button class="success-button" onclick="executeLogin()">প্রবেশ করুন</button>
+      </section>
     </div>
   </dialog>
 
@@ -1024,151 +1087,228 @@ window.withDelay = function(btn, callback) {
       document.getElementById('loginModal').showModal();
     }
 
+    // PIN CONSOLE LOGIC
+    let entered = "";
+    const PIN_LENGTH = 4;
+    
+    const LOCK_CLOSED = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="5" y="10" width="14" height="10" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>`;
+
+    const LOCK_OPEN = `
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="5" y="10" width="14" height="10" rx="2"/>
+        <path d="M8 10V7a4 4 0 0 1 7.2-2.4"/>
+        <circle cx="12" cy="15" r="1.2" fill="currentColor" stroke="none"/>
+    </svg>`;
+
+    function blinkMascot(){
+        const mascot = document.getElementById("mascot");
+        if(mascot){
+            mascot.classList.remove("blink");
+            void mascot.offsetWidth;
+            mascot.classList.add("blink");
+            setTimeout(() => mascot.classList.remove("blink"), 260);
+        }
+    }
+
+    function updateDots(){
+        const bar = document.getElementById("pinBar");
+        if(bar){
+            bar.style.setProperty("--p", (entered.length / PIN_LENGTH) * 100);
+            bar.setAttribute("aria-valuenow", entered.length);
+        }
+    }
+
+    function clearPin(){
+        entered = "";
+        updateDots();
+        const mascot = document.getElementById("mascot");
+        if(mascot) mascot.classList.remove("sad");
+        setStatus("তুমি রেডি হলেই শুরু করো ♡", false);
+    }
+
+    function setStatus(message, error = false){
+        const status = document.getElementById("status");
+        const text = document.getElementById("statusText");
+        if(!status || !text) return;
+        text.textContent = message;
+        status.classList.remove("error");
+        if(error){
+            void status.offsetWidth;
+            status.classList.add("error");
+        }
+    }
+
+    function spawnParticle(){
+        const particle = document.createElement("div");
+        particle.className = "particle";
+        const symbols = ["♡", "✦", "✧", "·"];
+        particle.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        // Use fixed positions relative to modal or absolute within modal. 
+        // We will make the modal .console isolate so particles stay inside or on top.
+        const consoleEl = document.querySelector(".console");
+        if(consoleEl) {
+            particle.style.left = (38 + Math.random() * 24) + "%";
+            particle.style.bottom = "36%";
+            particle.style.setProperty("--x", (Math.random() * 80 - 40) + "px");
+            consoleEl.appendChild(particle);
+            setTimeout(() => particle.remove(), 2400);
+        }
+    }
+
+    function celebrate(){
+        for(let i = 0; i < 20; i++){
+            setTimeout(spawnParticle, i * 65);
+        }
+    }
+
+    function resetLock(){
+        entered = "";
+        updateDots();
+        const successEl = document.getElementById("success");
+        if(successEl) successEl.classList.remove("show");
+        const mascot = document.getElementById("mascot");
+        if(mascot) mascot.classList.remove("sad");
+        const lock = document.getElementById("lock");
+        if(lock){
+            lock.classList.remove("open");
+            lock.innerHTML = LOCK_CLOSED;
+        }
+        setStatus("সাজেদা ও সায়েমের জন্য", false);
+    }
+
     function handleKeypad(key) {
-      const pinInput = document.getElementById('pinInput');
-      document.getElementById('pinError').style.display = 'none';
-
+      if(entered.length >= PIN_LENGTH){
+          return;
+      }
+      
+      const mascot = document.getElementById("mascot");
+      if(mascot) mascot.classList.remove("sad");
+      
       if (key === 'backspace') {
-        pinInput.value = pinInput.value.slice(0, -1);
+          entered = entered.slice(0, -1);
       } else {
-        if (pinInput.value.length < 4) {
-          pinInput.value += key;
-        }
+          entered += key;
+          spawnParticle();
       }
-
-      if (pinInput.value.length === 4) {
-        verifyPin();
-      }
-    }
-
-    let lastPushoverAction = null;
-
-    function sendPresenceNotification(action) {
-      if (window.currentUser === 'Shajeda') {
-        if (lastPushoverAction === action) return;
-        lastPushoverAction = action;
-
-        const payload = JSON.stringify({ message: action });
-
-        // --- ESP32 LED Notifier: increment trigger counter when Shajeda ENTERS ---
-        if (action === 'ENTERED') {
-          try {
-            globalDb.ref('esp32_led_notifier/trigger_count').transaction(count => (count || 0) + 1);
-          } catch (e) {
-            console.error('[ESP32 Notifier] RTDB counter write failed:', e);
-          }
-        }
-        // --- end ESP32 LED Notifier ---
-
-        if (action === 'CLOSED' && navigator.sendBeacon) {
-          navigator.sendBeacon('https://api.moo.qzz.io/api/analytics/notify-pushover', new Blob([payload], { type: 'application/json' }));
-        } else {
-          fetch('https://api.moo.qzz.io/api/analytics/notify-pushover', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: payload,
-            keepalive: true
-          }).catch(e => console.error(e));
-        }
+      
+      updateDots();
+      
+      if(entered.length === PIN_LENGTH){
+          setTimeout(verifyPin, 260);
       }
     }
-
-    function notifyMainSitePresence() {
-      sendPresenceNotification('ENTERED');
-    }
-
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
-        sendPresenceNotification('ENTERED');
-      } else {
-        sendPresenceNotification('AWAY');
-      }
-    });
 
     function verifyPin() {
-      const pin = document.getElementById('pinInput').value;
+      const pin = entered;
       if (pin === '2222' || pin === '3333') {
-        window.currentUser = pin === '2222' ? 'Sayem' : 'Shajeda';
-        localStorage.setItem('savedUserPin', pin);
-
-        if (window.currentUser === 'Shajeda') {
-          const sourceToSave = window.currentLoginSource || localStorage.getItem('savedLoginSource') || 'filedrive-page-area';
-          window.currentLoginSource = sourceToSave;
-          localStorage.setItem('savedLoginSource', sourceToSave);
-          if (typeof globalDb !== 'undefined') {
-            globalDb.ref('Presence/Shajeda/login_source').set(sourceToSave);
-          }
-          if (window.setShajedaLoginSource) {
-            window.setShajedaLoginSource(sourceToSave);
-          }
+        const lock = document.getElementById("lock");
+        if(lock) {
+            lock.innerHTML = LOCK_OPEN;
+            lock.classList.add("open");
         }
 
-        document.getElementById('loginModal').close();
-        window.isFileGridRevealed = false;
-        window.updateFileGridRevealUI();
-        const authBtn = document.getElementById('authBtn');
-        authBtn.innerText = 'লগআউট (Logout)';
-        authBtn.setAttribute('onclick', 'performLogout()');
-
-        // Dynamically update the profile picture using avatars
-        const avatarUrl = pin === '2222'
-          ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg'
-          : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
-        const fallbackUrl = pin === '2222' ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg' : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
-        document.getElementById('profilePic').innerHTML = `<img src="${avatarUrl}" onerror="this.onerror=null; this.src='${fallbackUrl}'" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;">`;
-
-        const partnerName = window.currentUser === 'Sayem' ? 'Shajeda' : 'Sayem';
-        if (window.updatePartnerAvatarUI) window.updatePartnerAvatarUI(partnerName);
-
-        document.getElementById('sidebarContent').style.display = 'flex';
-        document.getElementById('sidebarLoginPrompt').style.display = 'none';
-
-        if (typeof updateUploadWidgetVisibility === 'function') {
-          updateUploadWidgetVisibility();
-        } else {
-          document.getElementById('uploadContent').style.display = 'flex';
-          document.getElementById('uploadLoginPrompt').style.display = 'none';
-        }
-
-        if (window.updateUnreadBadge) {
-          window.updateUnreadBadge();
-        }
-
-
-        // Refresh chat UI manually to colorize correctly based on the new user
-        if (window.renderAllChatMessages) {
-          window.renderAllChatMessages();
-        }
-
-        loadFiles();
-        if (window.setupPresence) window.setupPresence(window.currentUser);
-        if (window.restoreChatDraft) window.restoreChatDraft(window.currentUser);
-        if (window.applyCachedTheme) window.applyCachedTheme();
-
-        // Request notification permission for Sayem (only once, non-intrusively)
-        if (window.currentUser === 'Sayem') {
-          window.requestSayemNotifPermission();
-        }
-
-        if (document.visibilityState === 'visible') {
-          notifyMainSitePresence();
-        }
-        if (window.updateFaviconNotification) {
-          window.updateFaviconNotification();
-        }
-
-        const overlay = document.getElementById('welcomeOverlay');
-        if (overlay) {
-          overlay.classList.add('active');
-            startCandyLoader(3000);
-          setTimeout(() => {
-            overlay.classList.remove('active');
-          }, 3000);
-        }
+        setStatus("গোপন কথা খুলে গেছে ♡", false);
+        const successEl = document.getElementById("success");
+        if(successEl) successEl.classList.add("show");
+        celebrate();
       } else {
-        document.getElementById('pinError').style.display = 'block';
+        const mascot = document.getElementById("mascot");
+        if(mascot) {
+            mascot.classList.remove("sad");
+            void mascot.offsetWidth;
+            mascot.classList.add("sad");
+        }
+        setStatus("এটা তো আমাদের গোপন কথা না", true);
+        entered = "";
+        setTimeout(updateDots, 360);
       }
     }
+
+    function executeLogin() {
+      const pin = entered;
+      window.currentUser = pin === '2222' ? 'Sayem' : 'Shajeda';
+      localStorage.setItem('savedUserPin', pin);
+
+      if (window.currentUser === 'Shajeda') {
+        const sourceToSave = window.currentLoginSource || localStorage.getItem('savedLoginSource') || 'filedrive-page-area';
+        window.currentLoginSource = sourceToSave;
+        localStorage.setItem('savedLoginSource', sourceToSave);
+        if (typeof globalDb !== 'undefined') {
+          globalDb.ref('Presence/Shajeda/login_source').set(sourceToSave);
+        }
+        if (window.setShajedaLoginSource) {
+          window.setShajedaLoginSource(sourceToSave);
+        }
+      }
+
+      document.getElementById('loginModal').close();
+      window.isFileGridRevealed = false;
+      window.updateFileGridRevealUI();
+      const authBtn = document.getElementById('authBtn');
+      authBtn.innerText = 'লগআউট (Logout)';
+      authBtn.setAttribute('onclick', 'performLogout()');
+
+      const avatarUrl = pin === '2222'
+        ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg'
+        : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
+      const fallbackUrl = pin === '2222' ? 'https://api.moo.qzz.io/media/avatar-sayem.jpg' : 'https://api.moo.qzz.io/media/avatar-shajeda.webp';
+      document.getElementById('profilePic').innerHTML = `<img src="${avatarUrl}" onerror="this.onerror=null; this.src='${fallbackUrl}'" alt="Profile" style="width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none;">`;
+
+      const partnerName = window.currentUser === 'Sayem' ? 'Shajeda' : 'Sayem';
+      if (window.updatePartnerAvatarUI) window.updatePartnerAvatarUI(partnerName);
+
+      document.getElementById('sidebarContent').style.display = 'flex';
+      document.getElementById('sidebarLoginPrompt').style.display = 'none';
+
+      if (typeof updateUploadWidgetVisibility === 'function') {
+        updateUploadWidgetVisibility();
+      } else {
+        document.getElementById('uploadContent').style.display = 'flex';
+        document.getElementById('uploadLoginPrompt').style.display = 'none';
+      }
+
+      if (window.updateUnreadBadge) {
+        window.updateUnreadBadge();
+      }
+
+      if (window.renderAllChatMessages) {
+        window.renderAllChatMessages();
+      }
+
+      loadFiles();
+      if (window.setupPresence) window.setupPresence(window.currentUser);
+      if (window.restoreChatDraft) window.restoreChatDraft(window.currentUser);
+      if (window.applyCachedTheme) window.applyCachedTheme();
+
+      if (window.currentUser === 'Sayem') {
+        window.requestSayemNotifPermission();
+      }
+
+      if (document.visibilityState === 'visible') {
+        notifyMainSitePresence();
+      }
+      if (window.updateFaviconNotification) {
+        window.updateFaviconNotification();
+      }
+
+      const overlay = document.getElementById('welcomeOverlay');
+      if (overlay) {
+        overlay.classList.add('active');
+          if (typeof startCandyLoader === 'function') startCandyLoader(3000);
+        setTimeout(() => {
+          overlay.classList.remove('active');
+        }, 3000);
+      }
+      
+      // Reset lock for next time it's opened
+      setTimeout(resetLock, 500);
+    }
+
 
     function performLogout() {
       sendPresenceNotification('CLOSED');
