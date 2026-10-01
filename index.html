@@ -870,15 +870,12 @@ window.withDelay = function(btn, callback) {
       // Auto-login persistence
       const savedPin = localStorage.getItem('savedUserPin');
       if (savedPin) {
-        const pinInput = document.getElementById('pinInput');
-        if (pinInput) {
-          pinInput.value = savedPin;
-          const savedSource = localStorage.getItem('savedLoginSource');
-          if (savedSource) {
-            window.currentLoginSource = savedSource;
-          }
-          verifyPin();
+        entered = savedPin;
+        const savedSource = localStorage.getItem('savedLoginSource');
+        if (savedSource) {
+          window.currentLoginSource = savedSource;
         }
+        executeLogin();
       } else {
         window.updateFileGridRevealUI();
       }
