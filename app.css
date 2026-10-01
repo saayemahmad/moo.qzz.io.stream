@@ -1,21 +1,13 @@
 /* Base font — emoji rendered via FB emoji <img> tags */
 
 body,
-
 input,
-
 textarea,
-
 button {
-
-  font-family: 'Outfit', sans-serif;
-
+  font-family: "Outfit", sans-serif;
 }
 
-
-
 .cndy-demo {
-
   width: min(92vw, 620px);
 
   text-align: center;
@@ -25,11 +17,9 @@ button {
   margin-top: 30px;
 
   margin-bottom: 20px;
-
 }
 
 .cndy-bar-wrap {
-
   position: relative;
 
   width: 100%;
@@ -39,11 +29,9 @@ button {
   transform: rotateX(8deg);
 
   transform-style: preserve-3d;
-
 }
 
 .cndy-track {
-
   position: absolute;
 
   inset: 14px 0 0;
@@ -55,19 +43,13 @@ button {
   background: #2a0617;
 
   box-shadow:
-
-    inset 0 7px 9px rgba(0, 0, 0, .55),
-
-    inset 0 -5px 0 rgba(255, 255, 255, .05),
-
+    inset 0 7px 9px rgba(0, 0, 0, 0.55),
+    inset 0 -5px 0 rgba(255, 255, 255, 0.05),
     0 10px 0 #180310,
-
-    0 16px 22px rgba(0, 0, 0, .45);
-
+    0 16px 22px rgba(0, 0, 0, 0.45);
 }
 
 .cndy-fill {
-
   position: absolute;
 
   left: 8px;
@@ -85,21 +67,15 @@ button {
   background: #7a1040;
 
   box-shadow:
-
-    inset 0 7px 0 rgba(255, 255, 255, .10),
-
-    inset 0 -7px 0 rgba(60, 10, 30, .55),
-
+    inset 0 7px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -7px 0 rgba(60, 10, 30, 0.55),
     0 5px 0 #4a0825,
+    0 9px 12px rgba(60, 10, 30, 0.5);
 
-    0 9px 12px rgba(60, 10, 30, .50);
-
-  transition: width .08s linear;
-
+  transition: width 0.08s linear;
 }
 
 .cndy-fill:before {
-
   content: "";
 
   position: absolute;
@@ -114,12 +90,10 @@ button {
 
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, .10);
-
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .cndy-fill:after {
-
   content: "";
 
   position: absolute;
@@ -135,14 +109,12 @@ button {
 
   background: #aaa;
 
-  opacity: .35;
+  opacity: 0.35;
 
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, .05);
-
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.05);
 }
 
 .cndy-candy {
-
   position: absolute;
 
   z-index: 5;
@@ -161,21 +133,15 @@ button {
   background: #5a0a2a;
 
   box-shadow:
-
-    inset 7px 7px 0 rgba(255, 255, 255, .10),
-
-    inset -7px -9px 0 rgba(20, 5, 12, .50),
-
+    inset 7px 7px 0 rgba(255, 255, 255, 0.1),
+    inset -7px -9px 0 rgba(20, 5, 12, 0.5),
     0 7px 0 #2e0415,
+    0 13px 18px rgba(0, 0, 0, 0.55);
 
-    0 13px 18px rgba(0, 0, 0, .55);
-
-  transition: left .08s linear;
-
+  transition: left 0.08s linear;
 }
 
 .cndy-candy:before {
-
   content: "";
 
   position: absolute;
@@ -188,14 +154,12 @@ button {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .15);
+  background: rgba(255, 255, 255, 0.15);
 
   transform: rotate(-25deg);
-
 }
 
 .cndy-candy:after {
-
   content: "";
 
   position: absolute;
@@ -208,23 +172,19 @@ button {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .08);
-
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .cndy-face {
-
   position: absolute;
 
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-
 }
 
 .cndy-eye {
-
   position: absolute;
 
   top: 22px;
@@ -235,19 +195,17 @@ button {
   border-radius: 50%;
 
   background: #1a0810;
-
 }
 
 .cndy-eye.l {
-  left: 17px
+  left: 17px;
 }
 
 .cndy-eye.r {
-  right: 17px
+  right: 17px;
 }
 
 .cndy-mouth {
-
   position: absolute;
 
   width: 17px;
@@ -259,11 +217,9 @@ button {
   border-bottom: 3px solid #1a0810;
 
   border-radius: 0 0 50% 50%;
-
 }
 
 .cndy-cheek {
-
   position: absolute;
 
   width: 10px;
@@ -273,31 +229,25 @@ button {
   border-radius: 50%;
 
   background: #3d0c20;
-
 }
 
 .cndy-cheek.l {
-  left: 7px
+  left: 7px;
 }
 
 .cndy-cheek.r {
-  right: 7px
+  right: 7px;
 }
 
-
-
 .cndy-bubbles {
-
   position: absolute;
 
   inset: 0;
 
   pointer-events: none;
-
 }
 
 .cndy-bubble {
-
   position: absolute;
 
   width: 9px;
@@ -310,50 +260,42 @@ button {
   opacity: 0;
 
   animation: float 1.2s ease-out infinite;
-
 }
 
 .cndy-bubble.b1 {
   left: 25%;
-  top: 0
+  top: 0;
 }
 
 .cndy-bubble.b2 {
   left: 52%;
   top: 8px;
-  animation-delay: .35s
+  animation-delay: 0.35s;
 }
 
 .cndy-bubble.b3 {
   left: 73%;
   top: 0;
-  animation-delay: .7s
+  animation-delay: 0.7s;
 }
 
-
-
 .cndy-info {
-
   margin-top: 25px;
 
   color: #8b2442;
 
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.9);
-
 }
 
 .cndy-percent {
-
   font-size: 25px;
 
   font-weight: 900;
 
   letter-spacing: 1px;
-
 }
 
 .cndy-status {
-
   margin-top: 4px;
 
   font-size: 11px;
@@ -362,65 +304,53 @@ button {
 
   letter-spacing: 2px;
 
-  opacity: .85;
-
+  opacity: 0.85;
 }
 
 @keyframes float {
-
   0% {
-    transform: translateY(10px) scale(.5);
-    opacity: 0
+    transform: translateY(10px) scale(0.5);
+    opacity: 0;
   }
 
   25% {
-    opacity: .9
+    opacity: 0.9;
   }
 
   100% {
     transform: translateY(-30px) scale(1.15);
-    opacity: 0
+    opacity: 0;
   }
-
 }
 
 @keyframes wiggle {
-
   0%,
   100% {
-    transform: translateZ(45px) rotate(-8deg) scale(1)
+    transform: translateZ(45px) rotate(-8deg) scale(1);
   }
 
   50% {
-    transform: translateZ(55px) rotate(5deg) scale(1.06)
+    transform: translateZ(55px) rotate(5deg) scale(1.06);
   }
-
 }
 
 .cndy-candy.wiggle {
-  animation: wiggle .7s ease-in-out infinite
+  animation: wiggle 0.7s ease-in-out infinite;
 }
 
-
-
 @font-face {
-
   font-family: "Noto Sans Bengali";
 
   src: url("NotoSansBengali-Regular.ttf") format("truetype");
 
   font-display: swap;
-
 }
-
-
 
 /* Premium Dark Pink Unified Schema */
 
 :root,
 [data-theme="light"],
 [data-theme="dark"] {
-
   --bg: #13030d;
 
   --bg-alt: #1f0817;
@@ -433,8 +363,6 @@ button {
 
   --hover-bg: #320f26;
 
-
-
   --c-blue-bg: #db2777;
 
   --c-blue-border: #be185d;
@@ -442,8 +370,6 @@ button {
   --c-blue-shadow: #f9a8d4;
 
   --c-blue-dark: #9d174d;
-
-
 
   --c-pink-bg: #ec4899;
 
@@ -461,15 +387,11 @@ button {
 
   --c-pink-sel-ring: #f472b6;
 
-
-
   --c-green-bg: #f472b6;
 
   --c-green-border: #ec4899;
 
   --c-green-shadow: #fce7f3;
-
-
 
   --c-red-bg: #9d174d;
 
@@ -478,8 +400,6 @@ button {
   --c-red-shadow: #f472b6;
 
   --c-red-dark: #4a044e;
-
-
 
   --c-nav-active-bg: #be185d;
 
@@ -497,8 +417,6 @@ button {
 
   --c-lightbox-bg: rgba(0, 0, 0, 0.9);
 
-
-
   --c-highlight-bg: #db2777;
 
   --c-highlight-border: #be185d;
@@ -508,37 +426,24 @@ button {
   --c-selection-bg: #ec4899;
 
   --c-selection-ink: #ffffff;
-
 }
 
-
-
 mark,
-
 .search-highlight {
-
   background: var(--c-highlight-bg);
 
   border: 1px solid var(--c-highlight-border);
 
   color: var(--c-highlight-ink);
-
 }
 
-
-
 ::selection {
-
   background: var(--c-selection-bg);
 
   color: var(--c-selection-ink);
-
 }
 
-
-
 .welcome-overlay {
-
   position: fixed;
 
   inset: 0;
@@ -560,13 +465,9 @@ mark,
   pointer-events: none;
 
   transition: opacity 0.5s ease;
-
 }
 
-
-
 .welcome-overlay::before {
-
   opacity: 0.18;
 
   content: "";
@@ -575,28 +476,20 @@ mark,
 
   inset: 0;
 
-  background: url('extracted_img_10.png') center/cover no-repeat;
+  background: url("extracted_img_10.png") center/cover no-repeat;
 
   opacity: 0.3;
 
   z-index: -1;
-
 }
 
-
-
 .welcome-overlay.active {
-
   opacity: 1;
 
   pointer-events: all;
-
 }
 
-
-
 .welcome-overlay img.welcome-text {
-
   width: min(90vw, 450px);
 
   max-width: 100%;
@@ -614,23 +507,15 @@ mark,
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 
   transition-delay: 0.2s;
-
 }
 
-
-
 .welcome-overlay.active img.welcome-text {
-
   opacity: 1;
 
   transform: translateY(0);
-
 }
 
-
-
 .flying-bird {
-
   position: absolute;
 
   font-size: 16px;
@@ -642,13 +527,9 @@ mark,
   animation: flyBird 20s linear infinite;
 
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-
 }
 
-
-
 @keyframes flyBird {
-
   0% {
     top: 10%;
     left: -10%;
@@ -702,81 +583,46 @@ mark,
     left: -10%;
     transform: scaleX(1) rotate(15deg);
   }
-
 }
 
-
-
 * {
-
   box-sizing: border-box;
 
   -webkit-tap-highlight-color: transparent !important;
-
 }
-
-
 
 *:focus,
-
 *:active {
-
   outline: none !important;
-
 }
-
-
 
 button,
-
 a {
-
   outline: none !important;
-
 }
 
-
-
 ::-webkit-scrollbar {
-
   width: 4px;
 
   height: 4px;
-
 }
-
-
 
 ::-webkit-scrollbar-track {
-
   background: transparent;
-
 }
 
-
-
 ::-webkit-scrollbar-thumb {
-
   background: var(--c-border);
 
   border-radius: 2px;
-
 }
-
-
 
 ::-webkit-scrollbar-thumb:hover {
-
   background: var(--c-text-sec);
-
 }
 
-
-
 html,
-
 body {
-
   margin: 0;
 
   padding: 0;
@@ -787,7 +633,14 @@ body {
 
   height: 100dvh;
 
-  font-family: "Outfit", "Noto Sans Bengali", Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-family:
+    "Outfit",
+    "Noto Sans Bengali",
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
 
   color: var(--ink);
 
@@ -797,16 +650,13 @@ body {
 
   display: flex;
 
-  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
-
-
 
 /* Layout */
 
 .sidebar {
-
   background: var(--bg-alt);
 
   display: flex;
@@ -818,25 +668,17 @@ body {
   padding-top: calc(24px + env(safe-area-inset-top));
 
   padding-bottom: calc(24px + env(safe-area-inset-bottom));
-
 }
 
-
-
 .left-sidebar {
-
   width: 280px;
 
   max-width: 100vw;
 
   border-right: 2px solid var(--border);
-
 }
 
-
-
 .right-sidebar {
-
   width: 320px;
 
   max-width: 100vw;
@@ -844,13 +686,9 @@ body {
   border-left: 2px solid var(--border);
 
   background: var(--bg-alt);
-
 }
 
-
-
 .main-content {
-
   flex: 1;
 
   display: flex;
@@ -862,65 +700,35 @@ body {
   overflow: hidden;
 
   min-width: 0;
-
 }
-
-
 
 .typing-dots span {
-
   animation: typingDot 1.4s infinite both;
-
 }
-
-
 
 .typing-dots span:nth-child(2) {
-
   animation-delay: 0.2s;
-
 }
-
-
 
 .typing-dots span:nth-child(3) {
-
   animation-delay: 0.4s;
-
 }
-
-
 
 @keyframes typingDot {
-
-
-
   0%,
-
   80%,
-
   100% {
-
     opacity: 0;
-
   }
-
-
 
   40% {
-
     opacity: 1;
-
   }
-
 }
-
-
 
 /* Sidebar Content */
 
 .logo {
-
   font-size: 24px;
 
   font-weight: 800;
@@ -934,13 +742,9 @@ body {
   align-items: center;
 
   gap: 10px;
-
 }
 
-
-
 .nav-links {
-
   display: flex;
 
   flex-direction: column;
@@ -950,13 +754,9 @@ body {
   margin-top: 10px;
 
   flex: 1;
-
 }
 
-
-
 .nav-links a {
-
   text-decoration: none;
 
   color: var(--ink);
@@ -975,14 +775,14 @@ body {
 
   gap: 12px;
 
-  transition: background 0.2s, box-shadow 0.2s, border 0.2s, transform 0.2s;
-
+  transition:
+    background 0.2s,
+    box-shadow 0.2s,
+    border 0.2s,
+    transform 0.2s;
 }
 
-
-
 .nav-links a:active {
-
   background: var(--hover-bg);
 
   border-color: var(--ink);
@@ -990,13 +790,9 @@ body {
   box-shadow: 1px 1px 0 var(--ink);
 
   transform: translateY(2px);
-
 }
 
-
-
 .nav-links a.active {
-
   background: var(--c-nav-active-bg);
 
   color: var(--c-nav-active-text);
@@ -1004,45 +800,29 @@ body {
   border-color: var(--ink);
 
   box-shadow: 2px 2px 0 var(--ink);
-
 }
-
-
 
 .nav-links a i {
-
   font-size: 20px;
-
 }
 
-
-
 .storage-info {
-
   margin-top: auto;
 
   padding-top: 20px;
 
   border-top: 1px solid var(--border);
-
 }
 
-
-
 .storage-info p {
-
   margin: 0 0 10px 0;
 
   font-weight: 800;
 
   font-size: 14px;
-
 }
 
-
-
 .storage-bar {
-
   height: 12px;
 
   background: var(--c-storage-bg);
@@ -1054,13 +834,9 @@ body {
   margin-bottom: 8px;
 
   overflow: hidden;
-
 }
 
-
-
 .storage-used {
-
   height: 100%;
 
   background: var(--c-storage-used);
@@ -1070,27 +846,19 @@ body {
   border-radius: 0;
 
   border-right: 2px solid var(--ink);
-
 }
 
-
-
 .storage-info span {
-
   font-size: 13px;
 
   font-weight: 800;
 
   color: var(--text-muted);
-
 }
-
-
 
 /* Header */
 
 .top-header {
-
   height: 70px;
 
   min-height: 70px;
@@ -1120,13 +888,9 @@ body {
   top: 0;
 
   z-index: 100;
-
 }
 
-
-
 .header-left {
-
   display: flex;
 
   align-items: center;
@@ -1138,13 +902,9 @@ body {
   min-width: 0;
 
   /* Crucial: allows search bar to flex without forcing topbar overflow */
-
 }
 
-
-
 .search-bar {
-
   display: flex;
 
   align-items: center;
@@ -1165,38 +925,28 @@ body {
 
   border: 2px solid var(--border);
 
-  transition: border-color 0.2s, background 0.2s;
+  transition:
+    border-color 0.2s,
+    background 0.2s;
 
   box-sizing: border-box;
-
 }
 
-
-
 .search-bar:focus-within {
-
   background: var(--bg);
 
   border-color: var(--ink);
-
 }
 
-
-
 .search-bar i {
-
   font-size: 18px;
 
   color: var(--text-muted);
 
   flex-shrink: 0;
-
 }
 
-
-
 .search-bar input {
-
   border: none;
 
   background: transparent;
@@ -1214,13 +964,9 @@ body {
   min-width: 0;
 
   color: var(--ink);
-
 }
 
-
-
 .profile-actions {
-
   display: flex;
 
   align-items: center;
@@ -1232,13 +978,9 @@ body {
   /* Never shrink or squeeze profile actions, icons, or badges */
 
   flex-wrap: nowrap;
-
 }
 
-
-
 .profile-actions i {
-
   font-size: 22px;
 
   color: var(--text-muted);
@@ -1254,21 +996,13 @@ body {
   flex-shrink: 0;
 
   transition: color 0.15s;
-
 }
-
-
 
 .profile-actions i:hover {
-
   color: var(--ink);
-
 }
 
-
-
 .profile-pic {
-
   width: 36px;
 
   height: 36px;
@@ -1294,15 +1028,10 @@ body {
   cursor: pointer;
 
   box-shadow: 2px 2px 0 var(--ink);
-
 }
 
-
-
 .settings-dropdown,
-
 .profile-dropdown {
-
   display: none;
 
   position: absolute;
@@ -1322,35 +1051,23 @@ body {
   z-index: 100;
 
   min-width: 200px;
-
 }
-
-
 
 /* Content Area */
 
 .content-scroll {
-
   flex: 1;
 
   padding: 4px;
 
   overflow-y: scroll;
-
 }
-
-
 
 .section {
-
   margin-bottom: 40px;
-
 }
 
-
-
 .card-grid-3d {
-
   display: grid;
 
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
@@ -1358,13 +1075,9 @@ body {
   gap: 4px;
 
   padding: 4px;
-
 }
 
-
-
 .file-card-3d {
-
   position: relative;
 
   display: flex;
@@ -1390,103 +1103,62 @@ body {
   height: auto;
 
   overflow: hidden;
-
 }
-
-
 
 /* Make thumbnail fill the entire card and remove inline double-border */
 
-.file-card-3d>div[style] {
-
+.file-card-3d > div[style] {
   width: 100% !important;
 
   height: 100% !important;
 
   border: none !important;
-
 }
-
-
 
 .file-card-3d .file-icon {
-
   font-size: 56px;
-
 }
-
-
 
 .file-card-3d .file-name,
-
 .file-card-3d .file-meta {
-
   display: none;
-
 }
-
-
 
 /* Simple Grid Item Variations (Using Button Colors) */
 
 .file-card-3d {
-
   transition: transform 100ms ease;
-
 }
-
-
 
 .file-card-3d:active {
-
   transform: scale(0.96);
-
 }
 
-
-
 .file-card-blue {
-
   background: var(--c-blue-bg);
 
   border: 4px solid var(--c-blue-border);
-
 }
 
-
-
 .file-card-pink {
-
   background: var(--c-pink-bg);
 
   border: 4px solid var(--c-pink-border);
-
 }
-
-
 
 .file-card-pink .spark {
-
   display: none;
-
 }
 
-
-
 .file-card-green {
-
   background: var(--c-green-bg);
 
   border: 4px solid var(--c-green-border);
-
 }
-
-
 
 /* Filter Tabs UI */
 
 .filter-tabs {
-
   display: flex;
 
   gap: 12px;
@@ -1498,21 +1170,13 @@ body {
   padding-bottom: 4px;
 
   scrollbar-width: none;
-
 }
-
-
 
 .filter-tabs::-webkit-scrollbar {
-
   display: none;
-
 }
 
-
-
 .filter-btn {
-
   padding: 6px 14px;
 
   background: var(--bg);
@@ -1536,37 +1200,25 @@ body {
   box-shadow: 2px 2px 0 var(--ink);
 
   transition: transform 100ms;
-
 }
 
-
-
 .filter-btn:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: 0 0 0 var(--ink);
-
 }
 
-
-
 .filter-btn.active {
-
   background: var(--c-blue-bg);
 
   /* blue */
 
   color: var(--ink);
-
 }
-
-
 
 /* --- Compact Upload Widget (Right Sidebar) --- */
 
 .upload-widget {
-
   background: var(--bg-alt);
 
   border: 2px solid var(--ink);
@@ -1588,13 +1240,9 @@ body {
   min-width: 0;
 
   max-width: 100%;
-
 }
 
-
-
 .upload-widget h3 {
-
   margin: 0;
 
   font-size: 18px;
@@ -1612,13 +1260,9 @@ body {
   justify-content: center;
 
   gap: 8px;
-
 }
 
-
-
 .upload-section label {
-
   display: block;
 
   font-weight: 800;
@@ -1628,13 +1272,9 @@ body {
   margin-bottom: 12px;
 
   color: var(--ink);
-
 }
 
-
-
 .file-name-display {
-
   margin-top: 12px;
 
   font-size: 14px;
@@ -1660,27 +1300,19 @@ body {
   font-weight: 800;
 
   display: none;
-
 }
 
-
-
 .compact-options {
-
   display: flex;
 
   flex-direction: column;
 
   gap: 10px;
-
 }
-
-
 
 /* Buttons */
 
 button {
-
   font: inherit;
 
   border: 0;
@@ -1696,15 +1328,11 @@ button {
   justify-content: center;
 
   gap: 8px;
-
 }
-
-
 
 /* Demo 1 */
 
 .btn1 {
-
   position: relative;
 
   padding: 15px 21px 16px;
@@ -1720,35 +1348,22 @@ button {
   border: 2px solid var(--c-blue-border);
 
   box-shadow:
-
     0 7px 0 var(--c-blue-shadow),
-
     0 11px 17px rgba(57, 184, 201, 0.22);
 
   transform: translateY(0);
 
   transition:
-
     transform 90ms ease,
-
     box-shadow 90ms ease,
-
     background 100ms ease;
-
 }
-
-
 
 .btn1.full-width {
-
   width: 100%;
-
 }
 
-
-
 .btn1::before {
-
   content: "";
 
   position: absolute;
@@ -1758,13 +1373,9 @@ button {
   border: 1px solid rgba(255, 255, 255, 0.95);
 
   pointer-events: none;
-
 }
 
-
-
 .btn1::after {
-
   content: "";
 
   position: absolute;
@@ -1782,61 +1393,43 @@ button {
   transform: skewX(-28deg);
 
   z-index: -1;
-
 }
 
-
-
 .btn1:active {
-
   transform: translateY(6px);
 
   box-shadow:
-
     0 1px 0 var(--c-blue-shadow),
-
     0 4px 8px rgba(57, 184, 201, 0.15);
-
 }
-
-
 
 /* Red Button Variant for btn1 */
 
 .btn1.btn-red {
-
   background: var(--c-red-bg);
 
   border-color: var(--c-red-border);
 
   color: var(--c-red-dark);
 
-  box-shadow: 0 7px 0 var(--c-red-shadow), 0 11px 17px rgba(248, 113, 113, 0.22);
-
+  box-shadow:
+    0 7px 0 var(--c-red-shadow),
+    0 11px 17px rgba(248, 113, 113, 0.22);
 }
-
-
 
 .btn1.btn-red::after {
-
   background: var(--c-red-dark);
-
 }
-
-
 
 .btn1.btn-red:active {
-
-  box-shadow: 0 1px 0 var(--c-red-shadow), 0 4px 8px rgba(248, 113, 113, 0.15);
-
+  box-shadow:
+    0 1px 0 var(--c-red-shadow),
+    0 4px 8px rgba(248, 113, 113, 0.15);
 }
-
-
 
 /* Demo 2 */
 
 .btn2 {
-
   position: relative;
 
   padding: 15px 22px;
@@ -1852,33 +1445,21 @@ button {
   border: 2px solid var(--c-pink-border);
 
   box-shadow:
-
     0 6px 0 var(--c-pink-shadow),
-
     0 0 0 3px var(--c-pink-ring);
 
   transform: perspective(500px) rotateX(0deg);
 
   transition:
-
     transform 100ms cubic-bezier(0.2, 0.8, 0.2, 1),
-
     box-shadow 100ms ease;
-
 }
-
-
 
 .btn2.compact-btn {
-
   min-width: 100%;
-
 }
 
-
-
 .btn2 .spark {
-
   position: absolute;
 
   width: 7px;
@@ -1892,91 +1473,55 @@ button {
   right: 11px;
 
   box-shadow:
-
     -16px 7px 0 #b7f3ff,
-
     -5px 18px 0 #fbe76e;
-
 }
 
-
-
 .btn2:active {
-
   transform: perspective(500px) rotateX(12deg) translateY(5px);
 
   box-shadow:
-
     0 1px 0 var(--c-pink-shadow),
-
     0 0 0 3px var(--c-pink-ring);
-
 }
 
-
-
 .btn2.selected {
-
   background: var(--c-pink-sel-bg);
 
   border-color: var(--c-pink-sel-border);
 
   box-shadow:
-
     0 8px 0 var(--c-pink-sel-shadow),
-
     0 0 0 3px var(--c-pink-sel-ring);
 
   transform: perspective(500px) rotateX(0deg);
-
 }
 
-
-
 .btn2.selected:active {
-
   transform: perspective(500px) rotateX(12deg) translateY(5px);
 
   box-shadow:
-
     0 1px 0 var(--c-pink-sel-shadow),
-
     0 0 0 3px var(--c-pink-sel-ring);
-
 }
-
-
 
 .duration-btn.selected .unchecked-icon {
-
   display: none !important;
-
 }
-
-
 
 .duration-btn.selected .checked-icon {
-
   display: inline-block !important;
-
 }
 
-
-
 .duration-btn {
-
   justify-content: flex-start;
 
   text-align: left;
-
 }
-
-
 
 /* Demo 3 */
 
 .btn3 {
-
   position: relative;
 
   padding: 16px 23px;
@@ -1992,33 +1537,21 @@ button {
   border: 2px solid var(--c-green-border);
 
   box-shadow:
-
     7px 7px 0 var(--c-green-shadow),
-
     0 12px 18px rgba(114, 169, 52, 0.18);
 
   overflow: hidden;
 
   transition:
-
     transform 80ms ease,
-
     box-shadow 80ms ease;
-
 }
-
-
 
 .btn3.full-width {
-
   width: 100%;
-
 }
 
-
-
 .btn3::before {
-
   content: "";
 
   position: absolute;
@@ -2038,51 +1571,30 @@ button {
   opacity: 0.7;
 
   animation: shine 2.15s linear infinite;
-
 }
 
-
-
 .btn3:active {
-
   transform: translate(5px, 5px);
 
   box-shadow:
-
     2px 2px 0 var(--c-green-shadow),
-
     0 5px 9px rgba(114, 169, 52, 0.16);
-
 }
-
-
 
 @keyframes shine {
-
   0% {
-
     left: -35%;
-
   }
-
-
 
   32%,
-
   100% {
-
     left: 120%;
-
   }
-
 }
-
-
 
 /* --- Responsiveness --- */
 
 .menu-toggle {
-
   display: none;
 
   background: none;
@@ -2108,13 +1620,9 @@ button {
   justify-content: center;
 
   flex-shrink: 0;
-
 }
 
-
-
 .sidebar-overlay {
-
   display: none;
 
   position: fixed;
@@ -2128,13 +1636,9 @@ button {
   opacity: 0;
 
   transition: opacity 0.3s;
-
 }
 
-
-
 .right-sidebar-toggle {
-
   display: none;
 
   position: fixed;
@@ -2144,13 +1648,9 @@ button {
   right: calc(24px + env(safe-area-inset-right));
 
   z-index: 100;
-
 }
 
-
-
 .floating-chat-btn {
-
   position: fixed;
 
   bottom: calc(24px + env(safe-area-inset-bottom));
@@ -2189,28 +1689,26 @@ button {
 
   /* Make shadow diagonally symmetrical so it doesn't look taller than wide */
 
-  box-shadow: 6px 6px 0 var(--c-pink-shadow), 0 0 0 3px var(--c-pink-ring) !important;
+  box-shadow:
+    6px 6px 0 var(--c-pink-shadow),
+    0 0 0 3px var(--c-pink-ring) !important;
 
   transform: none !important;
 
-  transition: opacity 0.3s ease, transform 0.1s ease !important;
-
+  transition:
+    opacity 0.3s ease,
+    transform 0.1s ease !important;
 }
-
-
 
 .floating-chat-btn:active {
-
   transform: translate(4px, 4px) !important;
 
-  box-shadow: 2px 2px 0 var(--c-pink-shadow), 0 0 0 3px var(--c-pink-ring) !important;
-
+  box-shadow:
+    2px 2px 0 var(--c-pink-shadow),
+    0 0 0 3px var(--c-pink-ring) !important;
 }
 
-
-
 .floating-chat-btn i {
-
   line-height: 0 !important;
 
   margin: 0 !important;
@@ -2218,13 +1716,9 @@ button {
   padding: 0 !important;
 
   display: block;
-
 }
 
-
-
 .chat-badge {
-
   position: absolute;
 
   top: -8px;
@@ -2256,17 +1750,13 @@ button {
   box-shadow: 2px 2px 0 var(--ink);
 
   z-index: 10;
-
 }
-
-
 
 /* --- Chat Popup — State Machine CSS --- */
 
 /* Base: HIBERNATED state — hidden, no pointer events */
 
 .chat-popup {
-
   position: fixed;
 
   /* Sit above the floating button (56px btn + 24px gap + 16px clearance) */
@@ -2313,30 +1803,24 @@ button {
 
   transform: translate3d(0, 0, 0);
 
-  transition: opacity 0.15s ease-out, visibility 0.15s ease-out;
-
+  transition:
+    opacity 0.15s ease-out,
+    visibility 0.15s ease-out;
 }
-
-
 
 /* FLOATING state — visible as a floating panel */
 
 .chat-popup.cb-floating {
-
   opacity: 1;
 
   visibility: visible;
 
   pointer-events: auto;
-
 }
-
-
 
 /* FULLSCREEN state — covers the entire viewport */
 
 .chat-popup.cb-fullscreen {
-
   width: var(--vv-width, 100vw) !important;
 
   height: var(--vv-height, 100dvh) !important;
@@ -2368,45 +1852,29 @@ button {
   pointer-events: auto;
 
   transition: none !important;
-
 }
-
-
 
 /* Suppress transitions during drag / resize interactions */
 
 .chat-popup.cb-interacting {
-
   transition: none !important;
-
 }
-
-
 
 /* Hide resize handles in fullscreen */
 
 .chat-popup.cb-fullscreen .resize-handle {
-
   display: none !important;
-
 }
-
-
 
 /* --- Resize Handles --- */
 
 .resize-handle {
-
   position: absolute;
 
   z-index: 10;
-
 }
 
-
-
 .rh-t {
-
   top: -10px;
 
   left: 10px;
@@ -2416,13 +1884,9 @@ button {
   height: 20px;
 
   cursor: n-resize;
-
 }
 
-
-
 .rh-b {
-
   bottom: -10px;
 
   left: 10px;
@@ -2432,13 +1896,9 @@ button {
   height: 20px;
 
   cursor: s-resize;
-
 }
 
-
-
 .rh-l {
-
   top: 10px;
 
   bottom: 10px;
@@ -2448,13 +1908,9 @@ button {
   width: 20px;
 
   cursor: e-resize;
-
 }
 
-
-
 .rh-r {
-
   top: 10px;
 
   bottom: 10px;
@@ -2464,13 +1920,9 @@ button {
   width: 20px;
 
   cursor: w-resize;
-
 }
 
-
-
 .rh-tl {
-
   top: -10px;
 
   left: -10px;
@@ -2482,13 +1934,9 @@ button {
   cursor: nw-resize;
 
   z-index: 11;
-
 }
 
-
-
 .rh-tr {
-
   top: -10px;
 
   right: -10px;
@@ -2500,13 +1948,9 @@ button {
   cursor: ne-resize;
 
   z-index: 11;
-
 }
 
-
-
 .rh-bl {
-
   bottom: -10px;
 
   left: -10px;
@@ -2518,13 +1962,9 @@ button {
   cursor: sw-resize;
 
   z-index: 11;
-
 }
 
-
-
 .rh-br {
-
   bottom: -10px;
 
   right: -10px;
@@ -2536,13 +1976,9 @@ button {
   cursor: se-resize;
 
   z-index: 11;
-
 }
 
-
-
 .chat-header {
-
   background: #1a0313;
 
   border-bottom: none;
@@ -2558,21 +1994,13 @@ button {
   cursor: grab;
 
   user-select: none;
-
 }
-
-
 
 .chat-header:active {
-
   cursor: grabbing;
-
 }
 
-
-
 .chat-header h4 {
-
   margin: 0;
 
   font-size: 16px;
@@ -2584,13 +2012,9 @@ button {
   align-items: center;
 
   gap: 8px;
-
 }
 
-
-
 .partner-login-badge {
-
   display: inline-flex;
 
   align-items: center;
@@ -2616,93 +2040,61 @@ button {
   vertical-align: middle;
 
   border-radius: 0;
-
 }
-
-
 
 .partner-login-badge i {
-
   font-size: 9px;
-
 }
 
-
-
 .partner-login-badge.badge-top-avatar {
-
   background: #2d0a1a;
 
   color: #f9a8d4;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-login-badge.badge-chatbox {
-
   background: #1a0313;
 
   color: #f9a8d4;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-login-badge.badge-filedrive {
-
   background: #0a2010;
 
   color: #86efac;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-login-badge.badge-source {
-
   background: #1c1500;
 
   color: #fcd34d;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-login-badge.badge-drive-closed {
-
   background: #1c0000;
 
   color: #fca5a5;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-login-badge.badge-drive-opened {
-
   background: #001c08;
 
   color: #86efac;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-mode-badge {
-
   display: inline-flex;
 
   align-items: center;
@@ -2728,47 +2120,30 @@ button {
   vertical-align: middle;
 
   border-radius: 0;
-
 }
-
-
 
 .partner-mode-badge i {
-
   font-size: 9px;
-
 }
 
-
-
 .partner-mode-badge.badge-fullscreen {
-
   background: #ede9fe;
 
   color: #6d28d9;
 
   border-color: var(--ink);
-
 }
 
-
-
 .partner-mode-badge.badge-floating {
-
   background: #e0f2fe;
 
   color: #0369a1;
 
   border-color: var(--ink);
-
 }
 
-
-
 .chat-fullscreen,
-
 .chat-close {
-
   border: 2px solid var(--ink);
 
   width: 28px;
@@ -2786,45 +2161,28 @@ button {
   box-shadow: 2px 2px 0 var(--ink);
 
   padding: 0;
-
 }
 
-
-
 .chat-fullscreen {
-
   background: var(--hover-bg);
 
   color: var(--ink);
-
 }
 
-
-
 .chat-close {
-
   background: var(--c-red-bg);
 
   color: var(--c-red-dark);
-
 }
 
-
-
 .chat-fullscreen:active,
-
 .chat-close:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: 0 0 0 var(--ink);
-
 }
 
-
-
 .chat-body {
-
   padding: 8px;
 
   flex: 1;
@@ -2833,7 +2191,9 @@ button {
 
   background-color: var(--c-chat-bg);
 
-  background-image: linear-gradient(var(--chat-bg-overlay), var(--chat-bg-overlay)), var(--chat-bg-image);
+  background-image:
+    linear-gradient(var(--chat-bg-overlay), var(--chat-bg-overlay)),
+    var(--chat-bg-image);
 
   background-size: cover;
 
@@ -2848,13 +2208,9 @@ button {
   flex-direction: column;
 
   align-items: flex-start;
-
 }
 
-
-
 .chat-load-more {
-
   align-self: center;
 
   margin: 4px auto 10px auto;
@@ -2886,23 +2242,15 @@ button {
   transition: transform 0.1s ease;
 
   touch-action: manipulation;
-
 }
 
-
-
 .chat-load-more:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: none;
-
 }
 
-
-
 .chat-loading-placeholder {
-
   margin: auto;
 
   display: flex;
@@ -2926,51 +2274,31 @@ button {
   border: 2px solid var(--ink);
 
   box-shadow: 3px 3px 0 var(--ink);
-
 }
 
-
-
 .chat-loading-placeholder i {
-
   font-size: 28px;
 
   color: var(--ink);
 
   animation: spinLoader 1s linear infinite;
-
 }
 
-
-
 .chat-loading-placeholder span {
-
   font-size: 13px;
 
   font-weight: 700;
 
   letter-spacing: 0.3px;
-
 }
-
-
 
 @keyframes spinLoader {
-
   100% {
-
     transform: rotate(360deg);
-
   }
-
 }
 
-
-
-
-
 .chat-msg {
-
   background: var(--bg);
 
   border: 2px solid var(--ink);
@@ -2991,14 +2319,10 @@ button {
 
   word-break: break-word;
 
-  font-family: 'Outfit', sans-serif;
-
+  font-family: "Outfit", sans-serif;
 }
 
-
-
 .emoji-only-msg {
-
   background: transparent !important;
 
   border: none !important;
@@ -3011,14 +2335,10 @@ button {
 
   max-width: 100% !important;
 
-  font-family: 'Outfit', sans-serif !important;
-
+  font-family: "Outfit", sans-serif !important;
 }
 
-
-
 .emoji-only-large-msg {
-
   padding: 8px 10px !important;
 
   /* Proper grid padding */
@@ -3026,13 +2346,9 @@ button {
   width: max-content !important;
 
   max-width: 100% !important;
-
 }
 
-
-
 .emoji-row {
-
   display: flex;
 
   width: max-content;
@@ -3040,21 +2356,13 @@ button {
   gap: 4px;
 
   margin-bottom: 4px;
-
 }
-
-
 
 .emoji-row:last-child {
-
   margin-bottom: 0;
-
 }
 
-
-
 .emoji-char {
-
   display: block;
 
   flex: none;
@@ -3069,14 +2377,10 @@ button {
 
   font-size: 20px;
 
-  font-family: 'Outfit', sans-serif;
-
+  font-family: "Outfit", sans-serif;
 }
 
-
-
 .bot-msg {
-
   border-bottom-left-radius: 0;
 
   align-self: flex-start;
@@ -3084,13 +2388,9 @@ button {
   background: #3d0a1e;
 
   /* Dark muted pink for partner */
-
 }
 
-
-
 .user-msg {
-
   border-bottom-right-radius: 0;
 
   align-self: flex-end;
@@ -3098,31 +2398,18 @@ button {
   background: #1a0a2e;
 
   /* Dark muted purple-pink for user */
-
 }
-
-
 
 .chat-msg:first-child {
-
   margin-top: 0 !important;
-
 }
 
-
-
-.user-msg+.user-msg,
-
-.bot-msg+.bot-msg {
-
+.user-msg + .user-msg,
+.bot-msg + .bot-msg {
   margin-top: 2px !important;
-
 }
-
-
 
 .chat-footer {
-
   border-top: none;
 
   padding: 12px;
@@ -3136,13 +2423,9 @@ button {
   background: var(--bg);
 
   touch-action: manipulation;
-
 }
 
-
-
 .chat-footer textarea {
-
   flex: 1;
 
   min-width: 0;
@@ -3151,7 +2434,7 @@ button {
 
   padding: 8px 12px;
 
-  font-family: 'Outfit', sans-serif;
+  font-family: "Outfit", sans-serif;
 
   font-weight: 600;
 
@@ -3180,21 +2463,13 @@ button {
   touch-action: manipulation;
 
   -webkit-tap-highlight-color: transparent;
-
 }
-
-
 
 .chat-footer textarea:focus {
-
   background: var(--bg);
-
 }
 
-
-
 .chat-send {
-
   background: var(--c-blue-bg);
 
   border: 2px solid var(--ink);
@@ -3223,36 +2498,25 @@ button {
 
   -webkit-user-select: none;
 
-  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
-
+  transition:
+    transform 0.1s ease-out,
+    box-shadow 0.1s ease-out;
 }
 
-
-
 .chat-send:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: 0 0 0 var(--ink);
 
   transition: none;
-
 }
-
-
 
 [data-theme="dark"] .chat-send i {
-
   color: #ffffff;
-
 }
 
-
-
 @media (max-width: 1200px) {
-
   .right-sidebar {
-
     position: fixed;
 
     right: 0;
@@ -3268,73 +2532,40 @@ button {
     transition: transform 0.3s ease;
 
     box-shadow: -4px 0 24px rgba(0, 0, 0, 0.1);
-
   }
-
-
 
   .right-sidebar.open {
-
     transform: translateX(0);
-
   }
-
-
 
   .right-sidebar-toggle {
-
     display: flex;
-
   }
-
-
 
   .close-panel-btn {
-
     display: block !important;
-
   }
-
 }
-
-
 
 /* Keyboard Open State (mobile only — set by ChatboxSM) */
 
 body.kb-open .floating-chat-btn,
-
 body.kb-open .right-sidebar-toggle {
-
   display: none !important;
-
 }
-
-
 
 @media (max-width: 900px) {
-
   .file-card-3d .file-icon {
-
     font-size: 40px;
-
   }
-
 }
 
-
-
 @media (max-width: 768px) {
-
   .menu-toggle {
-
     display: flex;
-
   }
 
-
-
   .left-sidebar {
-
     position: fixed;
 
     top: 0;
@@ -3350,31 +2581,19 @@ body.kb-open .right-sidebar-toggle {
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     box-shadow: 4px 0 24px rgba(0, 0, 0, 0.1);
-
   }
-
-
 
   .left-sidebar.open {
-
     transform: translateX(0);
-
   }
 
-
-
   .sidebar-overlay.open {
-
     display: block;
 
     opacity: 1;
-
   }
 
-
-
   .top-header {
-
     height: 70px;
 
     min-height: 70px;
@@ -3384,25 +2603,17 @@ body.kb-open .right-sidebar-toggle {
     padding: 0 16px;
 
     gap: 12px;
-
   }
 
-
-
   .header-left {
-
     gap: 10px;
 
     min-width: 0;
 
     flex: 1 1 auto;
-
   }
 
-
-
   .search-bar {
-
     flex: 1 1 auto;
 
     width: 100%;
@@ -3416,95 +2627,56 @@ body.kb-open .right-sidebar-toggle {
     min-width: 0;
 
     box-sizing: border-box;
-
   }
 
-
-
   .profile-actions {
-
     gap: 12px;
 
     flex-shrink: 0;
-
   }
-
-
 
   .profile-actions i {
-
     font-size: 22px;
-
   }
 
-
-
   .profile-pic {
-
     width: 34px;
 
     height: 34px;
-
   }
-
-
 
   .content-scroll {
-
     padding: 4px;
-
   }
 
-
-
   .list-item {
-
     grid-template-columns: 1fr auto;
 
     gap: 8px;
-
   }
-
-
 
   .list-item .file-size {
-
     display: none;
-
   }
 
-
-
   .floating-chat-btn,
-
   .chat-popup {
-
     left: calc(24px + env(safe-area-inset-left));
 
     right: auto;
-
   }
-
-
 
   /* Keep popup bottom offset consistent on mobile */
 
   .chat-popup {
-
     bottom: calc(96px + env(safe-area-inset-bottom));
 
     transform-origin: bottom left;
-
   }
-
 }
 
-
-
 @media (max-width: 480px) {
-
   .top-header {
-
     height: 70px;
 
     min-height: 70px;
@@ -3514,37 +2686,25 @@ body.kb-open .right-sidebar-toggle {
     padding: 0 12px;
 
     gap: 10px;
-
   }
 
-
-
   .header-left {
-
     gap: 8px;
 
     min-width: 0;
 
     flex: 1 1 auto;
-
   }
 
-
-
   .menu-toggle {
-
     width: 32px;
 
     height: 32px;
 
     font-size: 24px;
-
   }
 
-
-
   .search-bar {
-
     flex: 1 1 auto;
 
     width: 100%;
@@ -3560,13 +2720,9 @@ body.kb-open .right-sidebar-toggle {
     gap: 6px;
 
     box-sizing: border-box;
-
   }
 
-
-
   .search-bar input {
-
     display: block;
 
     font-size: 13px;
@@ -3574,77 +2730,46 @@ body.kb-open .right-sidebar-toggle {
     width: 100%;
 
     min-width: 0;
-
   }
 
-
-
   .search-bar i {
-
     color: var(--text-muted);
 
     font-size: 17px;
 
     flex-shrink: 0;
-
   }
 
-
-
   .profile-actions {
-
     gap: 10px;
 
     margin-left: 0;
 
     flex-shrink: 0;
-
   }
-
-
 
   .profile-actions i {
-
     font-size: 20px;
-
   }
 
-
-
   .profile-pic {
-
     width: 30px;
 
     height: 30px;
-
   }
 
-
-
   .card-grid-3d {
-
     grid-template-columns: repeat(3, 1fr);
 
     gap: 4px;
 
     padding: 4px;
-
   }
-
 }
-
-
-
-
-
-
-
-
 
 /* --- Lightbox Dialog --- */
 
 dialog#previewModal {
-
   padding: 0;
 
   border: 2px solid var(--ink);
@@ -3666,27 +2791,16 @@ dialog#previewModal {
   margin: auto;
 
   outline: none;
-
 }
-
-
 
 dialog#previewModal::backdrop,
-
 dialog#loginModal::backdrop,
-
 dialog#serverOfflineModal::backdrop,
-
 dialog#customAlertModal::backdrop {
-
   background: rgba(17, 24, 39, 0.85);
-
 }
 
-
-
 .modal-header {
-
   display: flex;
 
   justify-content: space-between;
@@ -3698,13 +2812,9 @@ dialog#customAlertModal::backdrop {
   border-bottom: 2px solid var(--ink);
 
   background: var(--bg-alt);
-
 }
 
-
-
 .modal-header h2 {
-
   margin: 0;
 
   font-size: 18px;
@@ -3718,13 +2828,9 @@ dialog#customAlertModal::backdrop {
   gap: 12px;
 
   color: var(--ink);
-
 }
 
-
-
 .modal-close-btn {
-
   background: var(--c-red-bg);
 
   border: 2px solid var(--ink);
@@ -3747,26 +2853,20 @@ dialog#customAlertModal::backdrop {
 
   font-weight: bold;
 
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
 
   box-shadow: 2px 2px 0 var(--ink);
-
 }
 
-
-
 .modal-close-btn:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: 0px 0px 0 var(--ink);
-
 }
 
-
-
 .modal-body {
-
   padding: 24px;
 
   display: flex;
@@ -3782,15 +2882,10 @@ dialog#customAlertModal::backdrop {
   max-height: calc(90vh - 140px);
 
   overflow: hidden;
-
 }
 
-
-
 .modal-body img,
-
 .modal-body video {
-
   max-width: 100%;
 
   max-height: 100%;
@@ -3800,21 +2895,13 @@ dialog#customAlertModal::backdrop {
   box-shadow: 4px 4px 0 var(--ink);
 
   object-fit: contain;
-
 }
-
-
 
 video::-webkit-media-controls-timeline {
-
   display: none !important;
-
 }
 
-
-
 .modal-footer {
-
   padding: 16px 24px;
 
   border-top: 2px solid var(--ink);
@@ -3830,15 +2917,11 @@ video::-webkit-media-controls-timeline {
   font-size: 14px;
 
   color: var(--text-muted);
-
 }
-
-
 
 /* --- Avatar Preview Modal --- */
 
 dialog#avatarPreviewModal {
-
   padding: 0;
 
   border: none;
@@ -3858,39 +2941,27 @@ dialog#avatarPreviewModal {
   margin: auto;
 
   outline: none;
-
 }
-
-
 
 /* Only apply flex layout when dialog is actually open */
 
 dialog#avatarPreviewModal[open] {
-
   display: flex;
 
   flex-direction: column;
 
   align-items: center;
-
 }
 
-
-
 dialog#avatarPreviewModal::backdrop {
-
   background: rgba(10, 14, 22, 0.93);
 
   backdrop-filter: blur(7px);
-
 }
-
-
 
 /* Inner wrapper — stacking context for particles */
 
 .avatar-modal-inner {
-
   display: flex;
 
   flex-direction: column;
@@ -3908,27 +2979,19 @@ dialog#avatarPreviewModal::backdrop {
   /* clip particles to modal area while flying */
 
   animation: avatarPopIn 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
-
 }
-
-
 
 /* Image area */
 
 .avatar-img-area {
-
   position: relative;
 
   width: 100%;
 
   flex-shrink: 0;
-
 }
 
-
-
 .avatar-img-area img {
-
   width: 100%;
 
   aspect-ratio: 1 / 1;
@@ -3940,13 +3003,9 @@ dialog#avatarPreviewModal::backdrop {
   border: none;
 
   box-shadow: none;
-
 }
 
-
-
 .avatar-img-area .avatar-fallback-big {
-
   width: 100%;
 
   aspect-ratio: 1 / 1;
@@ -3962,15 +3021,11 @@ dialog#avatarPreviewModal::backdrop {
   font-size: clamp(60px, 20vw, 120px);
 
   color: white;
-
 }
-
-
 
 /* Close button — overlay on image */
 
 .avatar-preview-close {
-
   position: absolute;
 
   top: 10px;
@@ -4006,33 +3061,21 @@ dialog#avatarPreviewModal::backdrop {
   backdrop-filter: blur(4px);
 
   border-radius: 0;
-
 }
 
-
-
 .avatar-preview-close:hover {
-
   background: rgba(220, 38, 38, 0.85);
 
   border-color: rgba(255, 255, 255, 0.65);
-
 }
-
-
 
 .avatar-preview-close:active {
-
   transform: scale(0.9);
-
 }
-
-
 
 /* Reaction bar — below image */
 
 .avatar-reaction-bar {
-
   display: flex;
 
   justify-content: center;
@@ -4048,16 +3091,12 @@ dialog#avatarPreviewModal::backdrop {
   backdrop-filter: blur(8px);
 
   flex-shrink: 0;
-
 }
 
-
-
 .reaction-btn {
+  background: rgba(255, 255, 255, 0.1);
 
-  background: rgba(255, 255, 255, 0.10);
-
-  border: 1.5px solid rgba(255, 255, 255, 0.20);
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
 
   border-radius: 0;
 
@@ -4073,7 +3112,9 @@ dialog#avatarPreviewModal::backdrop {
 
   justify-content: center;
 
-  transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.12s;
+  transition:
+    transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background 0.12s;
 
   user-select: none;
 
@@ -4084,13 +3125,9 @@ dialog#avatarPreviewModal::backdrop {
   line-height: 1;
 
   padding: 0;
-
 }
 
-
-
 .reaction-btn .fb-emoji {
-
   width: clamp(26px, 8vw, 34px) !important;
 
   height: clamp(26px, 8vw, 34px) !important;
@@ -4098,33 +3135,21 @@ dialog#avatarPreviewModal::backdrop {
   vertical-align: middle !important;
 
   pointer-events: none;
-
 }
 
-
-
 .reaction-btn:hover {
-
   background: rgba(255, 255, 255, 0.22);
 
   transform: scale(1.15);
-
 }
-
-
 
 .reaction-btn:active {
-
   transform: scale(0.86);
-
 }
-
-
 
 /* Emoji particle — absolute inside .avatar-modal-inner */
 
 .reaction-particle {
-
   position: absolute;
 
   pointer-events: none;
@@ -4137,14 +3162,11 @@ dialog#avatarPreviewModal::backdrop {
 
   transform-origin: center center;
 
-  animation: reactionFloat var(--dur, 2.2s) cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
-
+  animation: reactionFloat var(--dur, 2.2s) cubic-bezier(0.2, 0.8, 0.3, 1)
+    forwards;
 }
 
-
-
 .reaction-particle .fb-emoji {
-
   display: block !important;
 
   width: var(--psize, 28px) !important;
@@ -4152,71 +3174,44 @@ dialog#avatarPreviewModal::backdrop {
   height: var(--psize, 28px) !important;
 
   pointer-events: none;
-
 }
 
-
-
 @keyframes reactionFloat {
-
   0% {
-
     transform: translate(-50%, -50%) rotate(var(--rot0)) scale(1);
 
     opacity: 1;
-
   }
-
-
 
   65% {
-
     opacity: 0.9;
-
   }
-
-
 
   100% {
-
-    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot1)) scale(var(--sc));
+    transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+      rotate(var(--rot1)) scale(var(--sc));
 
     opacity: 0;
-
   }
-
 }
 
-
-
 @keyframes avatarPopIn {
-
   from {
-
     transform: scale(0.82);
 
     opacity: 0;
-
   }
 
-
-
   to {
-
     transform: scale(1);
 
     opacity: 1;
-
   }
-
 }
-
-
 
 /* --- Profile Dropdown --- */
 
 .profile-dropdown {
-
   position: absolute;
 
   top: calc(100% + 10px);
@@ -4238,51 +3233,33 @@ dialog#avatarPreviewModal::backdrop {
   z-index: 200;
 
   flex-direction: column;
-
 }
 
-
-
 .profile-dropdown.open {
-
   display: flex;
 
   /* Add subtle popup animation */
 
   animation: popIn 0.15s ease-out;
-
 }
 
-
-
 @keyframes popIn {
-
   from {
-
     opacity: 0;
 
     transform: scale(0.95);
-
   }
 
-
-
   to {
-
     opacity: 1;
 
     transform: scale(1);
-
   }
-
 }
-
-
 
 /* --- Login Warning --- */
 
 .login-warning {
-
   text-align: center;
 
   padding: 60px 24px;
@@ -4298,23 +3275,15 @@ dialog#avatarPreviewModal::backdrop {
   margin: 40px auto;
 
   border-radius: 0;
-
 }
 
-
-
 .login-warning-icon {
-
   font-size: 64px;
 
   margin-bottom: 20px;
-
 }
 
-
-
 .login-warning h2 {
-
   font-size: 28px;
 
   font-weight: 900;
@@ -4324,13 +3293,9 @@ dialog#avatarPreviewModal::backdrop {
   margin-bottom: 16px;
 
   margin-top: 0;
-
 }
 
-
-
 .login-warning p {
-
   font-size: 16px;
 
   font-weight: 600;
@@ -4342,15 +3307,11 @@ dialog#avatarPreviewModal::backdrop {
   line-height: 1.6;
 
   margin-top: 0;
-
 }
-
-
 
 /* --- File Lock Live Bengali Countdown Timer --- */
 
 .file-countdown-wrapper {
-
   background: var(--bg);
 
   border: 2px solid var(--ink);
@@ -4364,13 +3325,9 @@ dialog#avatarPreviewModal::backdrop {
   max-width: 460px;
 
   border-radius: 8px;
-
 }
 
-
-
 .countdown-badge {
-
   display: inline-flex;
 
   align-items: center;
@@ -4397,64 +3354,39 @@ dialog#avatarPreviewModal::backdrop {
 
   letter-spacing: 0.2px;
 
-  font-family: 'Noto Sans Bengali', sans-serif;
-
+  font-family: "Noto Sans Bengali", sans-serif;
 }
 
-
-
 .countdown-icon-pulse {
-
   font-size: 16px;
 
   animation: countdownPulse 2.5s infinite ease-in-out;
-
 }
 
-
-
 @keyframes countdownPulse {
-
-
-
   0%,
-
   100% {
-
     transform: scale(1);
 
     opacity: 1;
-
   }
 
-
-
   50% {
-
     transform: scale(1.2);
 
     opacity: 0.75;
-
   }
-
 }
 
-
-
 .countdown-timer-grid {
-
   display: grid;
 
   grid-template-columns: repeat(4, 1fr);
 
   gap: 10px;
-
 }
 
-
-
 .countdown-unit-box {
-
   background: var(--bg-alt);
 
   border: 2px solid var(--ink);
@@ -4474,21 +3406,13 @@ dialog#avatarPreviewModal::backdrop {
   justify-content: center;
 
   transition: transform 0.15s ease;
-
 }
-
-
 
 .countdown-unit-box:hover {
-
   transform: translateY(-2px);
-
 }
 
-
-
 .countdown-val {
-
   font-size: 32px;
 
   font-weight: 900;
@@ -4497,16 +3421,12 @@ dialog#avatarPreviewModal::backdrop {
 
   color: var(--ink);
 
-  font-family: 'Outfit', 'Noto Sans Bengali', monospace, sans-serif;
+  font-family: "Outfit", "Noto Sans Bengali", monospace, sans-serif;
 
   font-feature-settings: "tnum";
-
 }
 
-
-
 .countdown-lbl {
-
   font-size: 13px;
 
   font-weight: 800;
@@ -4515,148 +3435,92 @@ dialog#avatarPreviewModal::backdrop {
 
   margin-top: 4px;
 
-  font-family: 'Noto Sans Bengali', sans-serif;
-
+  font-family: "Noto Sans Bengali", sans-serif;
 }
 
-
-
-
-
 #revealFilesBtn:disabled,
-
 #revealFilesBtn.disabled {
-
   opacity: 0.55 !important;
 
   cursor: not-allowed !important;
 
   pointer-events: none !important;
 
-  box-shadow: 0 2px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring) !important;
+  box-shadow:
+    0 2px 0 var(--c-pink-shadow),
+    0 0 0 2px var(--c-pink-ring) !important;
 
   transform: none !important;
 
   filter: grayscale(0.5) !important;
-
 }
 
-
-
 #hideFilesBtn:disabled {
-
   opacity: 0.55 !important;
 
   cursor: not-allowed !important;
 
   pointer-events: none !important;
-
 }
 
-
-
 @media (max-width: 480px) {
-
   .file-countdown-wrapper {
-
     padding: 16px 12px 14px;
 
     margin: 0 auto 20px;
-
   }
-
-
 
   .countdown-val {
-
     font-size: 24px;
-
   }
-
-
 
   .countdown-lbl {
-
     font-size: 11px;
-
   }
-
-
 
   .countdown-timer-grid {
-
     gap: 6px;
-
   }
-
-
 
   .countdown-unit-box {
-
     padding: 8px 2px 6px;
-
   }
 
-
-
   .countdown-badge {
-
     font-size: 11px;
 
     padding: 4px 12px;
-
   }
-
 }
 
-
-
 @media (max-width: 600px) {
-
   .login-warning {
-
     padding: 32px 16px;
 
     margin: 20px;
 
     box-shadow: 4px 4px 0 var(--ink);
-
   }
 
-
-
   .login-warning-icon {
-
     font-size: 42px;
 
     margin-bottom: 16px;
-
   }
 
-
-
   .login-warning h2 {
-
     font-size: 22px;
 
     margin-bottom: 12px;
-
   }
 
-
-
   .login-warning p {
-
     font-size: 14px;
 
     margin-bottom: 24px;
-
   }
 
-
-
   dialog#previewModal {
-
     width: 100vw !important;
 
     max-width: 100vw !important;
@@ -4672,39 +3536,23 @@ dialog#avatarPreviewModal::backdrop {
     margin: 0;
 
     border-radius: 0;
-
   }
 
-
-
   dialog#previewModal[open] {
-
     display: flex !important;
 
     flex-direction: column;
-
   }
-
-
 
   #previewModal .modal-header {
-
     padding: 12px 16px;
-
   }
-
-
 
   #previewModal .modal-footer {
-
     padding: 12px 16px;
-
   }
 
-
-
   #previewModal .modal-body {
-
     flex: 1;
 
     padding: 8px;
@@ -4720,31 +3568,21 @@ dialog#avatarPreviewModal::backdrop {
     align-items: center;
 
     justify-content: center;
-
   }
 
-
-
   #previewModal .modal-body img,
-
   #previewModal .modal-body video {
-
     max-width: calc(100% - 8px);
 
     max-height: calc(100% - 8px);
 
     object-fit: contain;
-
   }
-
 }
-
-
 
 /* --- Login Modal & Custom Keypad (Fully Responsive) --- */
 
 dialog#loginModal {
-
   padding: 0;
 
   border: 2px solid var(--ink);
@@ -4764,13 +3602,9 @@ dialog#loginModal {
   margin: auto;
 
   outline: none;
-
 }
 
-
-
 #loginModal .modal-header {
-
   padding: 14px 18px;
 
   border-bottom: 2px solid var(--ink);
@@ -4782,13 +3616,9 @@ dialog#loginModal {
   justify-content: space-between;
 
   align-items: center;
-
 }
 
-
-
 #loginModal .modal-header h2 {
-
   margin: 0;
 
   font-size: 17px;
@@ -4802,13 +3632,9 @@ dialog#loginModal {
   gap: 10px;
 
   color: var(--ink);
-
 }
 
-
-
 #loginModal .modal-body {
-
   background: var(--c-pink-bg);
 
   display: flex;
@@ -4830,13 +3656,9 @@ dialog#loginModal {
   overflow-y: auto;
 
   max-height: calc(92dvh - 60px);
-
 }
 
-
-
 .login-modal-subtitle {
-
   margin: 0;
 
   font-weight: 800;
@@ -4849,14 +3671,10 @@ dialog#loginModal {
 
   line-height: 1.4;
 
-  font-family: 'Noto Sans Bengali', sans-serif;
-
+  font-family: "Noto Sans Bengali", sans-serif;
 }
 
-
-
 #pinInput {
-
   -webkit-text-security: square;
 
   font-size: 28px;
@@ -4886,13 +3704,9 @@ dialog#loginModal {
   box-sizing: border-box;
 
   font-family: monospace, sans-serif;
-
 }
 
-
-
 #pinError {
-
   color: var(--c-red-shadow);
 
   font-weight: 800;
@@ -4901,16 +3715,12 @@ dialog#loginModal {
 
   display: none;
 
-  font-family: 'Noto Sans Bengali', sans-serif;
+  font-family: "Noto Sans Bengali", sans-serif;
 
   text-align: center;
-
 }
 
-
-
 .custom-keypad {
-
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
@@ -4924,13 +3734,9 @@ dialog#loginModal {
   max-width: 250px;
 
   box-sizing: border-box;
-
 }
 
-
-
 .keypad-btn {
-
   background: var(--bg);
 
   border: 2px solid var(--ink);
@@ -4949,7 +3755,10 @@ dialog#loginModal {
 
   box-shadow: 3px 3px 0 var(--ink);
 
-  transition: transform 0.08s, box-shadow 0.08s, background 0.08s;
+  transition:
+    transform 0.08s,
+    box-shadow 0.08s,
+    background 0.08s;
 
   display: flex;
 
@@ -4962,107 +3771,66 @@ dialog#loginModal {
   -webkit-user-select: none;
 
   touch-action: manipulation;
-
 }
 
-
-
 .keypad-btn:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: 1px 1px 0 var(--ink);
 
   background: var(--hover-bg);
-
 }
 
-
-
 .keypad-backspace {
-
   background: var(--c-red-bg);
 
   color: var(--c-red-dark);
-
 }
-
-
 
 .keypad-backspace:active {
-
   background: var(--c-red-border);
-
 }
-
-
 
 /* Small Mobile Displays (<= 400px) */
 
 @media (max-width: 400px) {
-
   dialog#loginModal {
-
     width: 94vw;
 
     border-radius: 10px;
 
     box-shadow: 4px 4px 0 var(--ink);
-
   }
-
-
 
   #loginModal .modal-header {
-
     padding: 10px 14px;
-
   }
 
-
-
   #loginModal .modal-header h2 {
-
     font-size: 15px;
 
     gap: 8px;
-
   }
 
-
-
   #loginModal .modal-close-btn {
-
     width: 30px;
 
     height: 30px;
 
     font-size: 16px;
-
   }
 
-
-
   #loginModal .modal-body {
-
     padding: 14px 12px;
 
     gap: 10px;
-
   }
-
-
 
   .login-modal-subtitle {
-
     font-size: 12.5px;
-
   }
 
-
-
   #pinInput {
-
     font-size: 22px;
 
     letter-spacing: 7px;
@@ -5072,23 +3840,15 @@ dialog#loginModal {
     width: 170px;
 
     box-shadow: 2px 2px 0 var(--ink);
-
   }
 
-
-
   .custom-keypad {
-
     gap: 8px;
 
     max-width: 220px;
-
   }
 
-
-
   .keypad-btn {
-
     font-size: 19px;
 
     padding: 10px 0;
@@ -5096,39 +3856,25 @@ dialog#loginModal {
     border-radius: 6px;
 
     box-shadow: 2px 2px 0 var(--ink);
-
   }
-
 }
-
-
 
 /* Very Small Displays (<= 320px) */
 
 @media (max-width: 320px) {
-
   dialog#loginModal {
-
     width: 96vw;
 
     box-shadow: 3px 3px 0 var(--ink);
-
   }
 
-
-
   #loginModal .modal-body {
-
     padding: 12px 8px;
 
     gap: 8px;
-
   }
 
-
-
   #pinInput {
-
     width: 150px;
 
     font-size: 20px;
@@ -5136,73 +3882,43 @@ dialog#loginModal {
     letter-spacing: 5px;
 
     padding: 6px 8px;
-
   }
 
-
-
   .custom-keypad {
-
     gap: 6px;
 
     max-width: 200px;
-
   }
 
-
-
   .keypad-btn {
-
     font-size: 17px;
 
     padding: 8px 0;
-
   }
-
 }
-
-
 
 /* Landscape or Short Screens (Height <= 620px) */
 
 @media (max-height: 620px) {
-
   dialog#loginModal {
-
     max-height: 96dvh;
-
   }
-
-
 
   #loginModal .modal-header {
-
     padding: 8px 14px;
-
   }
 
-
-
   #loginModal .modal-body {
-
     padding: 10px 14px;
 
     gap: 8px;
-
   }
-
-
 
   .login-modal-subtitle {
-
     display: none;
-
   }
 
-
-
   #pinInput {
-
     font-size: 20px;
 
     letter-spacing: 6px;
@@ -5210,49 +3926,34 @@ dialog#loginModal {
     padding: 5px 8px;
 
     width: 150px;
-
   }
 
-
-
   .custom-keypad {
-
     gap: 6px;
 
     max-width: 210px;
-
   }
 
-
-
   .keypad-btn {
-
     font-size: 17px;
 
     padding: 7px 0;
-
   }
-
 }
-
-
 
 /* --- Selection Mode & Action Bar --- */
 
 .card-grid-3d.selecting .card-thumb img {
-
   opacity: 0.8;
 
   transform: scale(0.95);
 
-  transition: transform 0.2s, opacity 0.2s;
-
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
 }
 
-
-
 .sel-check {
-
   display: none;
 
   position: absolute;
@@ -5278,51 +3979,31 @@ dialog#loginModal {
   justify-content: center;
 
   box-shadow: 2px 2px 0 var(--ink);
-
 }
-
-
 
 .card-grid-3d.selecting .file-card-3d .sel-check {
-
   display: flex;
-
 }
 
-
-
 .file-card-3d.selected .sel-check {
-
   background: var(--c-blue-bg);
 
   color: var(--ink);
-
 }
 
-
-
 .file-card-3d.selected .sel-check::after {
-
-  content: '✓';
+  content: "✓";
 
   font-weight: 900;
 
   font-size: 18px;
-
 }
-
-
 
 .file-card-3d.selected .card-thumb {
-
   border: 4px solid var(--c-blue-bg);
-
 }
 
-
-
 .action-bar {
-
   position: fixed;
 
   bottom: -100px;
@@ -5348,33 +4029,21 @@ dialog#loginModal {
   z-index: 1000;
 
   transition: bottom 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-
 }
-
-
 
 .action-bar.show {
-
   bottom: 30px;
-
 }
 
-
-
 .action-bar .sel-count {
-
   font-weight: 800;
 
   font-size: 16px;
 
   color: var(--ink);
-
 }
 
-
-
 .action-bar .btn-del {
-
   background: #e11d48;
 
   color: #fff;
@@ -5388,23 +4057,15 @@ dialog#loginModal {
   cursor: pointer;
 
   box-shadow: 2px 2px 0 var(--ink);
-
 }
 
-
-
 .action-bar .btn-del:active {
-
   transform: translate(2px, 2px);
 
   box-shadow: none;
-
 }
 
-
-
 .action-bar .btn-cancel {
-
   background: transparent;
 
   border: none;
@@ -5414,15 +4075,11 @@ dialog#loginModal {
   cursor: pointer;
 
   text-decoration: underline;
-
 }
-
-
 
 /* --- Server Offline Modal (Responsive) --- */
 
 dialog#serverOfflineModal {
-
   padding: 0;
 
   border: 2px solid var(--ink);
@@ -5442,13 +4099,9 @@ dialog#serverOfflineModal {
   margin: auto;
 
   outline: none;
-
 }
 
-
-
 #serverOfflineModal .modal-header {
-
   padding: 14px 18px;
 
   border-bottom: 2px solid var(--ink);
@@ -5460,13 +4113,9 @@ dialog#serverOfflineModal {
   justify-content: space-between;
 
   align-items: center;
-
 }
 
-
-
 #serverOfflineModal .modal-header h2 {
-
   margin: 0;
 
   font-size: 17px;
@@ -5480,13 +4129,9 @@ dialog#serverOfflineModal {
   gap: 10px;
 
   color: #ef4444;
-
 }
 
-
-
 #serverOfflineModal .modal-body {
-
   background: var(--bg);
 
   display: flex;
@@ -5508,25 +4153,17 @@ dialog#serverOfflineModal {
   overflow-y: auto;
 
   text-align: center;
-
 }
 
-
-
 .offline-icon {
-
   font-size: 54px;
 
   color: #ef4444;
 
   margin-bottom: 6px;
-
 }
 
-
-
 .offline-title {
-
   font-size: 18px;
 
   color: var(--ink);
@@ -5534,13 +4171,9 @@ dialog#serverOfflineModal {
   margin: 0;
 
   font-weight: 800;
-
 }
 
-
-
 .offline-subtitle {
-
   font-size: 14px;
 
   color: var(--ink);
@@ -5550,81 +4183,47 @@ dialog#serverOfflineModal {
   margin: 0;
 
   line-height: 1.5;
-
 }
 
-
-
 @media (max-width: 400px) {
-
   dialog#serverOfflineModal {
-
     width: 94vw;
 
     border-radius: 10px;
 
     box-shadow: 4px 4px 0 var(--ink);
-
   }
-
-
 
   #serverOfflineModal .modal-header {
-
     padding: 10px 14px;
-
   }
 
-
-
   #serverOfflineModal .modal-header h2 {
-
     font-size: 15px;
 
     gap: 8px;
-
   }
 
-
-
   #serverOfflineModal .modal-body {
-
     padding: 20px 16px;
 
     gap: 10px;
-
   }
-
-
 
   .offline-icon {
-
     font-size: 42px;
-
   }
-
-
 
   .offline-title {
-
     font-size: 16px;
-
   }
-
-
 
   .offline-subtitle {
-
     font-size: 13px;
-
   }
-
 }
 
-
-
 .cndy-demo {
-
   width: min(92vw, 620px);
 
   text-align: center;
@@ -5634,11 +4233,9 @@ dialog#serverOfflineModal {
   margin-top: 30px;
 
   margin-bottom: 20px;
-
 }
 
 .cndy-bar-wrap {
-
   position: relative;
 
   width: 100%;
@@ -5648,11 +4245,9 @@ dialog#serverOfflineModal {
   transform: rotateX(8deg);
 
   transform-style: preserve-3d;
-
 }
 
 .cndy-track {
-
   position: absolute;
 
   inset: 14px 0 0;
@@ -5664,19 +4259,13 @@ dialog#serverOfflineModal {
   background: #f5b9d3;
 
   box-shadow:
-
-    inset 0 7px 9px rgba(117, 39, 84, .16),
-
-    inset 0 -5px 0 rgba(255, 255, 255, .3),
-
+    inset 0 7px 9px rgba(117, 39, 84, 0.16),
+    inset 0 -5px 0 rgba(255, 255, 255, 0.3),
     0 10px 0 #d98aac,
-
-    0 16px 22px rgba(117, 39, 84, .14);
-
+    0 16px 22px rgba(117, 39, 84, 0.14);
 }
 
 .cndy-fill {
-
   position: absolute;
 
   left: 8px;
@@ -5694,21 +4283,15 @@ dialog#serverOfflineModal {
   background: #ff5b9f;
 
   box-shadow:
-
-    inset 0 7px 0 rgba(255, 255, 255, .35),
-
-    inset 0 -7px 0 rgba(190, 40, 105, .18),
-
+    inset 0 7px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -7px 0 rgba(190, 40, 105, 0.18),
     0 5px 0 #d83d7c,
+    0 9px 12px rgba(190, 48, 111, 0.22);
 
-    0 9px 12px rgba(190, 48, 111, .22);
-
-  transition: width .08s linear;
-
+  transition: width 0.08s linear;
 }
 
 .cndy-fill:before {
-
   content: "";
 
   position: absolute;
@@ -5723,12 +4306,10 @@ dialog#serverOfflineModal {
 
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, .38);
-
+  background: rgba(255, 255, 255, 0.38);
 }
 
 .cndy-fill:after {
-
   content: "";
 
   position: absolute;
@@ -5744,14 +4325,12 @@ dialog#serverOfflineModal {
 
   background: #fff;
 
-  opacity: .75;
+  opacity: 0.75;
 
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, .12);
-
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12);
 }
 
 .cndy-candy {
-
   position: absolute;
 
   z-index: 5;
@@ -5770,21 +4349,15 @@ dialog#serverOfflineModal {
   background: #ff70ad;
 
   box-shadow:
-
-    inset 7px 7px 0 rgba(255, 255, 255, .42),
-
-    inset -7px -9px 0 rgba(130, 30, 78, .15),
-
+    inset 7px 7px 0 rgba(255, 255, 255, 0.42),
+    inset -7px -9px 0 rgba(130, 30, 78, 0.15),
     0 7px 0 #d83d7c,
+    0 13px 18px rgba(117, 39, 84, 0.2);
 
-    0 13px 18px rgba(117, 39, 84, .2);
-
-  transition: left .08s linear;
-
+  transition: left 0.08s linear;
 }
 
 .cndy-candy:before {
-
   content: "";
 
   position: absolute;
@@ -5797,14 +4370,12 @@ dialog#serverOfflineModal {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, 0.72);
 
   transform: rotate(-25deg);
-
 }
 
 .cndy-candy:after {
-
   content: "";
 
   position: absolute;
@@ -5817,23 +4388,19 @@ dialog#serverOfflineModal {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .3);
-
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .cndy-face {
-
   position: absolute;
 
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-
 }
 
 .cndy-eye {
-
   position: absolute;
 
   top: 22px;
@@ -5844,19 +4411,17 @@ dialog#serverOfflineModal {
   border-radius: 50%;
 
   background: #602346;
-
 }
 
 .cndy-eye.l {
-  left: 17px
+  left: 17px;
 }
 
 .cndy-eye.r {
-  right: 17px
+  right: 17px;
 }
 
 .cndy-mouth {
-
   position: absolute;
 
   width: 17px;
@@ -5868,11 +4433,9 @@ dialog#serverOfflineModal {
   border-bottom: 3px solid #602346;
 
   border-radius: 0 0 50% 50%;
-
 }
 
 .cndy-cheek {
-
   position: absolute;
 
   width: 10px;
@@ -5882,31 +4445,25 @@ dialog#serverOfflineModal {
   border-radius: 50%;
 
   background: #ff9ac1;
-
 }
 
 .cndy-cheek.l {
-  left: 7px
+  left: 7px;
 }
 
 .cndy-cheek.r {
-  right: 7px
+  right: 7px;
 }
 
-
-
 .cndy-bubbles {
-
   position: absolute;
 
   inset: 0;
 
   pointer-events: none;
-
 }
 
 .cndy-bubble {
-
   position: absolute;
 
   width: 9px;
@@ -5919,50 +4476,42 @@ dialog#serverOfflineModal {
   opacity: 0;
 
   animation: float 1.2s ease-out infinite;
-
 }
 
 .cndy-bubble.b1 {
   left: 25%;
-  top: 0
+  top: 0;
 }
 
 .cndy-bubble.b2 {
   left: 52%;
   top: 8px;
-  animation-delay: .35s
+  animation-delay: 0.35s;
 }
 
 .cndy-bubble.b3 {
   left: 73%;
   top: 0;
-  animation-delay: .7s
+  animation-delay: 0.7s;
 }
 
-
-
 .cndy-info {
-
   margin-top: 25px;
 
   color: #fff;
 
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-
 }
 
 .cndy-percent {
-
   font-size: 25px;
 
   font-weight: 900;
 
   letter-spacing: 1px;
-
 }
 
 .cndy-status {
-
   margin-top: 4px;
 
   font-size: 11px;
@@ -5971,51 +4520,43 @@ dialog#serverOfflineModal {
 
   letter-spacing: 2px;
 
-  opacity: .9;
-
+  opacity: 0.9;
 }
 
 @keyframes float {
-
   0% {
-    transform: translateY(10px) scale(.5);
-    opacity: 0
+    transform: translateY(10px) scale(0.5);
+    opacity: 0;
   }
 
   25% {
-    opacity: .9
+    opacity: 0.9;
   }
 
   100% {
     transform: translateY(-30px) scale(1.15);
-    opacity: 0
+    opacity: 0;
   }
-
 }
 
 @keyframes wiggle {
-
   0%,
   100% {
-    transform: translateZ(45px) rotate(-8deg) scale(1)
+    transform: translateZ(45px) rotate(-8deg) scale(1);
   }
 
   50% {
-    transform: translateZ(55px) rotate(5deg) scale(1.06)
+    transform: translateZ(55px) rotate(5deg) scale(1.06);
   }
-
 }
 
 .cndy-candy.wiggle {
-  animation: wiggle .7s ease-in-out infinite
+  animation: wiggle 0.7s ease-in-out infinite;
 }
-
-
 
 /* Inline FB emoji images in chat bubbles */
 
 .fb-emoji {
-
   width: 1.35em;
 
   height: 1.35em;
@@ -6031,29 +4572,21 @@ dialog#serverOfflineModal {
   user-select: none;
 
   -webkit-user-select: none;
-
 }
-
-
 
 /* Emoji-only message (1-5 emoji) — comfortable reading size */
 
 .emoji-only-msg .fb-emoji {
-
   width: 28px;
 
   height: 28px;
 
   vertical-align: -6px;
-
 }
-
-
 
 /* Grid cells for 6+ emoji */
 
 .emoji-char .fb-emoji {
-
   width: 22px;
 
   height: 22px;
@@ -6061,23 +4594,15 @@ dialog#serverOfflineModal {
   display: block;
 
   margin: auto;
-
 }
-
-
 
 /* Graceful text fallback for any emoji not in dataset */
 
 .emoji-fallback {
-
-  font-family: 'Outfit', sans-serif;
-
+  font-family: "Outfit", sans-serif;
 }
 
-
-
 .cndy-demo {
-
   width: min(92vw, 620px);
 
   text-align: center;
@@ -6087,11 +4612,9 @@ dialog#serverOfflineModal {
   margin-top: 30px;
 
   margin-bottom: 20px;
-
 }
 
 .cndy-bar-wrap {
-
   position: relative;
 
   width: 100%;
@@ -6101,11 +4624,9 @@ dialog#serverOfflineModal {
   transform: rotateX(8deg);
 
   transform-style: preserve-3d;
-
 }
 
 .cndy-track {
-
   position: absolute;
 
   inset: 14px 0 0;
@@ -6117,19 +4638,13 @@ dialog#serverOfflineModal {
   background: #f5b9d3;
 
   box-shadow:
-
-    inset 0 7px 9px rgba(117, 39, 84, .16),
-
-    inset 0 -5px 0 rgba(255, 255, 255, .3),
-
+    inset 0 7px 9px rgba(117, 39, 84, 0.16),
+    inset 0 -5px 0 rgba(255, 255, 255, 0.3),
     0 10px 0 #d98aac,
-
-    0 16px 22px rgba(117, 39, 84, .14);
-
+    0 16px 22px rgba(117, 39, 84, 0.14);
 }
 
 .cndy-fill {
-
   position: absolute;
 
   left: 8px;
@@ -6147,21 +4662,15 @@ dialog#serverOfflineModal {
   background: #ff5b9f;
 
   box-shadow:
-
-    inset 0 7px 0 rgba(255, 255, 255, .35),
-
-    inset 0 -7px 0 rgba(190, 40, 105, .18),
-
+    inset 0 7px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -7px 0 rgba(190, 40, 105, 0.18),
     0 5px 0 #d83d7c,
+    0 9px 12px rgba(190, 48, 111, 0.22);
 
-    0 9px 12px rgba(190, 48, 111, .22);
-
-  transition: width .08s linear;
-
+  transition: width 0.08s linear;
 }
 
 .cndy-fill:before {
-
   content: "";
 
   position: absolute;
@@ -6176,12 +4685,10 @@ dialog#serverOfflineModal {
 
   border-radius: 20px;
 
-  background: rgba(255, 255, 255, .38);
-
+  background: rgba(255, 255, 255, 0.38);
 }
 
 .cndy-fill:after {
-
   content: "";
 
   position: absolute;
@@ -6197,14 +4704,12 @@ dialog#serverOfflineModal {
 
   background: #fff;
 
-  opacity: .75;
+  opacity: 0.75;
 
-  box-shadow: 0 0 0 5px rgba(255, 255, 255, .12);
-
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.12);
 }
 
 .cndy-candy {
-
   position: absolute;
 
   z-index: 5;
@@ -6223,21 +4728,15 @@ dialog#serverOfflineModal {
   background: #ff70ad;
 
   box-shadow:
-
-    inset 7px 7px 0 rgba(255, 255, 255, .42),
-
-    inset -7px -9px 0 rgba(130, 30, 78, .15),
-
+    inset 7px 7px 0 rgba(255, 255, 255, 0.42),
+    inset -7px -9px 0 rgba(130, 30, 78, 0.15),
     0 7px 0 #d83d7c,
+    0 13px 18px rgba(117, 39, 84, 0.2);
 
-    0 13px 18px rgba(117, 39, 84, .2);
-
-  transition: left .08s linear;
-
+  transition: left 0.08s linear;
 }
 
 .cndy-candy:before {
-
   content: "";
 
   position: absolute;
@@ -6250,14 +4749,12 @@ dialog#serverOfflineModal {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .72);
+  background: rgba(255, 255, 255, 0.72);
 
   transform: rotate(-25deg);
-
 }
 
 .cndy-candy:after {
-
   content: "";
 
   position: absolute;
@@ -6270,23 +4767,19 @@ dialog#serverOfflineModal {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .3);
-
+  background: rgba(255, 255, 255, 0.3);
 }
 
 .cndy-face {
-
   position: absolute;
 
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
-
 }
 
 .cndy-eye {
-
   position: absolute;
 
   top: 22px;
@@ -6297,19 +4790,17 @@ dialog#serverOfflineModal {
   border-radius: 50%;
 
   background: #602346;
-
 }
 
 .cndy-eye.l {
-  left: 17px
+  left: 17px;
 }
 
 .cndy-eye.r {
-  right: 17px
+  right: 17px;
 }
 
 .cndy-mouth {
-
   position: absolute;
 
   width: 17px;
@@ -6321,11 +4812,9 @@ dialog#serverOfflineModal {
   border-bottom: 3px solid #602346;
 
   border-radius: 0 0 50% 50%;
-
 }
 
 .cndy-cheek {
-
   position: absolute;
 
   width: 10px;
@@ -6335,31 +4824,25 @@ dialog#serverOfflineModal {
   border-radius: 50%;
 
   background: #ff9ac1;
-
 }
 
 .cndy-cheek.l {
-  left: 7px
+  left: 7px;
 }
 
 .cndy-cheek.r {
-  right: 7px
+  right: 7px;
 }
 
-
-
 .cndy-bubbles {
-
   position: absolute;
 
   inset: 0;
 
   pointer-events: none;
-
 }
 
 .cndy-bubble {
-
   position: absolute;
 
   width: 9px;
@@ -6372,50 +4855,42 @@ dialog#serverOfflineModal {
   opacity: 0;
 
   animation: float 1.2s ease-out infinite;
-
 }
 
 .cndy-bubble.b1 {
   left: 25%;
-  top: 0
+  top: 0;
 }
 
 .cndy-bubble.b2 {
   left: 52%;
   top: 8px;
-  animation-delay: .35s
+  animation-delay: 0.35s;
 }
 
 .cndy-bubble.b3 {
   left: 73%;
   top: 0;
-  animation-delay: .7s
+  animation-delay: 0.7s;
 }
 
-
-
 .cndy-info {
-
   margin-top: 25px;
 
   color: #fff;
 
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-
 }
 
 .cndy-percent {
-
   font-size: 25px;
 
   font-weight: 900;
 
   letter-spacing: 1px;
-
 }
 
 .cndy-status {
-
   margin-top: 4px;
 
   font-size: 11px;
@@ -6424,83 +4899,62 @@ dialog#serverOfflineModal {
 
   letter-spacing: 2px;
 
-  opacity: .9;
-
+  opacity: 0.9;
 }
 
 @keyframes float {
-
   0% {
-    transform: translateY(10px) scale(.5);
-    opacity: 0
+    transform: translateY(10px) scale(0.5);
+    opacity: 0;
   }
 
   25% {
-    opacity: .9
+    opacity: 0.9;
   }
 
   100% {
     transform: translateY(-30px) scale(1.15);
-    opacity: 0
+    opacity: 0;
   }
-
 }
 
 @keyframes wiggle {
-
   0%,
   100% {
-    transform: translateZ(45px) rotate(-8deg) scale(1)
+    transform: translateZ(45px) rotate(-8deg) scale(1);
   }
 
   50% {
-    transform: translateZ(55px) rotate(5deg) scale(1.06)
+    transform: translateZ(55px) rotate(5deg) scale(1.06);
   }
-
 }
 
 .cndy-candy.wiggle {
-  animation: wiggle .7s ease-in-out infinite
+  animation: wiggle 0.7s ease-in-out infinite;
 }
 
-
-
-
-
 @media (max-width: 600px) {
-
   .welcome-overlay {
-
     justify-content: flex-start !important;
 
     padding-top: 15vh !important;
-
   }
 
   .cndy-demo {
-
     transform: scale(0.85) !important;
 
     margin-top: auto !important;
 
     margin-bottom: 20px !important;
-
   }
-
 }
-
-
 
 /* Lightweight Design for Upload Panel */
 
 .upload-widget .btn1,
-
 .upload-widget .btn2,
-
 .upload-widget .btn3,
-
 .upload-widget .cat-sel-btn {
-
   border: 1px solid #cbd5e1 !important;
 
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
@@ -6511,65 +4965,46 @@ dialog#serverOfflineModal {
 
   border-radius: 8px !important;
 
-  transition: transform 0.15s ease, background-color 0.15s ease !important;
+  transition:
+    transform 0.15s ease,
+    background-color 0.15s ease !important;
 
   transform: none !important;
-
 }
 
-
-
 .upload-widget .btn1:active,
-
 .upload-widget .btn2:active,
-
 .upload-widget .btn3:active,
-
 .upload-widget .cat-sel-btn:active,
-
 .upload-widget .is-pressed {
-
   transform: scale(0.95) !important;
 
   background: #e2e8f0 !important;
-
 }
 
-
-
 .upload-widget .btn1.btn-red {
-
   background: #fff1f2 !important;
 
   color: #be123c !important;
 
   border-color: #fecdd3 !important;
-
 }
 
 .upload-widget .btn3 {
-
   background: #f0fdf4 !important;
 
   color: #15803d !important;
 
   border-color: #bbf7d0 !important;
-
 }
 
-
-
 .upload-widget .cat-sel-btn.cat-sel-active {
-
   background: #e0e7ff !important;
 
   border-color: #a5b4fc !important;
 
   color: #4338ca !important;
-
 }
-
-
 
 @keyframes spin {
   to {
@@ -6583,10 +5018,7 @@ dialog#serverOfflineModal {
   font-size: 16px;
 }
 
-
-
 #mainFileSection {
-
   background-image: url("extracted_img_11.png");
 
   background-size: cover;
@@ -6601,13 +5033,11 @@ dialog#serverOfflineModal {
   /* Ensure it covers the area */
 
   border-radius: 12px;
-
 }
 
 /* Optional: add a slight overlay to ensure text/icons remain readable if the bg is too busy */
 
 #mainFileSection::before {
-
   content: "";
 
   position: absolute;
@@ -6625,21 +5055,15 @@ dialog#serverOfflineModal {
   border-radius: 12px;
 
   z-index: 0;
-
 }
 
-#mainFileSection>* {
-
+#mainFileSection > * {
   position: relative;
 
   z-index: 1;
-
 }
 
-
-
 .file-reveal-box-simple {
-
   text-align: center;
 
   padding: 60px 24px;
@@ -6650,23 +5074,15 @@ dialog#serverOfflineModal {
 
   background: transparent;
 
-
-
-
-
   border: none;
 
   box-shadow: none;
 
   border-radius: 12px;
-
 }
-
-
 
 .simple-btn,
 .simple-cat-btn {
-
   display: inline-flex;
 
   align-items: center;
@@ -6689,85 +5105,59 @@ dialog#serverOfflineModal {
 
   font-weight: 600;
 
-  transition: transform 0.1s ease, background 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    background 0.1s ease;
 
   box-shadow: none !important;
 
   transform: scale(1) !important;
-
 }
-
-
 
 .simple-btn:active,
 .simple-cat-btn:active {
-
   transform: scale(0.96) !important;
 
   background: rgba(200, 200, 200, 0.5);
-
 }
-
-
 
 .simple-btn.full-width {
-
   width: 100%;
-
 }
 
-
-
 .simple-btn-primary {
-
   background: rgba(16, 185, 129, 0.1);
 
   color: #047857;
 
   border-color: rgba(16, 185, 129, 0.3);
-
 }
 
-
-
 .simple-btn-danger {
-
   background: rgba(239, 68, 68, 0.1);
 
   color: #b91c1c;
 
   border-color: rgba(239, 68, 68, 0.3);
-
 }
 
-
-
 .simple-cat-btn.cat-sel-active {
-
   background: rgba(99, 102, 241, 0.1) !important;
 
   color: #4338ca !important;
 
   border-color: rgba(99, 102, 241, 0.3) !important;
-
 }
 
-
-
 .simple-btn.selected {
-
   background: rgba(236, 72, 153, 0.1) !important;
 
   color: #be185d !important;
 
   border-color: rgba(236, 72, 153, 0.3) !important;
-
 }
 
-
-
 @keyframes flyBirdNew {
-
   0% {
     top: 10%;
     left: -10%;
@@ -6821,13 +5211,9 @@ dialog#serverOfflineModal {
     left: -10%;
     transform: scaleX(-1) rotate(15deg);
   }
-
 }
 
-
-
 .timer-picker-sheet {
-
   width: min(460px, 98vw);
 
   background: var(--bg-alt);
@@ -6843,11 +5229,9 @@ dialog#serverOfflineModal {
   animation: slideUpSheet 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
 
   overflow: hidden;
-
 }
 
 @keyframes slideUpSheet {
-
   from {
     transform: translateY(100%);
     opacity: 0;
@@ -6857,11 +5241,9 @@ dialog#serverOfflineModal {
     transform: translateY(0);
     opacity: 1;
   }
-
 }
 
 .timer-picker-header {
-
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -6869,19 +5251,15 @@ dialog#serverOfflineModal {
   padding: 18px 20px 10px;
 
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-
 }
 
 .timer-picker-title {
-
   font-size: 17px;
   font-weight: 800;
   color: var(--ink);
-
 }
 
 .timer-picker-close-btn {
-
   background: var(--hover-bg);
   border: 2px solid var(--border);
 
@@ -6896,7 +5274,6 @@ dialog#serverOfflineModal {
   font-size: 16px;
 
   transition: background 0.15s;
-
 }
 
 .timer-picker-close-btn:hover {
@@ -6905,61 +5282,50 @@ dialog#serverOfflineModal {
 }
 
 .timer-picker-hint {
-
   text-align: center;
   font-size: 12px;
   color: var(--text-muted);
 
   padding: 8px 0 2px;
   letter-spacing: 0.3px;
-
 }
 
 .timer-picker-body {
-
   display: flex;
   align-items: stretch;
   justify-content: center;
 
   padding: 12px 8px 10px;
   gap: 0;
-
 }
 
 .picker-col {
-
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 6px;
   flex: 1;
   min-width: 0;
-
 }
 
 .picker-label {
-
   font-size: 11px;
   font-weight: 700;
   color: var(--text-muted);
 
   letter-spacing: 1px;
-
 }
 
 .picker-viewport {
-
   position: relative;
   width: 100%;
   height: 220px;
   overflow: hidden;
 
   border-radius: 12px;
-
 }
 
 .picker-strip {
-
   position: absolute;
   inset: 0;
   overflow-y: auto;
@@ -6970,7 +5336,6 @@ dialog#serverOfflineModal {
   scrollbar-width: none;
 
   padding: calc(110px - 22px) 0;
-
 }
 
 .picker-strip::-webkit-scrollbar {
@@ -6978,7 +5343,6 @@ dialog#serverOfflineModal {
 }
 
 .picker-item {
-
   height: 44px;
   display: flex;
   align-items: center;
@@ -6990,11 +5354,12 @@ dialog#serverOfflineModal {
 
   scroll-snap-align: center;
 
-  transition: color 0.12s, font-size 0.12s;
+  transition:
+    color 0.12s,
+    font-size 0.12s;
 
   cursor: pointer;
   user-select: none;
-
 }
 
 .picker-item:hover {
@@ -7002,14 +5367,11 @@ dialog#serverOfflineModal {
 }
 
 .picker-item.picker-selected {
-
   color: var(--ink);
   font-size: 30px;
-
 }
 
 .picker-selector-bar {
-
   position: absolute;
   left: 4px;
   right: 4px;
@@ -7025,12 +5387,10 @@ dialog#serverOfflineModal {
   background: rgba(255, 20, 147, 0.09);
 
   box-shadow: inset 0 0 14px rgba(255, 20, 147, 0.1);
-
 }
 
 .picker-fade-top,
 .picker-fade-bot {
-
   position: absolute;
   left: 0;
   right: 0;
@@ -7038,27 +5398,21 @@ dialog#serverOfflineModal {
 
   z-index: 2;
   pointer-events: none;
-
 }
 
 .picker-fade-top {
-
   top: 0;
 
   background: linear-gradient(to bottom, var(--bg-alt) 10%, transparent 100%);
-
 }
 
 .picker-fade-bot {
-
   bottom: 0;
 
   background: linear-gradient(to top, var(--bg-alt) 10%, transparent 100%);
-
 }
 
 .picker-separator {
-
   font-size: 26px;
   font-weight: 900;
   color: var(--text-muted);
@@ -7067,25 +5421,19 @@ dialog#serverOfflineModal {
   align-self: center;
   margin-top: 18px;
   flex-shrink: 0;
-
 }
 
 .timer-picker-footer {
-
   display: flex;
   gap: 10px;
   padding: 12px 16px;
 
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-
 }
-
-
 
 /* Category selector buttons in upload widget */
 
 .cat-sel-btn {
-
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -7096,7 +5444,7 @@ dialog#serverOfflineModal {
   background: var(--bg);
   color: var(--ink);
 
-  font-family: 'Noto Sans Bengali', 'Outfit', sans-serif;
+  font-family: "Noto Sans Bengali", "Outfit", sans-serif;
 
   font-weight: 700;
   font-size: 13px;
@@ -7106,30 +5454,24 @@ dialog#serverOfflineModal {
   transition: all 0.15s;
 
   white-space: nowrap;
-
 }
 
 .cat-sel-btn:hover {
-
   background: var(--hover-bg);
   border-color: var(--c-pink-border);
-
 }
 
 .cat-sel-btn.cat-sel-active {
-
   background: var(--c-pink-bg);
   border-color: var(--c-pink-border);
 
   color: var(--c-pink-ring);
   box-shadow: 0 0 0 2px var(--c-pink-shadow);
-
 }
 
 /* Category badge on file card */
 
 .file-card-category-badge {
-
   position: absolute;
   top: 8px;
   left: 8px;
@@ -7147,7 +5489,6 @@ dialog#serverOfflineModal {
 
   letter-spacing: 0.5px;
   pointer-events: none;
-
 }
 
 /* Filter tab — icon + text */
@@ -7162,12 +5503,9 @@ dialog#serverOfflineModal {
   display: none;
 }
 
-
-
 /* Partner Context Micro Badges */
 
 .partner-micro-badge {
-
   display: inline-flex;
 
   align-items: center;
@@ -7191,36 +5529,21 @@ dialog#serverOfflineModal {
   border: none;
 
   letter-spacing: 0.5px;
-
 }
 
 .partner-micro-badge.active-green {
-
   background: rgba(34, 197, 94, 0.15);
 
   color: #4ade80;
-
-
-
 }
 
 .partner-micro-badge.active-red {
-
   background: rgba(239, 68, 68, 0.15);
 
   color: #f87171;
-
-
-
 }
 
-
-
-
-
 /* ==================== LOGIN CONSOLE CLONE ==================== */
-
-
 
 /* =========================================================
 
@@ -7233,22 +5556,17 @@ dialog#serverOfflineModal {
 ========================================================= */
 
 #loginModal.login-console-modal {
-
   --bg: #2b1e27;
 
   --card: #37262f;
 
   --card-ledge: #1e141b;
 
-
-
   --text: #fff;
 
   --muted: #d9b8c8;
 
   --muted-2: #a98396;
-
-
 
   --pink: #ff5c9b;
 
@@ -7258,8 +5576,6 @@ dialog#serverOfflineModal {
 
   --pink-ink: #9c1f55;
 
-
-
   --pale: #f7c3da;
 
   --pale-hi: #fcdceb;
@@ -7268,32 +5584,22 @@ dialog#serverOfflineModal {
 
   --pale-ink: #a8336a;
 
-
-
   --track: #f4b6d2;
 
   --track-lip: #df88b0;
 
   --face: #a02356;
 
-
-
   --violet-light: #c9bdff;
 
-
-
-  --font: "Baloo Da 2", "Baloo 2", "Noto Sans Bengali", "Hind Siliguri", "Nunito", "Trebuchet MS", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
-
-
+  --font:
+    "Baloo Da 2", "Baloo 2", "Noto Sans Bengali", "Hind Siliguri", "Nunito",
+    "Trebuchet MS", ui-rounded, system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --key-h: 60px;
-
 }
 
-
-
 #loginModal.login-console-modal * {
-
   margin: 0;
 
   padding: 0;
@@ -7301,72 +5607,44 @@ dialog#serverOfflineModal {
   box-sizing: border-box;
 
   -webkit-tap-highlight-color: transparent;
-
 }
 
-
-
 #loginModal.login-console-modal {
-
   height: 100%;
 
   scroll-padding-top: env(safe-area-inset-top, 0px);
-
 }
 
-
-
 #loginModal.login-console-modal {
-
   min-height: 100%;
 
   min-height: 100dvh;
 
-
-
-  padding:
-
-    calc(16px + env(safe-area-inset-top, 0px)) 14px calc(16px + env(safe-area-inset-bottom, 0px));
-
-
+  padding: calc(16px + env(safe-area-inset-top, 0px)) 14px
+    calc(16px + env(safe-area-inset-bottom, 0px));
 
   display: grid;
 
   place-items: center;
 
-
-
   overflow-x: hidden;
-
-
 
   color: var(--text);
 
   background: var(--bg);
-
-
 
   font-family: var(--font);
 
   font-weight: 600;
 
   line-height: 1.4;
-
 }
 
-
-
 #loginModal.login-console-modal :focus-visible {
-
   outline: 3px solid #fff;
 
   outline-offset: 3px;
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7374,10 +5652,7 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .scene {
-
   position: fixed;
 
   inset: 0;
@@ -7385,68 +5660,53 @@ dialog#serverOfflineModal {
   overflow: hidden;
 
   pointer-events: none;
-
 }
 
-
-
 .star {
-
   position: absolute;
 
-  color: rgba(255, 160, 200, .4);
+  color: rgba(255, 160, 200, 0.4);
 
   font-size: 18px;
 
   animation: drift 7s ease-in-out infinite;
-
 }
-
-
 
 .star-a {
   top: 15%;
-  left: 7%
+  left: 7%;
 }
 
 .star-b {
   top: 26%;
   right: 8%;
-  animation-delay: 1.7s
+  animation-delay: 1.7s;
 }
 
 .star-c {
   bottom: 17%;
   right: 10%;
-  animation-delay: 3s
+  animation-delay: 3s;
 }
 
 .star-d {
   bottom: 10%;
   left: 12%;
-  animation-delay: 4.1s
+  animation-delay: 4.1s;
 }
 
-
-
 @keyframes drift {
-
   0%,
   100% {
     transform: translateY(0) rotate(0);
-    opacity: .3
+    opacity: 0.3;
   }
 
   50% {
     transform: translateY(-10px) rotate(12deg);
-    opacity: .65
+    opacity: 0.65;
   }
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7454,17 +5714,10 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .console {
-
   position: relative;
 
-
-
   width: min(420px, 100%);
-
-
 
   display: flex;
 
@@ -7472,35 +5725,19 @@ dialog#serverOfflineModal {
 
   align-items: center;
 
-
-
   padding: 26px 24px 20px;
-
-
 
   border-radius: 36px;
 
   background: var(--card);
 
-
-
   box-shadow:
-
     0 8px 0 var(--card-ledge),
-
-    0 28px 50px rgba(0, 0, 0, .35),
-
-    inset 0 3px 0 rgba(255, 255, 255, .07);
-
-
+    0 28px 50px rgba(0, 0, 0, 0.35),
+    inset 0 3px 0 rgba(255, 255, 255, 0.07);
 
   isolation: isolate;
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7508,10 +5745,7 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .header {
-
   width: 100%;
 
   display: flex;
@@ -7519,20 +5753,14 @@ dialog#serverOfflineModal {
   flex-direction: column;
 
   align-items: center;
-
 }
 
-
-
 .brand {
-
   display: flex;
 
   align-items: center;
 
   gap: 8px;
-
-
 
   font-size: 30px;
 
@@ -7540,31 +5768,23 @@ dialog#serverOfflineModal {
 
   line-height: 1.4;
 
-
-
-  text-shadow: 0 3px 0 rgba(0, 0, 0, .28);
-
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.28);
 }
 
-
-
 .brand .sajeda {
-  color: var(--pink-hi)
+  color: var(--pink-hi);
 }
 
 .brand .sayem {
-  color: var(--violet-light)
+  color: var(--violet-light);
 }
 
 .brand .x {
   color: #fff1f6;
-  font-size: 22px
+  font-size: 22px;
 }
 
-
-
 .tag {
-
   margin-top: 2px;
 
   font-size: 14px;
@@ -7572,56 +5792,37 @@ dialog#serverOfflineModal {
   font-weight: 800;
 
   color: var(--muted);
-
 }
 
-
-
 .divider {
-
   width: 100%;
 
   margin-top: 12px;
-
-
 
   display: flex;
 
   align-items: center;
 
   gap: 10px;
-
 }
 
-
-
 .divider-line {
-
   flex: 1;
 
   height: 4px;
 
   border-radius: 999px;
 
-  background: rgba(255, 255, 255, .08);
-
+  background: rgba(255, 255, 255, 0.08);
 }
 
-
-
 .divider-heart {
-
   color: var(--pink-hi);
 
   font-size: 15px;
 
   line-height: 1;
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7629,91 +5830,51 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .lock-wrap {
-
   margin-top: 20px;
 
   margin-bottom: 10px;
-
 }
 
-
-
 .lock {
-
   width: 72px;
 
   height: 72px;
-
-
 
   display: grid;
 
   place-items: center;
 
-
-
   border-radius: 24px;
-
-
 
   background: linear-gradient(var(--pink-hi), var(--pink));
 
-
-
   box-shadow:
-
     0 7px 0 var(--pink-lip),
-
-    0 14px 16px rgba(0, 0, 0, .25),
-
-    inset 0 3px 0 rgba(255, 255, 255, .45);
-
-
+    0 14px 16px rgba(0, 0, 0, 0.25),
+    inset 0 3px 0 rgba(255, 255, 255, 0.45);
 
   transition:
-
-    transform .4s cubic-bezier(.3, 1.5, .5, 1),
-
-    background .3s ease,
-
-    box-shadow .3s ease;
-
+    transform 0.4s cubic-bezier(0.3, 1.5, 0.5, 1),
+    background 0.3s ease,
+    box-shadow 0.3s ease;
 }
-
-
 
 .lock.open {
-
   background: linear-gradient(var(--pale-hi), var(--pale));
 
-
-
   box-shadow:
-
     0 7px 0 var(--pale-lip),
-
-    0 14px 16px rgba(0, 0, 0, .25),
-
-    inset 0 3px 0 rgba(255, 255, 255, .7);
-
-
+    0 14px 16px rgba(0, 0, 0, 0.25),
+    inset 0 3px 0 rgba(255, 255, 255, 0.7);
 
   transform: rotate(-6deg) scale(1.06);
-
 }
 
-
-
 .lock svg {
-
   width: 32px;
 
   height: 32px;
-
-
 
   fill: none;
 
@@ -7725,25 +5886,14 @@ dialog#serverOfflineModal {
 
   stroke-linejoin: round;
 
-
-
   filter: drop-shadow(0 2px 0 var(--pink-ink));
-
 }
 
-
-
 .lock.open svg {
-
   stroke: var(--pale-ink);
 
   filter: none;
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7751,10 +5901,7 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .title {
-
   margin-top: 6px;
 
   font-size: 26px;
@@ -7762,13 +5909,9 @@ dialog#serverOfflineModal {
   font-weight: 800;
 
   line-height: 1.4;
-
 }
 
-
-
 .subtitle {
-
   margin-top: 0;
 
   font-size: 15px;
@@ -7778,12 +5921,7 @@ dialog#serverOfflineModal {
   color: var(--muted);
 
   text-align: center;
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -7793,86 +5931,49 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .pin-bar {
-
   --p: 0;
 
-
-
   position: relative;
-
-
 
   width: calc(100% - 28px);
 
   height: 40px;
 
-
-
   margin: 34px 14px 24px;
-
-
 
   border-radius: 999px;
 
-
-
   background: linear-gradient(var(--pale-hi), var(--track));
 
-
-
   box-shadow:
-
     0 7px 0 var(--track-lip),
-
-    inset 0 3px 0 rgba(255, 255, 255, .55);
-
+    inset 0 3px 0 rgba(255, 255, 255, 0.55);
 }
 
-
-
 .pin-fill {
-
   position: absolute;
 
   left: 0;
 
   top: 0;
 
-
-
   height: 100%;
 
   width: calc(24px + (100% - 24px) * var(--p) / 100);
 
-
-
   border-radius: 999px;
-
-
 
   background: linear-gradient(var(--pink-hi), var(--pink));
 
-
-
   box-shadow:
-
     0 7px 0 var(--pink-lip),
+    inset 0 3px 0 rgba(255, 255, 255, 0.4);
 
-    inset 0 3px 0 rgba(255, 255, 255, .4);
-
-
-
-  transition: width .4s cubic-bezier(.3, 1.4, .5, 1);
-
+  transition: width 0.4s cubic-bezier(0.3, 1.4, 0.5, 1);
 }
 
-
-
 .pin-fill::before {
-
   content: "";
 
   position: absolute;
@@ -7887,56 +5988,35 @@ dialog#serverOfflineModal {
 
   border-radius: 99px;
 
-  background: rgba(255, 255, 255, .45);
-
+  background: rgba(255, 255, 255, 0.45);
 }
 
-
-
 .mascot {
-
   position: absolute;
 
   right: -14px;
 
   top: -14px;
 
-
-
   width: 56px;
 
   height: 56px;
 
-
-
   border-radius: 18px;
-
-
 
   background: linear-gradient(var(--pink-hi), var(--pink));
 
-
-
   box-shadow:
-
     0 5px 0 var(--pink-lip),
-
-    0 10px 14px rgba(0, 0, 0, .25),
-
-    inset 0 3px 0 rgba(255, 255, 255, .45);
-
-
+    0 10px 14px rgba(0, 0, 0, 0.25),
+    inset 0 3px 0 rgba(255, 255, 255, 0.45);
 
   transform: rotate(-3deg);
 
-  transition: transform .2s ease;
-
+  transition: transform 0.2s ease;
 }
 
-
-
 .mascot i {
-
   position: absolute;
 
   top: 20px;
@@ -7950,23 +6030,17 @@ dialog#serverOfflineModal {
   background: var(--face);
 
   animation: blink 4.5s infinite;
-
 }
 
-
-
 .mascot i:nth-child(1) {
-  left: 16px
+  left: 16px;
 }
 
 .mascot i:nth-child(2) {
-  right: 16px
+  right: 16px;
 }
 
-
-
 .mascot b {
-
   position: absolute;
 
   left: 50%;
@@ -7982,13 +6056,9 @@ dialog#serverOfflineModal {
   border-bottom: 3px solid var(--face);
 
   border-radius: 0 0 14px 14px;
-
 }
 
-
-
 .mascot u {
-
   position: absolute;
 
   top: 30px;
@@ -7999,36 +6069,26 @@ dialog#serverOfflineModal {
 
   border-radius: 50%;
 
-  background: rgba(255, 255, 255, .45);
-
+  background: rgba(255, 255, 255, 0.45);
 }
 
-
-
 .mascot u:nth-of-type(1) {
-  left: 7px
+  left: 7px;
 }
 
 .mascot u:nth-of-type(2) {
-  right: 7px
+  right: 7px;
 }
-
-
 
 .mascot.blink i {
-  animation: blinkNow .22s ease
+  animation: blinkNow 0.22s ease;
 }
-
-
 
 .mascot.sad {
-  animation: wobble .35s ease
+  animation: wobble 0.35s ease;
 }
 
-
-
 .mascot.sad b {
-
   top: 35px;
 
   border-bottom: 0;
@@ -8036,62 +6096,45 @@ dialog#serverOfflineModal {
   border-top: 3px solid var(--face);
 
   border-radius: 14px 14px 0 0;
-
 }
 
-
-
 @keyframes blink {
-
   0%,
   94%,
   100% {
-    transform: scaleY(1)
+    transform: scaleY(1);
   }
 
   97% {
-    transform: scaleY(.1)
+    transform: scaleY(0.1);
   }
-
 }
 
-
-
 @keyframes blinkNow {
-
   0%,
   100% {
-    transform: scaleY(1)
+    transform: scaleY(1);
   }
 
   50% {
-    transform: scaleY(.08)
+    transform: scaleY(0.08);
   }
-
 }
 
-
-
 @keyframes wobble {
-
   0%,
   100% {
-    transform: rotate(-3deg)
+    transform: rotate(-3deg);
   }
 
   25% {
-    transform: rotate(-12deg)
+    transform: rotate(-12deg);
   }
 
   75% {
-    transform: rotate(7deg)
+    transform: rotate(7deg);
   }
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -8099,47 +6142,30 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .keypad {
-
   width: 100%;
 
   max-width: 330px;
-
-
 
   display: grid;
 
   grid-template-columns: repeat(3, 1fr);
 
   gap: 14px;
-
 }
 
-
-
 .key {
-
   appearance: none;
 
   border: 0;
 
-
-
   height: var(--key-h);
-
-
 
   border-radius: 22px;
 
   cursor: pointer;
 
-
-
   color: var(--pale-ink);
-
-
 
   font: inherit;
 
@@ -8147,76 +6173,44 @@ dialog#serverOfflineModal {
 
   font-weight: 800;
 
-
-
   background: linear-gradient(var(--pale-hi), var(--pale));
 
-
-
   box-shadow:
-
     0 6px 0 var(--pale-lip),
+    inset 0 3px 0 rgba(255, 255, 255, 0.7);
 
-    inset 0 3px 0 rgba(255, 255, 255, .7);
-
-
-
-  transition: transform .08s ease, box-shadow .08s ease;
-
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
 }
 
-
-
 .key:active {
-
   transform: translateY(4px);
 
   box-shadow:
-
     0 2px 0 var(--pale-lip),
-
-    inset 0 3px 0 rgba(255, 255, 255, .7);
-
+    inset 0 3px 0 rgba(255, 255, 255, 0.7);
 }
 
-
-
 .key.enter {
-
   color: #fff;
 
   text-shadow: 0 2px 0 var(--pink-ink);
 
-
-
   background: linear-gradient(var(--pink-hi), var(--pink));
 
-
-
   box-shadow:
-
     0 6px 0 var(--pink-lip),
-
-    inset 0 3px 0 rgba(255, 255, 255, .4);
-
+    inset 0 3px 0 rgba(255, 255, 255, 0.4);
 }
-
-
 
 .key.enter:active {
-
   box-shadow:
-
     0 2px 0 var(--pink-lip),
-
-    inset 0 3px 0 rgba(255, 255, 255, .4);
-
+    inset 0 3px 0 rgba(255, 255, 255, 0.4);
 }
 
-
-
 .key-inner {
-
   display: flex;
 
   align-items: center;
@@ -8224,18 +6218,12 @@ dialog#serverOfflineModal {
   justify-content: center;
 
   height: 100%;
-
 }
 
-
-
 .key svg {
-
   width: 26px;
 
   height: 26px;
-
-
 
   stroke: currentColor;
 
@@ -8246,20 +6234,11 @@ dialog#serverOfflineModal {
   stroke-linecap: round;
 
   stroke-linejoin: round;
-
 }
-
-
 
 .key.enter svg {
-
   filter: drop-shadow(0 2px 0 var(--pink-ink));
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -8267,17 +6246,12 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .status {
-
   margin-top: auto;
 
   min-height: 30px;
 
   padding-top: 18px;
-
-
 
   display: flex;
 
@@ -8287,26 +6261,16 @@ dialog#serverOfflineModal {
 
   gap: 8px;
 
-
-
   color: var(--muted-2);
-
-
 
   font-size: 14px;
 
   font-weight: 800;
 
-
-
   text-align: center;
-
 }
 
-
-
 .status-dot {
-
   width: 7px;
 
   height: 7px;
@@ -8314,47 +6278,32 @@ dialog#serverOfflineModal {
   border-radius: 50%;
 
   background: var(--pale-lip);
-
 }
-
-
 
 .status.error {
-
   color: var(--pink-hi);
 
-  animation: shake .3s ease;
-
+  animation: shake 0.3s ease;
 }
-
-
 
 .status.error .status-dot {
-  background: var(--pink)
+  background: var(--pink);
 }
 
-
-
 @keyframes shake {
-
   0%,
   100% {
-    transform: translateX(0)
+    transform: translateX(0);
   }
 
   25% {
-    transform: translateX(-6px)
+    transform: translateX(-6px);
   }
 
   75% {
-    transform: translateX(6px)
+    transform: translateX(6px);
   }
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -8362,19 +6311,12 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .success {
-
   position: absolute;
 
   inset: 0;
 
-
-
   border-radius: 36px;
-
-
 
   display: flex;
 
@@ -8384,98 +6326,58 @@ dialog#serverOfflineModal {
 
   justify-content: center;
 
-
-
   padding: 24px;
-
-
 
   opacity: 0;
 
   visibility: hidden;
 
-  transform: scale(.96);
-
-
+  transform: scale(0.96);
 
   background: var(--card);
 
-
-
   transition:
-
-    opacity .3s ease,
-
-    visibility .3s ease,
-
-    transform .3s ease;
-
-
+    opacity 0.3s ease,
+    visibility 0.3s ease,
+    transform 0.3s ease;
 
   z-index: 50;
-
 }
 
-
-
 .success.show {
-
   opacity: 1;
 
   visibility: visible;
 
   transform: scale(1);
-
 }
 
-
-
 .success-icon {
-
   width: 92px;
 
   height: 92px;
-
-
 
   display: grid;
 
   place-items: center;
 
-
-
   border-radius: 30px;
 
   margin-bottom: 24px;
 
-
-
   background: linear-gradient(var(--pink-hi), var(--pink));
 
-
-
   box-shadow:
-
     0 8px 0 var(--pink-lip),
-
-    0 18px 24px rgba(0, 0, 0, .3),
-
-    inset 0 3px 0 rgba(255, 255, 255, .45);
-
+    0 18px 24px rgba(0, 0, 0, 0.3),
+    inset 0 3px 0 rgba(255, 255, 255, 0.45);
 }
-
-
 
 .success.show .success-icon {
-
-  animation: pop .55s cubic-bezier(.3, 1.5, .5, 1);
-
+  animation: pop 0.55s cubic-bezier(0.3, 1.5, 0.5, 1);
 }
 
-
-
 .success-icon svg {
-
   width: 42px;
 
   height: 42px;
@@ -8483,27 +6385,19 @@ dialog#serverOfflineModal {
   fill: #fff;
 
   filter: drop-shadow(0 3px 0 var(--pink-ink));
-
 }
 
-
-
 .success-title {
-
   font-size: 34px;
 
   font-weight: 800;
 
   line-height: 1.4;
 
-  text-shadow: 0 3px 0 rgba(0, 0, 0, .25);
-
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.25);
 }
 
-
-
 .success-subtitle {
-
   margin-top: 8px;
 
   font-size: 16px;
@@ -8511,16 +6405,10 @@ dialog#serverOfflineModal {
   color: var(--muted);
 
   text-align: center;
-
 }
 
-
-
 .success-button {
-
   margin-top: 26px;
-
-
 
   border: 0;
 
@@ -8528,11 +6416,7 @@ dialog#serverOfflineModal {
 
   padding: 15px 30px;
 
-
-
   cursor: pointer;
-
-
 
   font: inherit;
 
@@ -8540,63 +6424,42 @@ dialog#serverOfflineModal {
 
   font-weight: 800;
 
-
-
   color: var(--pale-ink);
 
   background: linear-gradient(var(--pale-hi), var(--pale));
 
-
-
   box-shadow:
-
     0 6px 0 var(--pale-lip),
+    inset 0 3px 0 rgba(255, 255, 255, 0.7);
 
-    inset 0 3px 0 rgba(255, 255, 255, .7);
-
-
-
-  transition: transform .08s ease, box-shadow .08s ease;
-
+  transition:
+    transform 0.08s ease,
+    box-shadow 0.08s ease;
 }
 
-
-
 .success-button:active {
-
   transform: translateY(4px);
 
   box-shadow:
-
     0 2px 0 var(--pale-lip),
-
-    inset 0 3px 0 rgba(255, 255, 255, .7);
-
+    inset 0 3px 0 rgba(255, 255, 255, 0.7);
 }
 
-
-
 @keyframes pop {
-
   0% {
     opacity: 0;
-    transform: scale(.45) rotate(-12deg)
+    transform: scale(0.45) rotate(-12deg);
   }
 
   70% {
-    transform: scale(1.08) rotate(4deg)
+    transform: scale(1.08) rotate(4deg);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1) rotate(0)
+    transform: scale(1) rotate(0);
   }
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -8604,51 +6467,35 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
 .particle {
-
   position: fixed;
 
   z-index: 100;
 
   pointer-events: none;
 
-
-
   font-size: 16px;
 
   color: var(--pink-hi);
 
-
-
   animation: particleUp 2.4s ease-out forwards;
-
 }
 
-
-
 @keyframes particleUp {
-
   from {
     opacity: 0;
-    transform: translate3d(0, 0, 0) scale(.5) rotate(0)
+    transform: translate3d(0, 0, 0) scale(0.5) rotate(0);
   }
 
   12% {
-    opacity: 1
+    opacity: 1;
   }
 
   to {
     opacity: 0;
-    transform: translate3d(var(--x), -180px, 0) scale(1.15) rotate(22deg)
+    transform: translate3d(var(--x), -180px, 0) scale(1.15) rotate(22deg);
   }
-
 }
-
-
-
-
 
 /* =========================================================
 
@@ -8656,81 +6503,65 @@ dialog#serverOfflineModal {
 
 ========================================================= */
 
-
-
-@media (max-height:760px) {
-
+@media (max-height: 760px) {
   #loginModal.login-console-modal {
-    --key-h: 52px
+    --key-h: 52px;
   }
-
-
 
   .console {
     padding-top: 20px;
-    padding-bottom: 16px
+    padding-bottom: 16px;
   }
 
   .lock-wrap {
     margin-top: 14px;
-    margin-bottom: 6px
+    margin-bottom: 6px;
   }
 
   .lock {
     width: 62px;
     height: 62px;
-    border-radius: 21px
+    border-radius: 21px;
   }
 
   .pin-bar {
     margin-top: 30px;
-    margin-bottom: 20px
+    margin-bottom: 20px;
   }
 
   .keypad {
-    gap: 12px
+    gap: 12px;
   }
 
   .key {
-    font-size: 23px
+    font-size: 23px;
   }
-
 }
 
-
-
-@media (max-width:360px) {
-
+@media (max-width: 360px) {
   .console {
     padding-left: 18px;
     padding-right: 18px;
-    border-radius: 30px
+    border-radius: 30px;
   }
 
   .brand {
-    font-size: 26px
+    font-size: 26px;
   }
 
   .keypad {
-    gap: 11px
+    gap: 11px;
   }
-
 }
 
-
-
-@media (prefers-reduced-motion:reduce) {
-
+@media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-
     animation: none !important;
 
     transition: none !important;
-
   }
-
 }
 
 #loginModal.login-console-modal {
