@@ -218,7 +218,13 @@ window.withDelay = function(btn, callback) {
   </div>
 
   <dialog id="loginModal" class="login-console-modal">
-    <div class="console">
+    <div class="scene" aria-hidden="true">
+        <div class="star star-a">✦</div>
+        <div class="star star-b">✦</div>
+        <div class="star star-c">✧</div>
+        <div class="star star-d">♡</div>
+    </div>
+    <main class="console">
       <button class="modal-close-btn" style="position:absolute; top:16px; right:16px; z-index:10; background:transparent; border:none; color:var(--text-muted); cursor:pointer; font-size:24px;" onclick="document.getElementById('loginModal').close(); if (window._startBgMusic) window._startBgMusic();" aria-label="Close">
         <i class="ph-bold ph-x"></i>
       </button>
@@ -312,7 +318,7 @@ window.withDelay = function(btn, callback) {
           <div class="success-subtitle">ফিরে এসো, ছোট্ট দুই পাখি ♡</div>
           <button class="success-button" onclick="executeLogin()">প্রবেশ করুন</button>
       </section>
-    </div>
+    </main>
   </dialog>
 
   <!-- Server Offline Modal -->
