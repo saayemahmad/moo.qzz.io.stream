@@ -622,7 +622,7 @@ mark,
     .content-scroll {
       flex: 1;
       padding: 4px;
-      overflow-y: auto;
+      overflow-y: scroll;
     }
 
     .section {
