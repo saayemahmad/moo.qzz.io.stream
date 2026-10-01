@@ -3692,12 +3692,12 @@ window.withDelay = function(btn, callback) {
                 'chatbox': { label: 'Chatbox', icon: 'ph-chat-circle-dots' }
               };
               const src = sourceMap[partnerLoginSource] || { label: partnerLoginSource, icon: 'ph-map-pin' };
-              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(234, 179, 8, 0.15); color: #facc15; border-color: rgba(234, 179, 8, 0.4);" title="Logged in from: ${src.label}"><i class="ph-bold ${src.icon}"></i><span>${src.label}</span></span>`;
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(234, 179, 8, 0.15); color: #facc15;" title="Logged in from: ${src.label}"><i class="ph-bold ${src.icon}"></i><span>${src.label}</span></span>`;
             }
             if (partnerChatMode) {
               hasBadges = true;
               const isFull = partnerChatMode === 'fullscreen';
-              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8; border-color: rgba(56, 189, 248, 0.4);" title="Chat Mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS' : 'FL'}</span></span>`;
+              if (ctxBar) ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(56, 189, 248, 0.15); color: #38bdf8;" title="Chat Mode: ${isFull ? 'Fullscreen' : 'Floating'}"><i class="ph-bold ${isFull ? 'ph-arrows-out-simple' : 'ph-cards'}"></i><span>${isFull ? 'FS' : 'FL'}</span></span>`;
             }
             if (partnerWatchingFile) {
               hasBadges = true;
