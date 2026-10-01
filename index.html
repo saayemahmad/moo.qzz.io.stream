@@ -3734,7 +3734,7 @@ window.withDelay = function(btn, callback) {
               const diff = Math.floor((Date.now() - lastOnline) / 1000);
               if (diff < 0) return;
               const pad = (n) => n.toString().padStart(2, '0');
-              statusEl.innerHTML = `<span>Offline (seen: ${pad(Math.floor(diff / 86400))}:${pad(Math.floor((diff % 86400) / 3600))}:${pad(Math.floor((diff % 3600) / 60))}:${pad(diff % 60)})</span>`;
+              statusEl.innerHTML = `<span>Offline ${pad(Math.floor(diff / 86400))}:${pad(Math.floor((diff % 86400) / 3600))}:${pad(Math.floor((diff % 3600) / 60))}:${pad(diff % 60)}</span>`;
             };
             updateLastSeen();
             partnerInterval = setInterval(updateLastSeen, 1000);
