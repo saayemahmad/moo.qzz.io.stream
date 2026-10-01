@@ -1316,7 +1316,9 @@ window.withDelay = function(btn, callback) {
 
 
     function performLogout() {
-      sendPresenceNotification('CLOSED');
+      if (typeof sendPresenceNotification === 'function') {
+        sendPresenceNotification('CLOSED');
+      }
       localStorage.removeItem('savedUserPin');
       if (window.setFaviconDot) window.setFaviconDot(false);
       if (window.currentUser === 'Shajeda') {
