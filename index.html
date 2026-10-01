@@ -4881,14 +4881,18 @@
         const previousPresence = window._lastComputedPresence;
         window._lastComputedPresence = presenceName;
         
-        if (window.currentUser === "Shajeda" && previousPresence && previousPresence !== presenceName) {
-            // Trigger notifications for important transitions
-            if (previousPresence === "away" && (presenceName === "active" || presenceName === "hibernate")) {
-                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("ENTERED");
-            } else if (presenceName === "away") {
-                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("AWAY");
-            } else if (previousPresence === "hibernate" && presenceName === "active") {
-                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("OPENED CHAT");
+        if (window.currentUser === "Shajeda") {
+            if (!previousPresence) {
+                if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("ONLINE");
+            } else if (previousPresence !== presenceName) {
+                // Trigger notifications for important transitions
+                if (previousPresence === "away" && (presenceName === "active" || presenceName === "hibernate")) {
+                    if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("ENTERED");
+                } else if (presenceName === "away") {
+                    if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("AWAY");
+                } else if (previousPresence === "hibernate" && presenceName === "active") {
+                    if (typeof window.sendPresenceNotification === "function") window.sendPresenceNotification("OPENED CHAT");
+                }
             }
         }
 
@@ -4983,6 +4987,8 @@
                 window.updatePresenceState();
               },
             );
+          } else {
+            window._lastComputedPresence = null;
           }
         });
 
