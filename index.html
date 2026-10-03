@@ -2822,10 +2822,13 @@
 
             // 3. Upload Thumbnail directly to B2 (if generated)
             if (thumbBlob && thumbUrl) {
-              await fetch(thumbUrl, {
-                method: "PUT",
-                headers: { "Content-Type": "image/jpeg" },
-                body: thumbBlob
+              await new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+                xhr.onload = () => resolve(); // Ignore thumb failures gracefully
+                xhr.onerror = () => resolve();
+                xhr.open("PUT", thumbUrl);
+                xhr.setRequestHeader("Content-Type", "image/jpeg");
+                xhr.send(thumbBlob);
               });
             }
 
