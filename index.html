@@ -2764,146 +2764,139 @@
 
         const actualVideoDuration = await getVideoDuration(file);
 
-        const upload = new tus.Upload(file, {
-          endpoint: "https://api.moo.qzz.io/uploads",
-          chunkSize: 1 * 1024 * 1024,
-          retryDelays: [0, 3000, 5000, 10000, 20000],
-          metadata: {
-            filename: file.name,
-            filetype: file.type,
-            duration: dur || "never",
-            video_duration: String(actualVideoDuration),
-            category: cat || "",
-          },
-          onError: function (error) {
-            clearInterval(uploadLogInterval);
-            console.log("Failed because: " + error);
-            if (window.sendClientErrorToServer)
-              window.sendClientErrorToServer(
-                error.message || error.toString(),
-                null,
-                null,
-                null,
-                error,
-                "tus.Upload.onError",
-              );
-
-            if (progStatus) {
-              progStatus.innerText = "নেটওয়ার্ক সমস্যা। আপলোড থেমে গেছে।";
-              progStatus.style.color = "var(--c-red-shadow)";
+        // Direct B2 Upload (No Local Server Load)
+        async function runB2Upload() {
+          try {
+            // 1. Generate Thumbnail on Client Side
+            let thumbBlob = null;
+            if (file.type.startsWith("video/")) {
+              thumbBlob = await new Promise((resolve) => {
+                const video = document.createElement("video");
+                const url = URL.createObjectURL(file);
+                video.src = url;
+                video.muted = true;
+                video.currentTime = 1.0;
+                video.onseeked = () => {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = 300;
+                  canvas.height = (video.videoHeight / video.videoWidth) * 300;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                  canvas.toBlob(resolve, "image/jpeg", 0.7);
+                  URL.revokeObjectURL(url);
+                };
+                video.onerror = () => resolve(null);
+              });
+            } else if (file.type.startsWith("image/")) {
+              thumbBlob = await new Promise((resolve) => {
+                const img = new Image();
+                const url = URL.createObjectURL(file);
+                img.onload = () => {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = 300;
+                  canvas.height = (img.height / img.width) * 300;
+                  const ctx = canvas.getContext("2d");
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                  canvas.toBlob(resolve, "image/jpeg", 0.7);
+                  URL.revokeObjectURL(url);
+                };
+                img.src = url;
+                img.onerror = () => resolve(null);
+              });
             }
 
-            let resumeBtn = document.getElementById("resumeUploadBtn");
-            if (!resumeBtn) {
-              resumeBtn = document.createElement("button");
-              resumeBtn.id = "resumeUploadBtn";
-              resumeBtn.className = "btn1";
-              resumeBtn.style.marginTop = "10px";
-              resumeBtn.style.width = "100%";
-              resumeBtn.innerHTML =
-                '<i class="ph-bold ph-play"></i> আবার শুরু করুন (Resume)';
-              document
-                .getElementById("uploadProgressContainer")
-                .appendChild(resumeBtn);
-            }
-            resumeBtn.style.display = "";
-            resumeBtn.onclick = () => {
-              resumeBtn.style.display = "none";
-              if (progStatus) {
-                progStatus.innerText = `আপলোড হচ্ছে... (${uploadQueue.length}টি বাকি)`;
-                progStatus.style.color = "var(--text-muted)";
-              }
-              upload.start();
-            };
-          },
-          onProgress: function (bytesUploaded, bytesTotal) {
-            const percentage = ((bytesUploaded / bytesTotal) * 100).toFixed(0);
-            currentUploadPercent = parseInt(percentage) || 0;
-            progPercent.innerText = percentage + "%";
+            // 2. Ask Backend for B2 Presigned URLs
+            const initRes = await fetch("https://api.moo.qzz.io/api/b2/init", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                filename: file.name,
+                filetype: file.type,
+                duration: dur || "never",
+                video_duration: String(actualVideoDuration || 0),
+                category: cat || ""
+              })
+            });
+            if (!initRes.ok) throw new Error("Init failed");
+            const { uploadId, uploadUrl, thumbUrl, filename } = await initRes.json();
 
-            const activeSegments = Math.round(
-              (bytesUploaded / bytesTotal) * 10,
-            );
-            const segments = document.getElementById("uploadSegments").children;
-            for (let i = 0; i < 10; i++) {
-              if (i < activeSegments) {
-                segments[i].firstChild.style.transform = "translateY(0%)";
-              } else {
-                segments[i].firstChild.style.transform = "translateY(100%)";
-              }
+            // 3. Upload Thumbnail directly to B2 (if generated)
+            if (thumbBlob && thumbUrl) {
+              await fetch(thumbUrl, {
+                method: "PUT",
+                headers: { "Content-Type": "image/jpeg" },
+                body: thumbBlob
+              });
             }
-          },
-          onSuccess: function () {
+
+            // 4. Upload Main File directly to B2 via XHR for Progress Tracking
+            await new Promise((resolve, reject) => {
+              const xhr = new XMLHttpRequest();
+              xhr.upload.onprogress = (e) => {
+                if (e.lengthComputable) {
+                  const percentage = ((e.loaded / e.total) * 100).toFixed(0);
+                  currentUploadPercent = parseInt(percentage) || 0;
+                  progPercent.innerText = percentage + "%";
+
+                  const activeSegments = Math.round((e.loaded / e.total) * 10);
+                  const segments = document.getElementById("uploadSegments").children;
+                  for (let i = 0; i < 10; i++) {
+                    if (i < activeSegments) segments[i].firstChild.style.transform = "translateY(0%)";
+                    else segments[i].firstChild.style.transform = "translateY(100%)";
+                  }
+                }
+              };
+              xhr.onload = () => {
+                if (xhr.status >= 200 && xhr.status < 300) resolve();
+                else reject(new Error("B2 Upload failed with status " + xhr.status));
+              };
+              xhr.onerror = () => reject(new Error("Network error during upload"));
+              xhr.open("PUT", uploadUrl);
+              xhr.setRequestHeader("Content-Type", file.type);
+              xhr.send(file);
+            });
+
             clearInterval(uploadLogInterval);
             fetch("https://api.moo.qzz.io/log-watch", {
               method: "POST",
               headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                action: "upload_stop",
-                filename: file.name,
-                media_type: fileTypeLabel,
-                seconds: 100,
-              }),
+              body: JSON.stringify({ action: "upload_stop", filename: file.name, media_type: fileTypeLabel, seconds: 100 })
             }).catch(() => {});
 
             if (progStatus) progStatus.innerText = "প্রসেসিং হচ্ছে...";
             progPercent.innerText = "100%";
-            const segments = document.getElementById("uploadSegments").children;
-            for (let i = 0; i < 10; i++) {
-              segments[i].firstChild.style.transform = "translateY(0%)";
+            
+            // 5. Finalize with backend
+            await fetch(`https://api.moo.qzz.io/api/b2/finalize/${uploadId}`, { method: "POST" });
+            
+            if (progStatus) {
+              progStatus.innerText = "আপলোড সফল!";
+              progStatus.style.color = "var(--c-pink-shadow)";
             }
 
-            const uploadId = upload.url.split("/").pop();
+            let expiresAtStr = (dur && dur !== "never") ? dur : null;
+            addCardToGrid(uploadId, filename, file.type, expiresAtStr, false, cat || "");
+            if (window.triggerUploadEvent) window.triggerUploadEvent();
+            
+            uploadQueue.shift();
+            setTimeout(processUploadQueue, 1500);
 
-            fetch(`https://api.moo.qzz.io/uploads/${uploadId}/finalize`, {
-              method: "POST",
-            })
-              .then((res) => {
-                if (progStatus) {
-                  progStatus.innerText = "আপলোড সফল!";
-                  progStatus.style.color = "var(--c-pink-shadow)";
-                }
+          } catch (err) {
+            clearInterval(uploadLogInterval);
+            console.error("Direct Upload Failed:", err);
+            if (window.sendClientErrorToServer) {
+              window.sendClientErrorToServer(err.message, null, null, null, err, "b2.DirectUpload");
+            }
+            if (progStatus) {
+              progStatus.innerText = "আপলোডে সমস্যা হয়েছে।";
+              progStatus.style.color = "var(--c-red-shadow)";
+            }
+            uploadQueue.shift();
+            setTimeout(processUploadQueue, 3000);
+          }
+        }
+        runB2Upload();
 
-                let expiresAtStr = null;
-                if (dur && dur !== "never") {
-                  expiresAtStr = dur;
-                }
-
-                addCardToGrid(
-                  uploadId,
-                  file.name,
-                  file.type,
-                  expiresAtStr,
-                  true,
-                  cat || "",
-                );
-                if (window.triggerUploadEvent) window.triggerUploadEvent();
-
-                uploadQueue.shift();
-                setTimeout(() => {
-                  processUploadQueue();
-                }, 1500);
-              })
-              .catch((err) => {
-                if (window.sendClientErrorToServer)
-                  window.sendClientErrorToServer(
-                    err.message || err.toString(),
-                    null,
-                    null,
-                    null,
-                    err,
-                    "finalize_upload",
-                  );
-                showAlert("ফাইনাল করতে সমস্যা!");
-                uploadQueue.shift();
-                setTimeout(() => {
-                  processUploadQueue();
-                }, 3000);
-              });
-          },
-        });
-
-        upload.start();
       }
 
       function addCardToGrid(
