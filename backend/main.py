@@ -1459,7 +1459,7 @@ def get_b2_accounts_usage(request: Request, db=Depends(get_db)):
             "bucket": acc.get('bucket', ''),
             "used_bytes": used,
             "free_bytes": free,
-            "limit_bytes": B2_FREE_LIMIT
+            "limit_bytes": B2_LIMIT
         })
     return result
 
