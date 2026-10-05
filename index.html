@@ -6852,16 +6852,17 @@
         setTimeout(() => { forcedComplete = true; }, 15000); // 15 sec timeout fallback
 
         function animate() {
-          let elapsed = Date.now() - startTime;
-          let p = (elapsed / duration) * 100;
+          let p = window.nsfwModelProgress || 0;
+          if (p === 0) {
+            // Fake initial startup to at least show something immediately
+            let elapsed = Date.now() - startTime;
+            p = Math.min((elapsed / duration) * 50, 10); // goes to 10% then waits
+          }
 
-          if (p >= 90 && !window.isNSFWModelReady && !forcedComplete) {
-            p = 90;
-            status.textContent = "DOWNLOADING AI MODEL...";
-          } else if (p > 100) {
+          if (!window.isNSFWModelReady && !forcedComplete) {
+            status.textContent = `DOWNLOADING AI MODEL... ${Math.floor(p)}%`;
+          } else if (window.isNSFWModelReady || forcedComplete) {
             p = 100;
-          } else if (p < 90) {
-            status.textContent = "LOADING...";
           }
 
           const wrap = document.querySelector(".cndy-bar-wrap");
@@ -7035,15 +7036,19 @@
     let workerCallbacks = {};
     let messageIdCounter = 0;
     window.isNSFWModelReady = false;
+    window.nsfwModelProgress = 0;
 
     // Initialize Web Worker on initial page load to load the model in the background
     window.initNSFWModel = function () {
       if (!nsfwWorker) {
         nsfwWorker = new Worker("nsfw_worker.js", { type: "module" });
         nsfwWorker.onmessage = (e) => {
-          if (e.data.type === "modelLoaded") {
+          if (e.data.type === "progress") {
+            window.nsfwModelProgress = e.data.percent;
+          } else if (e.data.type === "modelLoaded") {
             console.log("NSFW Worker is ready with InceptionV3");
             window.isNSFWModelReady = true;
+            window.nsfwModelProgress = 100;
           } else if (e.data.type === "result" || e.data.type === "error") {
             const cb = workerCallbacks[e.data.id];
             if (cb) {

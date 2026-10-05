@@ -2,6 +2,40 @@ import * as tf from "https://esm.sh/@tensorflow/tfjs@4.22.0";
 import * as nsfwjs from "https://esm.sh/nsfwjs@4.4.0?bundle";
 
 let nsfwModel = null;
+let downloadedBytes = 0;
+const EXPECTED_TOTAL_BYTES = 30500000; // ~30.5MB for InceptionV3
+
+const originalFetch = self.fetch;
+self.fetch = async function(...args) {
+    const response = await originalFetch(...args);
+    if (!response.body) return response;
+    
+    // Only track model weights (skip small fetch calls if needed, but tracking all is fine)
+    const reader = response.body.getReader();
+    const stream = new ReadableStream({
+        async start(controller) {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) {
+                    controller.close();
+                    break;
+                }
+                downloadedBytes += value.length;
+                let p = (downloadedBytes / EXPECTED_TOTAL_BYTES) * 100;
+                if (p > 99) p = 99; // Hold at 99% until tfjs actually finishes loading
+                postMessage({ type: "progress", percent: p });
+                
+                controller.enqueue(value);
+            }
+        }
+    });
+    
+    return new Response(stream, {
+        headers: response.headers,
+        status: response.status,
+        statusText: response.statusText
+    });
+};
 
 async function loadModel() {
     if (nsfwModel) return;
