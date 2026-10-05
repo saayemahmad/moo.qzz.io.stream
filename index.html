@@ -2845,11 +2845,24 @@
             const { uploadId, uploadUrl, thumbUrl, filename } = await initRes.json();
 
             // 3. Upload Thumbnail directly to B2 (if generated)
+            // Fallback: If thumbnail generation failed for an image, just use the original file!
+            if (!thumbBlob && file.type.startsWith("image/")) {
+              thumbBlob = file;
+            }
+            
             if (thumbBlob && thumbUrl) {
               await new Promise((resolve) => {
                 const xhr = new XMLHttpRequest();
-                xhr.onload = () => resolve(); // Ignore thumb failures gracefully
-                xhr.onerror = () => resolve();
+                xhr.onload = () => {
+                  if (xhr.status >= 400) {
+                    console.error("Thumbnail upload failed for " + file.name + ":", xhr.status, xhr.responseText);
+                  }
+                  resolve(); // Ignore thumb failures gracefully so main upload continues
+                };
+                xhr.onerror = () => {
+                  console.error("Network error during thumbnail upload for " + file.name);
+                  resolve();
+                };
                 xhr.open("PUT", thumbUrl);
                 xhr.setRequestHeader("Content-Type", "image/jpeg");
                 xhr.send(thumbBlob);
