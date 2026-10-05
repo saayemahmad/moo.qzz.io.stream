@@ -1252,7 +1252,7 @@ def _select_best_b2_account(db) -> dict:
     candidates.sort(key=lambda x: x[0], reverse=True)
     best_free, best = candidates[0]
 
-    print(f"[B2] ✓ Selected: '{best.get('label', best['id'])}' ({best_free/(1024**3):.2f} GB free)")
+    print(f"[B2] > Selected: '{best.get('label', best['id'])}' ({best_free/(1024**3):.2f} GB free)")
     return best
 
 
