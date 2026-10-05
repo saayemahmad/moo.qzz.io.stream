@@ -2678,11 +2678,12 @@
           } else if (file.type.startsWith("video/") && window.checkVideoForNSFW) {
             isNSFW = await window.checkVideoForNSFW(file);
           }
-          
           if (isNSFW) {
-            showAlert("🚫 নুড ছবি/ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")");
+            if (progStatus) {
+              progStatus.innerHTML = `<span style="color:var(--c-red);">🚫 স্কিপ করা হলো (NSFW): ${file.name}</span>`;
+            }
             uploadQueue.shift();
-            setTimeout(processUploadQueue, 1500);
+            setTimeout(processUploadQueue, 2000);
             return;
           }
           
