@@ -72,10 +72,10 @@ limiter = Limiter(key_func=get_remote_address)
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
-# Strict Whitelist Middleware — PC is API-only, no static file serving
 ALLOWED_PATHS_PREFIXES = (
     "/uploads",
     "/media",
+    "/b2-media",
     "/log-client-error",
     "/log-watch",
     "/api",
@@ -1372,6 +1372,7 @@ def b2_finalize(upload_id: str, db=Depends(get_db)):
 
 @app.get("/b2-media/{upload_id}/{filename}")
 def get_b2_media(upload_id: str, filename: str, db=Depends(get_db)):
+    print(f"!!! HIT get_b2_media: {upload_id}/{filename}")
     """Serve B2 media from the correct account (looks up b2_account_id in DB)."""
     # Try to find which account this upload used
     account = None
