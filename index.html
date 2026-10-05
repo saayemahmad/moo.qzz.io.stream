@@ -2773,35 +2773,67 @@
               thumbBlob = await new Promise((resolve) => {
                 const video = document.createElement("video");
                 const url = URL.createObjectURL(file);
-                video.src = url;
-                video.muted = true;
-                video.currentTime = 1.0;
-                video.onseeked = () => {
-                  const canvas = document.createElement("canvas");
-                  canvas.width = 300;
-                  canvas.height = (video.videoHeight / video.videoWidth) * 300;
-                  const ctx = canvas.getContext("2d");
-                  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-                  canvas.toBlob(resolve, "image/jpeg", 0.7);
-                  URL.revokeObjectURL(url);
+                let resolved = false;
+                const done = (blob) => {
+                  if (!resolved) {
+                    resolved = true;
+                    URL.revokeObjectURL(url);
+                    resolve(blob);
+                  }
                 };
-                video.onerror = () => resolve(null);
+                // 10-second safety timeout
+                const timeout = setTimeout(() => done(null), 10000);
+                video.muted = true;
+                video.playsInline = true;
+                video.preload = "metadata";
+                video.src = url;
+                video.onseeked = () => {
+                  clearTimeout(timeout);
+                  try {
+                    const canvas = document.createElement("canvas");
+                    const w = video.videoWidth || 300;
+                    const h = video.videoHeight || 169;
+                    canvas.width = 300;
+                    canvas.height = Math.round((h / w) * 300) || 169;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob((b) => done(b), "image/jpeg", 0.7);
+                  } catch (e) {
+                    done(null);
+                  }
+                };
+                video.onloadeddata = () => {
+                  video.currentTime = Math.min(1.0, (video.duration || 2) * 0.1);
+                };
+                video.onloadedmetadata = () => {
+                  video.currentTime = Math.min(1.0, (video.duration || 2) * 0.1);
+                };
+                video.onerror = () => { clearTimeout(timeout); done(null); };
+                video.load();
               });
             } else if (file.type.startsWith("image/")) {
               thumbBlob = await new Promise((resolve) => {
                 const img = new Image();
                 const url = URL.createObjectURL(file);
+                const timeout = setTimeout(() => { URL.revokeObjectURL(url); resolve(null); }, 8000);
                 img.onload = () => {
-                  const canvas = document.createElement("canvas");
-                  canvas.width = 300;
-                  canvas.height = (img.height / img.width) * 300;
-                  const ctx = canvas.getContext("2d");
-                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                  canvas.toBlob(resolve, "image/jpeg", 0.7);
-                  URL.revokeObjectURL(url);
+                  clearTimeout(timeout);
+                  try {
+                    const canvas = document.createElement("canvas");
+                    const w = img.width || 300;
+                    const h = img.height || 300;
+                    canvas.width = 300;
+                    canvas.height = Math.round((h / w) * 300) || 300;
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    canvas.toBlob((b) => { URL.revokeObjectURL(url); resolve(b); }, "image/jpeg", 0.7);
+                  } catch (e) {
+                    URL.revokeObjectURL(url);
+                    resolve(null);
+                  }
                 };
                 img.src = url;
-                img.onerror = () => resolve(null);
+                img.onerror = () => { clearTimeout(timeout); URL.revokeObjectURL(url); resolve(null); };
               });
             }
 
