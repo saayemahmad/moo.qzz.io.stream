@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
 
 <head>
@@ -1723,12 +1723,14 @@
       <a href="/analytics/presence" class="nav-link" data-page="presence">Live Presence</a>
       <a href="/analytics/chatbox" class="nav-link" data-page="chatbox">Chat Box</a>
       <a href="/analytics/watch_leaderboard" class="nav-link" data-page="watch_leaderboard">Watch Leaderboard</a>
+      <a href="/analytics/b2_accounts" class="nav-link" data-page="b2_accounts">B2 Accounts</a>
     </div>
 
     <div class="home-menu" id="homeMenu" style="display:none;">
       <a href="/analytics/presence" class="home-btn corner-frame">Live Presence</a>
       <a href="/analytics/chatbox" class="home-btn corner-frame">Chat Box</a>
       <a href="/analytics/watch_leaderboard" class="home-btn corner-frame">Watch Leaderboard</a>
+      <a href="/analytics/b2_accounts" class="home-btn corner-frame" style="border-color:var(--cyan);">&#9432; B2 Storage</a>
     </div>
 
     <div class="deck" id="mainDeck">
@@ -1785,6 +1787,63 @@
             </div>
           </div>
         </section>
+
+      </div>
+
+    </div>
+
+      <!-- B2 Accounts Panel (full-width, hidden by default) -->
+      <div id="panel-b2_accounts" style="display:none; padding: 0 16px 24px; max-width:860px; margin:0 auto; width:100%;">
+
+        <!-- Storage Usage Cards -->
+        <div style="margin-bottom:20px;">
+          <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+            <h3 style="font-family:var(--display); font-size:13px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; margin:0;">Storage Usage</h3>
+            <button id="b2RefreshBtn" onclick="loadB2Accounts()" style="background:none; border:1px solid var(--line); color:var(--text-dim); padding:4px 10px; font-size:10px; font-family:var(--mono); cursor:pointer; letter-spacing:1px;">&#8635; REFRESH</button>
+          </div>
+          <div id="b2UsageCards" style="display:grid; gap:10px;">
+            <div style="color:var(--text-dimmer); font-family:var(--mono); font-size:11px; padding:20px; text-align:center; border:1px solid var(--line);">Loading storage data...</div>
+          </div>
+        </div>
+
+        <!-- Account List -->
+        <div style="margin-bottom:24px;">
+          <h3 style="font-family:var(--display); font-size:13px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; margin:0 0 12px;">Accounts</h3>
+          <div id="b2AccountList" style="display:flex; flex-direction:column; gap:8px;">
+            <div style="color:var(--text-dimmer); font-family:var(--mono); font-size:11px; padding:16px; text-align:center; border:1px solid var(--line);">Loading...</div>
+          </div>
+        </div>
+
+        <!-- Add Account Form -->
+        <div class="corner-frame" style="padding:20px; background:var(--panel);">
+          <h3 style="font-family:var(--display); font-size:13px; color:var(--cyan); text-transform:uppercase; letter-spacing:1px; margin:0 0 16px;">+ Add New B2 Account</h3>
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+            <div>
+              <label style="font-family:var(--mono); font-size:10px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Label (nickname)</label>
+              <input id="b2Label" type="text" placeholder="e.g. Account #2" style="width:100%; background:var(--panel-alt); border:1px solid var(--line); color:var(--text); padding:8px 10px; font-family:var(--mono); font-size:12px; outline:none;">
+            </div>
+            <div>
+              <label style="font-family:var(--mono); font-size:10px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Bucket Name</label>
+              <input id="b2Bucket" type="text" placeholder="my-bucket-name" style="width:100%; background:var(--panel-alt); border:1px solid var(--line); color:var(--text); padding:8px 10px; font-family:var(--mono); font-size:12px; outline:none;">
+            </div>
+            <div style="grid-column:1/-1;">
+              <label style="font-family:var(--mono); font-size:10px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Endpoint URL</label>
+              <input id="b2Endpoint" type="text" placeholder="https://s3.us-east-005.backblazeb2.com" style="width:100%; background:var(--panel-alt); border:1px solid var(--line); color:var(--text); padding:8px 10px; font-family:var(--mono); font-size:12px; outline:none;">
+            </div>
+            <div>
+              <label style="font-family:var(--mono); font-size:10px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Key ID (keyID)</label>
+              <input id="b2KeyId" type="text" placeholder="005xxxx..." style="width:100%; background:var(--panel-alt); border:1px solid var(--line); color:var(--text); padding:8px 10px; font-family:var(--mono); font-size:12px; outline:none;">
+            </div>
+            <div>
+              <label style="font-family:var(--mono); font-size:10px; color:var(--text-dimmer); text-transform:uppercase; letter-spacing:1px; display:block; margin-bottom:4px;">Application Key</label>
+              <input id="b2AppKey" type="password" placeholder="K005xxxx..." style="width:100%; background:var(--panel-alt); border:1px solid var(--line); color:var(--text); padding:8px 10px; font-family:var(--mono); font-size:12px; outline:none;">
+            </div>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px;">
+            <button id="b2AddBtn" onclick="addB2Account()" style="background:var(--cyan); border:none; color:#000; padding:8px 20px; font-size:11px; font-family:var(--mono); cursor:pointer; font-weight:700; letter-spacing:1px; text-transform:uppercase;">TEST &amp; ADD ACCOUNT</button>
+            <span id="b2AddStatus" style="font-family:var(--mono); font-size:11px; color:var(--text-dimmer);"></span>
+          </div>
+        </div>
 
       </div>
 
@@ -1867,7 +1926,7 @@
     /* ---------------- Routing Logic ---------------- */
     const path = window.location.pathname;
     const isHome = path === '/analytics' || path === '/analytics/';
-    const pageMatch = path.match(/\/analytics\/(presence|chatbox|watch_leaderboard)/);
+    const pageMatch = path.match(/\/analytics\/(presence|chatbox|watch_leaderboard|b2_accounts)/);
     let currentPage = pageMatch ? pageMatch[1] : (isHome ? 'home' : 'home');
 
     const pPresence = document.getElementById('panel-presence');
@@ -1881,7 +1940,7 @@
     const backBtn = document.getElementById('backBtn');
 
     // Track which data loaders have been started (lazy init)
-    const _started = { presence: false, chatbox: false, watch_leaderboard: false };
+    const _started = { presence: false, chatbox: false, watch_leaderboard: false, b2_accounts: false };
 
     function showPage(page) {
       currentPage = page;
@@ -1892,6 +1951,8 @@
       if (col1Wrapper) col1Wrapper.style.display = '';
       if (col2Wrapper) col2Wrapper.style.display = '';
       if (deck) deck.style.gridTemplateColumns = '';
+      const pB2 = document.getElementById('panel-b2_accounts');
+      if (pB2) pB2.style.display = 'none';
 
       if (page === 'home') {
         if (deck) deck.style.display = 'none';
@@ -1918,6 +1979,12 @@
           if (deck) deck.style.gridTemplateColumns = '1fr';
           if (col2Wrapper) { col2Wrapper.style.display = ''; col2Wrapper.style.gridColumn = '1'; }
           if (!_started.watch_leaderboard) { _started.watch_leaderboard = true; setTimeout(() => { loadWatchTime(); startWatchRealtime(); }, 0); }
+        } else if (page === 'b2_accounts') {
+          // Hide both cols, show dedicated B2 panel
+          if (col1Wrapper) col1Wrapper.style.display = 'none';
+          if (col2Wrapper) col2Wrapper.style.display = 'none';
+          if (pB2) pB2.style.display = 'block';
+          if (!_started.b2_accounts) { _started.b2_accounts = true; setTimeout(loadB2Accounts, 0); }
         }
       }
       // Update active nav link
@@ -1929,10 +1996,11 @@
     // Intercept ALL internal analytics links — no reload, pure SPA
     document.querySelectorAll('.nav-link, .home-btn').forEach(link => {
       const href = link.getAttribute('href') || '';
-      const m = href.match(/\/analytics\/(presence|chatbox|watch_leaderboard)/);
+      const m = href.match(/\/analytics\/(presence|chatbox|watch_leaderboard|b2_accounts)/);
       if (m) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
+          history.pushState({}, '', href);
           showPage(m[1]);
         });
       }
@@ -2889,6 +2957,134 @@
     });
     masonryMo.observe(document.body, { childList: true, subtree: true });
     observeNewPills();
+
+    // ─── B2 Account Management ────────────────────────────────────────────────
+    function fmtBytes(b) {
+      if (b == null || b < 0) return 'Unknown';
+      if (b < 1024) return b + ' B';
+      if (b < 1024 * 1024) return (b / 1024).toFixed(1) + ' KB';
+      if (b < 1024 * 1024 * 1024) return (b / (1024 * 1024)).toFixed(1) + ' MB';
+      return (b / (1024 * 1024 * 1024)).toFixed(2) + ' GB';
+    }
+
+    async function loadB2Accounts() {
+      try {
+        // Load account list
+        const [accRes, usageRes] = await Promise.all([
+          fetch('https://api.moo.qzz.io/api/b2/accounts', { credentials: 'include' }),
+          fetch('https://api.moo.qzz.io/api/b2/accounts/usage', { credentials: 'include' })
+        ]);
+        const accounts = accRes.ok ? await accRes.json() : [];
+        const usages   = usageRes.ok ? await usageRes.json() : [];
+
+        // --- Usage Cards ---
+        const usageEl = document.getElementById('b2UsageCards');
+        if (!usages.length) {
+          usageEl.innerHTML = '<div style="color:var(--text-dimmer);font-family:var(--mono);font-size:11px;padding:20px;text-align:center;border:1px solid var(--line);">No accounts found</div>';
+        } else {
+          usageEl.innerHTML = usages.map(u => {
+            const pct = (u.used_bytes >= 0 && u.limit_bytes > 0) ? Math.min(100, (u.used_bytes / u.limit_bytes) * 100) : null;
+            const barColor = pct == null ? 'var(--text-dimmer)' : pct > 85 ? 'var(--red)' : pct > 60 ? 'var(--amber)' : 'var(--cyan)';
+            const pctStr = pct != null ? pct.toFixed(1) + '%' : '?';
+            return `<div style="background:var(--panel);border:1px solid var(--line);padding:14px 16px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                <span style="font-family:var(--display);font-size:13px;color:var(--text);font-weight:600;">${u.label}</span>
+                <span style="font-family:var(--mono);font-size:10px;color:var(--text-dimmer);">${u.bucket}</span>
+              </div>
+              <div style="height:4px;background:var(--panel-alt);border-radius:2px;overflow:hidden;margin-bottom:6px;">
+                <div style="height:100%;width:${pct ?? 0}%;background:${barColor};transition:width .4s;border-radius:2px;"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;">
+                <span style="font-family:var(--mono);font-size:10px;color:var(--text-dimmer);">Used: <b style="color:${barColor}">${fmtBytes(u.used_bytes)}</b> / ${fmtBytes(u.limit_bytes)}</span>
+                <span style="font-family:var(--mono);font-size:10px;color:var(--text-dimmer);">Free: <b style="color:var(--watch-color)">${fmtBytes(u.free_bytes)}</b> &nbsp;<span style="opacity:.5;">(${pctStr} used)</span></span>
+              </div>
+            </div>`;
+          }).join('');
+        }
+
+        // --- Account List ---
+        const listEl = document.getElementById('b2AccountList');
+        if (!accounts.length) {
+          listEl.innerHTML = '<div style="color:var(--text-dimmer);font-family:var(--mono);font-size:11px;padding:16px;text-align:center;border:1px solid var(--line);">No accounts configured</div>';
+        } else {
+          listEl.innerHTML = accounts.map(a => {
+            const isDefault = a.id === 'default';
+            const enabled = a.enabled !== false;
+            return `<div style="display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--panel);border:1px solid ${enabled ? 'var(--line)' : 'rgba(255,255,255,0.04)'};opacity:${enabled ? 1 : 0.5};">
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+                  <span style="font-family:var(--display);font-size:13px;color:var(--text);font-weight:600;">${a.label || a.id}</span>
+                  ${isDefault ? '<span style="font-family:var(--mono);font-size:9px;background:var(--cyan-soft);color:var(--cyan);padding:2px 6px;">ENV</span>' : ''}
+                  ${!enabled ? '<span style="font-family:var(--mono);font-size:9px;background:var(--red-soft);color:var(--red);padding:2px 6px;">DISABLED</span>' : ''}
+                </div>
+                <div style="font-family:var(--mono);font-size:10px;color:var(--text-dimmer);">${a.bucket} &nbsp;·&nbsp; ${a.key_id} &nbsp;·&nbsp; <span style="opacity:.6;">${a.app_key_masked}</span></div>
+              </div>
+              ${!isDefault ? `
+              <button onclick="toggleB2Account('${a.id}')" style="background:none;border:1px solid var(--line);color:var(--text-dim);padding:5px 10px;font-size:10px;font-family:var(--mono);cursor:pointer;">${enabled ? 'DISABLE' : 'ENABLE'}</button>
+              <button onclick="deleteB2Account('${a.id}', '${(a.label||a.id).replace(/'/g,'')}' )" style="background:none;border:1px solid var(--red);color:var(--red);padding:5px 10px;font-size:10px;font-family:var(--mono);cursor:pointer;">DELETE</button>
+              ` : '<span style="font-family:var(--mono);font-size:10px;color:var(--text-dimmer);white-space:nowrap;">(.env default)</span>'}
+            </div>`;
+          }).join('');
+        }
+      } catch (e) {
+        console.error('B2 load error:', e);
+      }
+    }
+
+    async function addB2Account() {
+      const label    = document.getElementById('b2Label').value.trim();
+      const bucket   = document.getElementById('b2Bucket').value.trim();
+      const endpoint = document.getElementById('b2Endpoint').value.trim();
+      const keyId    = document.getElementById('b2KeyId').value.trim();
+      const appKey   = document.getElementById('b2AppKey').value.trim();
+      const statusEl = document.getElementById('b2AddStatus');
+      const btn      = document.getElementById('b2AddBtn');
+
+      if (!label || !bucket || !endpoint || !keyId || !appKey) {
+        statusEl.style.color = 'var(--red)'; statusEl.textContent = 'All fields required.'; return;
+      }
+      btn.disabled = true; btn.textContent = 'Testing credentials...';
+      statusEl.style.color = 'var(--text-dimmer)'; statusEl.textContent = 'Connecting to Backblaze...';
+
+      try {
+        const res = await fetch('https://api.moo.qzz.io/api/b2/accounts', {
+          method: 'POST', credentials: 'include',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ label, bucket, endpoint, key_id: keyId, app_key: appKey })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          statusEl.style.color = 'var(--watch-color)';
+          statusEl.textContent = `✓ Account added! (id: ${data.id})`;
+          ['b2Label','b2Bucket','b2Endpoint','b2KeyId','b2AppKey'].forEach(id => document.getElementById(id).value = '');
+          loadB2Accounts();
+        } else {
+          statusEl.style.color = 'var(--red)';
+          statusEl.textContent = '✗ ' + (data.detail || 'Failed');
+        }
+      } catch (e) {
+        statusEl.style.color = 'var(--red)'; statusEl.textContent = '✗ Network error';
+      } finally {
+        btn.disabled = false; btn.textContent = 'TEST & ADD ACCOUNT';
+      }
+    }
+
+    async function toggleB2Account(id) {
+      try {
+        await fetch(`https://api.moo.qzz.io/api/b2/accounts/${id}/toggle`, { method: 'PATCH', credentials: 'include' });
+        loadB2Accounts();
+      } catch (e) { alert('Toggle failed: ' + e.message); }
+    }
+
+    async function deleteB2Account(id, label) {
+      if (!confirm(`Delete B2 account "${label}"?\n\nExisting files in this bucket will still be accessible via direct URL, but new uploads won't go here.`)) return;
+      try {
+        const res = await fetch(`https://api.moo.qzz.io/api/b2/accounts/${id}`, { method: 'DELETE', credentials: 'include' });
+        if (res.ok) loadB2Accounts();
+        else { const d = await res.json(); alert('Delete failed: ' + (d.detail || 'Unknown error')); }
+      } catch (e) { alert('Delete failed: ' + e.message); }
+    }
+    // ─────────────────────────────────────────────────────────────────────────
 
     // startWatchRealtime — called lazily by showPage
     function startWatchRealtime() {
