@@ -7008,63 +7008,56 @@
     </script>
   </body>
   <script type="module">
-    let nsfwModel = null;
-    let tf = null;
-    let nsfwjs = null;
+    let nsfwWorker = null;
+    let workerCallbacks = {};
+    let messageIdCounter = 0;
 
-    window.initNSFWModel = async function () {
-      if (nsfwModel) return;
-      try {
-        if (!tf) {
-          tf = await import("https://esm.sh/@tensorflow/tfjs@4.22.0");
-        }
-        if (!nsfwjs) {
-          nsfwjs = await import("https://esm.sh/nsfwjs@4.4.0?bundle");
-        }
-        await tf.ready();
-        nsfwModel = await nsfwjs.load();
-        console.log("NSFW model loaded successfully");
-      } catch (err) {
-        console.error("NSFW model failed to load:", err);
+    // Initialize Web Worker on initial page load to load the model in the background
+    window.initNSFWModel = function () {
+      if (!nsfwWorker) {
+        nsfwWorker = new Worker("nsfw_worker.js");
+        nsfwWorker.onmessage = (e) => {
+          if (e.data.type === "modelLoaded") {
+            console.log("NSFW Worker is ready with InceptionV3");
+          } else if (e.data.type === "result" || e.data.type === "error") {
+            const cb = workerCallbacks[e.data.id];
+            if (cb) {
+              if (e.data.type === "error") {
+                cb.reject(e.data.error);
+              } else {
+                cb.resolve(e.data.isNSFW);
+              }
+              delete workerCallbacks[e.data.id];
+            }
+          }
+        };
+        nsfwWorker.postMessage({ type: "init" });
       }
     };
 
+    // Auto-init on page load to prevent hanging during first upload!
+    window.initNSFWModel();
+
+    async function classifyBitmapWithWorker(imageBitmap) {
+      if (!nsfwWorker) window.initNSFWModel();
+      return new Promise((resolve, reject) => {
+        const id = messageIdCounter++;
+        workerCallbacks[id] = { resolve, reject };
+        nsfwWorker.postMessage({ type: "classify", id, imageBitmap }, [imageBitmap]);
+      });
+    }
+
     window.checkImageForNSFW = async function (file) {
-      await window.initNSFWModel();
-      if (!nsfwModel) return false;
-      const url = URL.createObjectURL(file);
-      const img = new Image();
-      img.src = url;
       try {
-        await new Promise((resolve, reject) => {
-          img.onload = resolve;
-          img.onerror = reject;
-        });
-        const predictions = await nsfwModel.classify(img);
-        const porn =
-          predictions.find((x) => x.className === "Porn")?.probability || 0;
-        const hentai =
-          predictions.find((x) => x.className === "Hentai")?.probability || 0;
-        const sexy =
-          predictions.find((x) => x.className === "Sexy")?.probability || 0;
-        
-        const unsafe = Math.max(porn, hentai);
-        URL.revokeObjectURL(url);
-        // Strict threshold for porn/hentai, higher threshold for sexy to reduce false positives
-        return unsafe >= 0.65 || sexy >= 0.90;
+        const imageBitmap = await createImageBitmap(file);
+        return await classifyBitmapWithWorker(imageBitmap);
       } catch (err) {
-        console.error("NSFW check failed:", err);
-        URL.revokeObjectURL(url);
+        console.error("NSFW image check failed:", err);
         return false;
       }
     };
 
-    // Removed auto initialization
-    // window.initNSFWModel();
-
     window.checkVideoForNSFW = async function (file) {
-      await window.initNSFWModel();
-      if (!nsfwModel) return false;
       const url = URL.createObjectURL(file);
       const video = document.createElement("video");
       video.src = url;
@@ -7073,7 +7066,6 @@
 
       return new Promise((resolve) => {
         video.onloadeddata = async () => {
-          // Check 3 frames to make it fast and prevent hang: 20%, 50%, 80%
           const duration = video.duration;
           if (isNaN(duration) || duration === 0) {
             URL.revokeObjectURL(url);
@@ -7086,14 +7078,13 @@
             duration * 0.8,
           ];
           const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
+          const ctx = canvas.getContext("2d", { willReadFrequently: true });
           canvas.width = video.videoWidth || 320;
           canvas.height = video.videoHeight || 240;
 
           for (const time of timePoints) {
             video.currentTime = time;
             await new Promise((r) => {
-              // Set a timeout in case onseeked doesn't fire
               const timer = setTimeout(r, 1000);
               video.onseeked = () => {
                 clearTimeout(timer);
@@ -7104,27 +7095,14 @@
             ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
             try {
-              const predictions = await nsfwModel.classify(canvas);
-              const porn =
-                predictions.find((x) => x.className === "Porn")?.probability ||
-                0;
-              const hentai =
-                predictions.find((x) => x.className === "Hentai")
-                  ?.probability || 0;
-              const sexy =
-                predictions.find((x) => x.className === "Sexy")?.probability ||
-                0;
-              
-              const unsafe = Math.max(porn, hentai);
+              const imageBitmap = await createImageBitmap(canvas);
+              const isNSFW = await classifyBitmapWithWorker(imageBitmap);
 
-              if (unsafe >= 0.65 || sexy >= 0.90) {
+              if (isNSFW) {
                 URL.revokeObjectURL(url);
                 resolve(true);
                 return;
               }
-              
-              // Yield to main UI thread to prevent browser hang
-              await new Promise(r => setTimeout(r, 20));
             } catch (e) {
               console.error("Frame check error:", e);
             }
