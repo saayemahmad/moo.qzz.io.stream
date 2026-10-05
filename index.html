@@ -2849,7 +2849,12 @@
                 category: cat || ""
               })
             });
-            if (!initRes.ok) throw new Error("Init failed");
+            if (!initRes.ok) {
+              if (initRes.status === 507) {
+                throw new Error("STORAGE_FULL");
+              }
+              throw new Error("Init failed: " + initRes.status);
+            }
             const { uploadId, uploadUrl, thumbUrl, filename } = await initRes.json();
 
             // 3. Upload Thumbnail directly to B2 (if generated)
@@ -2919,12 +2924,17 @@
           } catch (err) {
             clearInterval(uploadLogInterval);
             console.error("Direct Upload Failed:", err);
-            if (window.sendClientErrorToServer) {
+            if (err.message !== "STORAGE_FULL" && window.sendClientErrorToServer) {
               window.sendClientErrorToServer(err.message, null, null, null, err, "b2.DirectUpload");
             }
             if (progStatus) {
-              progStatus.innerText = "আপলোডে সমস্যা হয়েছে।";
-              progStatus.style.color = "var(--c-red-shadow)";
+              if (err.message === "STORAGE_FULL") {
+                progStatus.innerHTML = `স্টোরেজ পূর্ণ! <a href="https://moo.qzz.io/analytics/b2_accounts" target="_blank" style="color:var(--c-pink-shadow);text-decoration:underline;">নতুন B2 অ্যাকাউন্ট যোগ করুন</a>`;
+                progStatus.style.color = "var(--c-red-shadow)";
+              } else {
+                progStatus.innerText = "আপলোডে সমস্যা হয়েছে।";
+                progStatus.style.color = "var(--c-red-shadow)";
+              }
             }
             uploadQueue.shift();
             setTimeout(processUploadQueue, 3000);

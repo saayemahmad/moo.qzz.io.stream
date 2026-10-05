@@ -1183,34 +1183,92 @@ def _get_account_used_bytes(client, bucket: str) -> int:
 def _select_best_b2_account(db) -> dict:
     """
     Select the B2 account with the most free space.
-    Free space = 10 GB limit (Backblaze B2 free tier per account) - used bytes.
-    Falls back to first available account if size check fails.
+
+    Strategy (fast path):
+      - Read cached 'used_bytes' stored in Firebase under b2_accounts/{id}/used_bytes_cache.
+      - This avoids expensive per-upload bucket scans.
+      - The cache is updated by _update_account_usage_cache() which is called:
+          * After every successful B2 finalize (incremental += file size)
+          * By the /api/b2/accounts/usage endpoint (full rescan on demand)
+
+    If NO cache exists for an account, fall back to a live scan ONCE and store the result.
+    If ALL accounts are over the threshold, raise 507 so the frontend can warn the user.
     """
-    B2_FREE_LIMIT = 10 * 1024 * 1024 * 1024  # 10 GB per account
+    B2_LIMIT = 10 * 1024 * 1024 * 1024       # 10 GB Backblaze free tier
+    WARN_THRESHOLD = 9.5 * 1024 * 1024 * 1024 # warn at 9.5 GB (95%)
 
     accounts = _load_all_b2_accounts(db)
     if not accounts:
         raise HTTPException(status_code=503, detail="No B2 accounts configured")
 
-    best = None
-    best_free = -1
+    candidates = []   # (free_bytes, account)
+    all_full   = True
 
     for acc in accounts:
+        acc_id = acc['id']
+
+        # 1. Try cached used_bytes from Firebase
+        cached_used = None
         try:
-            client = get_b2_client_for(acc)
-            used = _get_account_used_bytes(client, acc['bucket'])
-            free = B2_FREE_LIMIT - used if used >= 0 else 0
-            if free > best_free:
-                best_free = free
-                best = acc
-        except Exception as e:
-            print(f"[B2] Skipping account {acc.get('id')}: {e}")
+            fb_used = db.reference(f'b2_accounts/{acc_id}/used_bytes_cache').get()
+            if fb_used is not None:
+                cached_used = int(fb_used)
+        except Exception:
+            pass
 
-    if not best:
-        best = accounts[0]  # last-resort fallback
+        # 2. Fallback: live scan (only if no cache exists)
+        if cached_used is None:
+            print(f"[B2] No cache for {acc_id}, running live scan...")
+            try:
+                client = get_b2_client_for(acc)
+                cached_used = _get_account_used_bytes(client, acc['bucket'])
+                if cached_used >= 0:
+                    # Store for next time
+                    try:
+                        db.reference(f'b2_accounts/{acc_id}/used_bytes_cache').set(cached_used)
+                    except Exception:
+                        pass
+            except Exception as e:
+                print(f"[B2] Live scan failed for {acc_id}: {e}")
+                cached_used = -1
 
-    print(f"[B2] Selected account: {best.get('label', best.get('id'))} (free: {best_free // (1024*1024)} MB)")
+        used = cached_used if cached_used is not None else -1
+        free = B2_LIMIT - used if used >= 0 else B2_LIMIT  # assume empty if unknown
+
+        print(f"[B2] Account '{acc.get('label', acc_id)}': used={used/(1024**3):.2f} GB, free={free/(1024**3):.2f} GB")
+
+        if free > (B2_LIMIT - WARN_THRESHOLD):   # has meaningful free space
+            all_full = False
+
+        candidates.append((free, acc))
+
+    if all_full:
+        raise HTTPException(
+            status_code=507,
+            detail="All B2 accounts are full (>9.5 GB used). Please add a new Backblaze account from the admin panel."
+        )
+
+    # Sort by most free space descending
+    candidates.sort(key=lambda x: x[0], reverse=True)
+    best_free, best = candidates[0]
+
+    print(f"[B2] ✓ Selected: '{best.get('label', best['id'])}' ({best_free/(1024**3):.2f} GB free)")
     return best
+
+
+def _update_account_usage_cache(db, account_id: str, added_bytes: int):
+    """
+    Incrementally update the used_bytes_cache for an account after a successful upload.
+    This keeps the cache fresh without a full bucket rescan.
+    """
+    try:
+        ref = db.reference(f'b2_accounts/{account_id}/used_bytes_cache')
+        current = ref.get()
+        if current is not None:
+            ref.set(int(current) + added_bytes)
+        # If no cache exists yet, don't bother — next upload will trigger a live scan
+    except Exception as e:
+        print(f"[B2] Failed to update usage cache for {account_id}: {e}")
 
 
 class B2InitRequest(BaseModel):
@@ -1300,6 +1358,13 @@ def b2_finalize(upload_id: str, db=Depends(get_db)):
     if not session:
         raise HTTPException(status_code=404, detail="Upload not found")
     session_ref.update({'status': 'ready', 'b2_direct': True})
+
+    # Incrementally update the storage cache for the account used
+    acc_id = session.get('b2_account_id')
+    file_size = session.get('size', 0) or 0
+    if acc_id and file_size > 0:
+        _update_account_usage_cache(db, acc_id, file_size)
+
     return {"status": "ready"}
 
 @app.get("/b2-media/{upload_id}/{filename}")
@@ -1368,16 +1433,23 @@ def list_b2_accounts(request: Request, db=Depends(get_db)):
 
 @app.get("/api/b2/accounts/usage")
 def get_b2_accounts_usage(request: Request, db=Depends(get_db)):
-    """Return used/free bytes for every account."""
+    """Full live rescan of all buckets — updates Firebase cache too. Use Refresh button sparingly."""
     _require_admin(request)
-    B2_FREE_LIMIT = 10 * 1024 * 1024 * 1024
+    B2_LIMIT = 10 * 1024 * 1024 * 1024
     accounts = _load_all_b2_accounts(db)
     result = []
     for acc in accounts:
+        acc_id = acc['id']
         try:
             client = get_b2_client_for(acc)
             used = _get_account_used_bytes(client, acc['bucket'])
-            free = B2_FREE_LIMIT - used if used >= 0 else None
+            free = B2_LIMIT - used if used >= 0 else None
+            # Refresh the Firebase cache with the accurate scanned value
+            if used >= 0:
+                try:
+                    db.reference(f'b2_accounts/{acc_id}/used_bytes_cache').set(used)
+                except Exception:
+                    pass
         except Exception as e:
             used = -1
             free = None
