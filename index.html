@@ -4084,6 +4084,7 @@
               '<div style="padding:40px; text-align:center; color: var(--c-red-shadow);"><i class="ph-duotone ph-warning" style="font-size:48px;"></i><br><br><b>Video Processing Failed</b></div>';
             return;
           }
+          const mediaRoute = data.b2_direct ? "b2-media" : "media";
 
           if (data.mimetype && data.mimetype.startsWith("video")) {
             modalTitleIcon.className = "ph-duotone ph-video-camera";
@@ -4093,7 +4094,6 @@
             videoEl.autoplay = true;
             videoEl.muted = true; // Auto-play requires muted
             
-            const mediaRoute = data.b2_direct ? "b2-media" : "media";
             videoEl.poster = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/thumb.jpg`;
             videoEl.style.maxWidth = "100%";
             videoEl.style.maxHeight = "70vh";
@@ -4149,7 +4149,6 @@
               }
             }
 
-            const mediaRoute = data.b2_direct ? "b2-media" : "media";
             let masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/master.m3u8`;
             
             // Note: For b2_direct videos, they may not have an m3u8 playlist if they are raw mp4s.
@@ -4203,7 +4202,6 @@
             modalTitleIcon.className = "ph-duotone ph-image";
             const imgEl = document.createElement("img");
             
-            const mediaRoute = data.b2_direct ? "b2-media" : "media";
             imgEl.src = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/${data.filename}`;
             imgEl.style.maxWidth = "100%";
             imgEl.style.maxHeight = "70vh";
