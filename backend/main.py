@@ -1143,6 +1143,9 @@ def _load_all_b2_accounts(db) -> list:
         fb_accounts = db.reference('b2_accounts').get() or {}
         for aid, acc in fb_accounts.items():
             if acc.get('enabled', True):
+                if not acc.get('endpoint') or not acc.get('key_id') or not acc.get('app_key'):
+                    # Skip incomplete Firebase entries so .env fallback can apply
+                    continue
                 acc['id'] = aid
                 accounts.append(acc)
     except Exception as e:
