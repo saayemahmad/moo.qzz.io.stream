@@ -624,6 +624,27 @@ async def get_media_file(upload_id: str, filename: str, response: Response):
         response.headers["Cache-Control"] = "no-store"
         raise HTTPException(status_code=404, detail="File not found locally or on B2")
 
+@app.get("/media/{filename}")
+async def get_root_media_file(filename: str, response: Response):
+    target_file = MEDIA_DIR / filename
+    if target_file.exists() and target_file.is_file():
+        return FileResponse(target_file, headers={"Cache-Control": "public, max-age=31536000, immutable"})
+    
+    # NEW: If not found locally, it might be in B2 root (like avatars).
+    try:
+        bucket = os.getenv("B2_BUCKET")
+        client = get_b2_client()
+        url = client.generate_presigned_url(
+            'get_object',
+            Params={'Bucket': bucket, 'Key': filename},
+            ExpiresIn=3600
+        )
+        return RedirectResponse(url)
+    except Exception as e:
+        print(f"B2 Root Media Fallback Error: {e}")
+        response.headers["Cache-Control"] = "no-store"
+        raise HTTPException(status_code=404, detail="File not found locally or on B2")
+
 app.mount("/media", StaticFiles(directory=str(MEDIA_DIR)), name="media")
 
 class ClientErrorLog(BaseModel):
