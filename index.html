@@ -2566,45 +2566,6 @@
           if (openBtn) openBtn.style.border = "";
         };
 
-        if (ENABLE_NSFW_FILTER && window.checkImageForNSFW) {
-          const btn = document.getElementById("compactStartBtn");
-          const oldText = btn.innerHTML;
-          btn.innerHTML =
-            'NSFW Checking... <i class="ph-bold ph-spinner ph-spin"></i>';
-          btn.disabled = true;
-
-          for (const file of selectedFiles) {
-            if (file.type.startsWith("image/")) {
-              const isNSFW = await window.checkImageForNSFW(file);
-              if (isNSFW) {
-                showAlert(
-                  "🚫 নুড ছবি আপলোড করা নিষিদ্ধ! (" + file.name + ")",
-                  doResetPanel,
-                );
-                btn.innerHTML = oldText;
-                btn.disabled = false;
-                return;
-              }
-            } else if (
-              file.type.startsWith("video/") &&
-              window.checkVideoForNSFW
-            ) {
-              const isNSFW = await window.checkVideoForNSFW(file);
-              if (isNSFW) {
-                showAlert(
-                  "🚫 নুড ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")",
-                  doResetPanel,
-                );
-                btn.innerHTML = oldText;
-                btn.disabled = false;
-                return;
-              }
-            }
-          }
-          btn.innerHTML = oldText;
-          btn.disabled = false;
-        }
-
         const btn = document.getElementById("compactStartBtn");
         const uploadSections = document.querySelectorAll(
           ".upload-widget .upload-section",
@@ -2705,6 +2666,31 @@
           progStatus.style.color = "var(--text-muted)";
         }
         progPercent.innerText = "0%";
+        
+        // --- QUEUED NSFW CHECK ---
+        if (ENABLE_NSFW_FILTER && window.checkImageForNSFW) {
+          if (progStatus) {
+            progStatus.innerHTML = 'NSFW স্ক্যান করা হচ্ছে... <i class="ph-bold ph-spinner ph-spin"></i>';
+          }
+          let isNSFW = false;
+          if (file.type.startsWith("image/")) {
+            isNSFW = await window.checkImageForNSFW(file);
+          } else if (file.type.startsWith("video/") && window.checkVideoForNSFW) {
+            isNSFW = await window.checkVideoForNSFW(file);
+          }
+          
+          if (isNSFW) {
+            showAlert("🚫 নুড ছবি/ভিডিও আপলোড করা নিষিদ্ধ! (" + file.name + ")");
+            uploadQueue.shift();
+            setTimeout(processUploadQueue, 1500);
+            return;
+          }
+          
+          if (progStatus) {
+            progStatus.innerText = `আপলোড হচ্ছে... (${uploadQueue.length}টি বাকি)`;
+          }
+        }
+        // -------------------------
 
         segContainer.innerHTML = "";
         for (let i = 0; i < 10; i++) {
@@ -7034,9 +7020,11 @@
           predictions.find((x) => x.className === "Hentai")?.probability || 0;
         const sexy =
           predictions.find((x) => x.className === "Sexy")?.probability || 0;
-        const unsafe = Math.max(porn, hentai, sexy);
+        
+        const unsafe = Math.max(porn, hentai);
         URL.revokeObjectURL(url);
-        return unsafe >= 0.5;
+        // Strict threshold for porn/hentai, higher threshold for sexy to reduce false positives
+        return unsafe >= 0.65 || sexy >= 0.90;
       } catch (err) {
         console.error("NSFW check failed:", err);
         URL.revokeObjectURL(url);
@@ -7058,7 +7046,7 @@
 
       return new Promise((resolve) => {
         video.onloadeddata = async () => {
-          // Check 7 frames: 10%, 25%, 40%, 50%, 60%, 75%, 90%
+          // Check 3 frames to make it fast and prevent hang: 20%, 50%, 80%
           const duration = video.duration;
           if (isNaN(duration) || duration === 0) {
             URL.revokeObjectURL(url);
@@ -7066,13 +7054,9 @@
             return;
           }
           const timePoints = [
-            duration * 0.1,
-            duration * 0.25,
-            duration * 0.4,
+            duration * 0.2,
             duration * 0.5,
-            duration * 0.6,
-            duration * 0.75,
-            duration * 0.9,
+            duration * 0.8,
           ];
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d");
@@ -7103,13 +7087,17 @@
               const sexy =
                 predictions.find((x) => x.className === "Sexy")?.probability ||
                 0;
-              const unsafe = Math.max(porn, hentai, sexy);
+              
+              const unsafe = Math.max(porn, hentai);
 
-              if (unsafe >= 0.5) {
+              if (unsafe >= 0.65 || sexy >= 0.90) {
                 URL.revokeObjectURL(url);
                 resolve(true);
                 return;
               }
+              
+              // Yield to main UI thread to prevent browser hang
+              await new Promise(r => setTimeout(r, 20));
             } catch (e) {
               console.error("Frame check error:", e);
             }
