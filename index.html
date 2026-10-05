@@ -6852,18 +6852,10 @@
         setTimeout(() => { forcedComplete = true; }, 15000); // 15 sec timeout fallback
 
         function animate() {
-          let p = window.nsfwModelProgress || 0;
-          if (p === 0) {
-            // Fake initial startup to at least show something immediately
-            let elapsed = Date.now() - startTime;
-            p = Math.min((elapsed / duration) * 50, 10); // goes to 10% then waits
-          }
+          let elapsed = Date.now() - startTime;
+          let p = Math.min((elapsed / duration) * 100, 100);
 
-          if (!window.isNSFWModelReady && !forcedComplete) {
-            status.textContent = `DOWNLOADING AI MODEL... ${Math.floor(p)}%`;
-          } else if (window.isNSFWModelReady || forcedComplete) {
-            p = 100;
-          }
+          status.textContent = "LOADING...";
 
           const wrap = document.querySelector(".cndy-bar-wrap");
           if (!wrap) return;
@@ -6883,7 +6875,7 @@
           if (p < 100) {
             requestAnimationFrame(animate);
           } else {
-            status.textContent = window.isNSFWModelReady ? "AI READY!" : "READY!";
+            status.textContent = "READY!";
             candy.classList.remove("wiggle");
             if (onComplete) {
               setTimeout(onComplete, 800);
@@ -7078,6 +7070,10 @@
     }
 
     window.checkImageForNSFW = async function (file) {
+      if (!window.isNSFWModelReady) {
+        if (window.createToast) window.createToast("AI Security Scanner is still initializing in the background. Please try uploading in a few seconds.", "error");
+        throw new Error("AI Model not ready");
+      }
       try {
         const imageBitmap = await createImageBitmap(file);
         return await classifyBitmapWithWorker(imageBitmap);
@@ -7088,6 +7084,10 @@
     };
 
     window.checkVideoForNSFW = async function (file) {
+      if (!window.isNSFWModelReady) {
+        if (window.createToast) window.createToast("AI Security Scanner is still initializing in the background. Please try uploading in a few seconds.", "error");
+        throw new Error("AI Model not ready");
+      }
       const url = URL.createObjectURL(file);
       const video = document.createElement("video");
       video.src = url;
