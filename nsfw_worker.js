@@ -1,5 +1,5 @@
-importScripts("https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.22.0/dist/tf.min.js");
-importScripts("https://cdn.jsdelivr.net/npm/nsfwjs@4.4.0/dist/nsfwjs.min.js");
+import * as tf from "https://esm.sh/@tensorflow/tfjs@4.22.0";
+import * as nsfwjs from "https://esm.sh/nsfwjs@4.4.0?bundle";
 
 let nsfwModel = null;
 

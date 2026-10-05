@@ -7039,7 +7039,7 @@
     // Initialize Web Worker on initial page load to load the model in the background
     window.initNSFWModel = function () {
       if (!nsfwWorker) {
-        nsfwWorker = new Worker("nsfw_worker.js");
+        nsfwWorker = new Worker("nsfw_worker.js", { type: "module" });
         nsfwWorker.onmessage = (e) => {
           if (e.data.type === "modelLoaded") {
             console.log("NSFW Worker is ready with InceptionV3");
