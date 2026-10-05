@@ -7097,15 +7097,18 @@
             resolve(false);
             return;
           }
-          const timePoints = [
-            duration * 0.2,
-            duration * 0.5,
-            duration * 0.8,
-          ];
+          // Only check the middle frame to make inference fast!
+          const timePoints = [duration * 0.5];
+          
           const canvas = document.createElement("canvas");
           const ctx = canvas.getContext("2d", { willReadFrequently: true });
-          canvas.width = video.videoWidth || 320;
-          canvas.height = video.videoHeight || 240;
+          
+          // Downscale to 299x299 to prevent massive image processing delay
+          const vW = video.videoWidth || 320;
+          const vH = video.videoHeight || 240;
+          const scale = Math.min(299 / vW, 299 / vH);
+          canvas.width = vW * scale;
+          canvas.height = vH * scale;
 
           for (const time of timePoints) {
             video.currentTime = time;

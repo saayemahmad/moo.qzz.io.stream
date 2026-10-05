@@ -10,6 +10,16 @@ async function loadModel() {
         // Load the heavier, highly-trained InceptionV3 model
         nsfwModel = await nsfwjs.load("InceptionV3", { size: 299 });
         console.log("NSFW Worker: InceptionV3 model loaded successfully in background");
+        
+        // Warm up the model so the very first user upload doesn't stall
+        try {
+            const dummyImageData = new ImageData(299, 299);
+            await nsfwModel.classify(dummyImageData);
+            console.log("NSFW Worker: Model warmed up!");
+        } catch (we) {
+            console.warn("NSFW Worker warmup skipped:", we);
+        }
+
         postMessage({ type: "modelLoaded" });
     } catch (e) {
         console.error("NSFW Worker model load error:", e);
