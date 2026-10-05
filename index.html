@@ -2210,10 +2210,15 @@
         const overlay = document.getElementById("welcomeOverlay");
         if (overlay) {
           overlay.classList.add("active");
-          if (typeof startCandyLoader === "function") startCandyLoader(3000);
-          setTimeout(() => {
-            overlay.classList.remove("active");
-          }, 3000);
+          if (typeof startCandyLoader === "function") {
+            startCandyLoader(2000, () => {
+              overlay.classList.remove("active");
+            });
+          } else {
+            setTimeout(() => {
+              overlay.classList.remove("active");
+            }, 3000);
+          }
         }
 
         // Reset lock for next time it's opened
@@ -6828,9 +6833,12 @@
         src: "bird.lottie",
       });
 
-      window.startCandyLoader = function (duration) {
+      window.startCandyLoader = function (duration, onComplete) {
         const loader = document.getElementById("candyLoader");
-        if (!loader) return;
+        if (!loader) {
+            if (onComplete) onComplete();
+            return;
+        }
         loader.style.display = "block";
         const fill = document.querySelector(".cndy-fill");
         const candy = document.querySelector(".cndy-candy");
@@ -6839,10 +6847,22 @@
 
         let startTime = Date.now();
         candy.classList.add("wiggle");
+        
+        let forcedComplete = false;
+        setTimeout(() => { forcedComplete = true; }, 15000); // 15 sec timeout fallback
 
         function animate() {
           let elapsed = Date.now() - startTime;
-          let p = Math.min((elapsed / duration) * 100, 100);
+          let p = (elapsed / duration) * 100;
+
+          if (p >= 90 && !window.isNSFWModelReady && !forcedComplete) {
+            p = 90;
+            status.textContent = "DOWNLOADING AI MODEL...";
+          } else if (p > 100) {
+            p = 100;
+          } else if (p < 90) {
+            status.textContent = "LOADING...";
+          }
 
           const wrap = document.querySelector(".cndy-bar-wrap");
           if (!wrap) return;
@@ -6862,8 +6882,11 @@
           if (p < 100) {
             requestAnimationFrame(animate);
           } else {
-            status.textContent = "READY!";
+            status.textContent = window.isNSFWModelReady ? "AI READY!" : "READY!";
             candy.classList.remove("wiggle");
+            if (onComplete) {
+              setTimeout(onComplete, 800);
+            }
           }
         }
         animate();
@@ -7011,6 +7034,7 @@
     let nsfwWorker = null;
     let workerCallbacks = {};
     let messageIdCounter = 0;
+    window.isNSFWModelReady = false;
 
     // Initialize Web Worker on initial page load to load the model in the background
     window.initNSFWModel = function () {
@@ -7019,6 +7043,7 @@
         nsfwWorker.onmessage = (e) => {
           if (e.data.type === "modelLoaded") {
             console.log("NSFW Worker is ready with InceptionV3");
+            window.isNSFWModelReady = true;
           } else if (e.data.type === "result" || e.data.type === "error") {
             const cb = workerCallbacks[e.data.id];
             if (cb) {
