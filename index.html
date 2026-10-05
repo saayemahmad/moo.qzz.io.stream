@@ -2951,6 +2951,7 @@
         expiresAt = null,
         startPolling = false,
         category = "",
+        overrideThumbUrl = null
       ) {
         if (!uploadId || uploadId === "undefined") return;
         const grid = document.getElementById("fileGrid");
@@ -2966,11 +2967,14 @@
 
         const colors = ["blue", "pink", "green"];
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
+        
+        const finalThumbUrl = overrideThumbUrl ? overrideThumbUrl : `https://api.moo.qzz.io/b2-media/${uploadId}/thumb.jpg`;
 
         const thumbHTML = startPolling
           ? `<i class="ph ph-spinner ph-spin" id="spin-${uploadId}" style="font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;"></i>`
-          : `<img loading="lazy" src="https://api.moo.qzz.io/b2-media/${uploadId}/thumb.jpg" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
+          : `<img loading="lazy" src="${finalThumbUrl}" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
               ${isVideo ? '<i class="ph-fill ph-video-camera" style="position: absolute; bottom: 8px; left: 8px; color: white; font-size: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); z-index: 5;"></i>' : ""}`;
+
 
         const timerHTML = expiresAt
           ? `
@@ -4088,7 +4092,9 @@
             videoEl.controls = true;
             videoEl.autoplay = true;
             videoEl.muted = true; // Auto-play requires muted
-            videoEl.poster = `https://api.moo.qzz.io/media/${uploadId}/thumb.jpg`;
+            
+            const mediaRoute = data.b2_direct ? "b2-media" : "media";
+            videoEl.poster = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/thumb.jpg`;
             videoEl.style.maxWidth = "100%";
             videoEl.style.maxHeight = "70vh";
             videoEl.style.objectFit = "contain";
@@ -4143,7 +4149,14 @@
               }
             }
 
-            const masterUrl = `https://api.moo.qzz.io/media/${uploadId}/master.m3u8`;
+            const mediaRoute = data.b2_direct ? "b2-media" : "media";
+            let masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/master.m3u8`;
+            
+            // Note: For b2_direct videos, they may not have an m3u8 playlist if they are raw mp4s.
+            // B2 direct videos currently don't go through HLS packaging.
+            if (data.b2_direct) {
+              masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/${data.filename}`;
+            }
 
             if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
               // Safari/iOS native HLS
@@ -4189,7 +4202,9 @@
           } else {
             modalTitleIcon.className = "ph-duotone ph-image";
             const imgEl = document.createElement("img");
-            imgEl.src = `https://api.moo.qzz.io/media/${uploadId}/${data.filename}`;
+            
+            const mediaRoute = data.b2_direct ? "b2-media" : "media";
+            imgEl.src = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/${data.filename}`;
             imgEl.style.maxWidth = "100%";
             imgEl.style.maxHeight = "70vh";
             imgEl.style.objectFit = "contain";

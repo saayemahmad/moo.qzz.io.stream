@@ -523,7 +523,12 @@ def get_status(upload_id: str, db=Depends(get_db)):
     session = db.reference(f'uploads/{upload_id}').get()
     if not session:
         raise HTTPException(status_code=404, detail="Not found")
-    return {"status": session.get('status'), "filename": session.get('filename'), "mimetype": session.get('mimetype')}
+    return {
+        "status": session.get('status'), 
+        "filename": session.get('filename'), 
+        "mimetype": session.get('mimetype'),
+        "b2_direct": session.get('b2_direct', False)
+    }
 
 @app.get("/uploads")
 def list_uploads(db=Depends(get_db)):
