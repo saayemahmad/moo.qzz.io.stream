@@ -3525,7 +3525,7 @@
           return;
         }
 
-        grid.style.display = "flex";
+        grid.style.display = "";
         const mMsg = document.getElementById("maintenanceMessageMain");
         if (mMsg) mMsg.style.display = "none";
 
@@ -3541,7 +3541,7 @@
         grid.appendChild(loadingMsg);
 
         try {
-          const limit = 20;
+          const limit = 50;
           const res = await fetch(
             `https://api.klipy.co/api/v1/${KLIPY_API_KEY}/stickers/search?q=${encodeURIComponent(currentKlipyQuery)}&limit=${limit}&page=${currentKlipyPage}`,
           );
