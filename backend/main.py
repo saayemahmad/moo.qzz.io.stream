@@ -65,6 +65,37 @@ async def run_cmd_async(cmd: list, cwd: Optional[Any] = None):
 
 from .database import get_db
 
+"""
+=============================================================================
+[ ফাইল গাইড (File Guide): backend/main.py ]
+এখানে কোন ফাংশন/কোড কী কাজ করে তার একটি সহজ তালিকা দেওয়া হলো:
+
+১. TUS (লোকাল) আপলোডিং সিস্টেম:
+   - tus_create, tus_head, tus_patch: TUS প্রোটোকল ব্যবহার করে লোকাল স্টোরেজে ফাইল আপলোড করার জন্য।
+   - /uploads/{upload_id}/finalize: লোকাল আপলোড শেষ হলে ফাইল প্রসেসিং (HLS/Thumbnail) শুরু করার জন্য।
+
+২. মিডিয়া সার্ভিং (লোকাল):
+   - get_status, list_uploads, delete_uploads: আপলোড করা ফাইলের স্ট্যাটাস এবং লিস্ট দেখার জন্য।
+   - /media/{upload_id}/{filename}: লোকাল স্টোরেজ থেকে ভিডিও বা ছবি সার্ভ করার জন্য।
+
+৩. ভিডিও ওয়াচ টাইম এবং অ্যানালিটিক্স:
+   - log_watch, get_seek_position: কে কতক্ষণ ভিডিও দেখলো এবং কোথা থেকে আবার শুরু করবে তার হিসাব রাখা।
+   - get_watch_time, get_videos_list, reset_watch_time: অ্যানালিটিক্স প্যানেলের জন্য ডেটা সরবরাহ করা।
+
+৪. পুশ নোটিফিকেশন:
+   - notify_pushover: নতুন ফাইল আপলোড বা ইভেন্টের নোটিফিকেশন পাঠানো।
+
+৫. অ্যাডমিন লগইন ও স্টোরেজ:
+   - login_post, logout: অ্যাডমিন প্যানেলে লগইন করার জন্য।
+   - get_storage, health_check: সার্ভারের স্টোরেজ এবং হেলথ চেক করার জন্য।
+
+৬. Backblaze (B2) ফাইল আপলোডিং সিস্টেম:
+   - b2_init_upload, b2_finalize: Backblaze B2 তে ফাইল আপলোড শুরু ও শেষ করার এন্ডপয়েন্ট।
+   - get_b2_media: Backblaze থেকে ডিরেক্ট মিডিয়া ফাইল সার্ভ করার জন্য।
+   - list_b2_accounts, get_b2_accounts_usage, add_b2_account, toggle, delete: একাধিক B2 অ্যাকাউন্ট ম্যানেজ করার জন্য অ্যাডমিন API।
+=============================================================================
+"""
+
 app = FastAPI()
 
 # Rate Limiter setup
