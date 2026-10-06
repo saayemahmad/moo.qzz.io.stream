@@ -679,20 +679,6 @@
 
           <!-- Main section upload disabled warning removed per request -->
 
-          <!-- TEMPORARY MAINTENANCE MESSAGE START -->
-          <div id="maintenanceMessageMain" class="login-warning" style="display: flex">
-            <div class="login-warning-icon">
-              <i class="ph-duotone ph-warning" style="color: var(--danger)"></i>
-            </div>
-            <h2 style="color: var(--danger)">সাময়িক ত্রুটি</h2>
-            <p style="font-weight: 600; font-size: 16px;">
-              ওয়েবসাইটের সমস্যার কারণে ফাইল আপলোডিং সিস্টেমটি অন্য এন্ডপয়েন্টে স্থানান্তর করতে হচ্ছে, এর জন্য আন্তরিকভাবে দুঃখিত!
-            </p>
-          </div>
-          <!-- TEMPORARY MAINTENANCE MESSAGE END -->
-
-          <!-- HIDING OLD LOGIN WARNING AND FILE GRID -->
-          <div style="display: none !important;">
           <div id="loginWarning" class="login-warning" style="display: none">
             <div class="login-warning-icon">
               <i class="ph-duotone ph-lock-key"></i>
@@ -765,9 +751,8 @@
               </button>
             </div>
           </div>
-          </div>
-          <!-- সার্ভার থেকে ফাইল ফেচ করে এখানে কার্ড আকারে দেখানো হয় (বর্তমানে মেইনটেনেন্স এর জন্য হাইড করা) -->
-          <div id="fileGrid" class="card-grid-3d" style="display: none"></div>
+          <!-- সার্ভার থেকে ফাইল ফেচ করে এখানে কার্ড আকারে দেখানো হয় -->
+          <div id="fileGrid" class="card-grid-3d"></div>
         </section>
       </div>
       <!-- Selection Action Bar -->
@@ -824,17 +809,6 @@
           ফাইল আপলোড
         </h3>
 
-        <!-- TEMPORARY MAINTENANCE MESSAGE START -->
-        <div id="sidebarMaintenanceMessage" style="text-align: center; padding: 20px 10px; background: var(--bg); border: 2px solid var(--c-red-border); border-radius: 8px; margin-bottom: 12px;">
-          <i class="ph-duotone ph-warning" style="font-size: 32px; color: var(--danger); margin-bottom: 12px;"></i>
-          <p style="font-size: 14px; font-weight: 600; color: var(--ink);">
-            ওয়েবসাইটের সমস্যার কারণে ফাইল আপলোডিং সিস্টেমটি অন্য এন্ডপয়েন্টে স্থানান্তর করতে হচ্ছে, এর জন্য আন্তরিকভাবে দুঃখিত!
-          </p>
-        </div>
-        <!-- TEMPORARY MAINTENANCE MESSAGE END -->
-
-        <!-- HIDING OLD UPLOAD CONTENT -->
-        <div style="display: none !important;">
         <div
           id="uploadContent"
           style="display: none; flex-direction: column; gap: 12px"
@@ -1150,7 +1124,6 @@
           >
             লগইন (Login)
           </button>
-        </div>
         </div>
 
         <!-- Close Panel Button -->
