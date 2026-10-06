@@ -4123,7 +4123,7 @@
               '<div style="padding:40px; text-align:center; color: var(--c-red-shadow);"><i class="ph-duotone ph-warning" style="font-size:48px;"></i><br><br><b>Video Processing Failed</b></div>';
             return;
           }
-          const mediaRoute = data.b2_direct ? "b2-media" : "media";
+          const mediaRoute = "b2-media"; // Forced to B2 exclusively
 
           if (data.mimetype && data.mimetype.startsWith("video")) {
             modalTitleIcon.className = "ph-duotone ph-video-camera";
@@ -4188,43 +4188,9 @@
               }
             }
 
-            let masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/master.m3u8`;
-            
-            // Note: For b2_direct videos, they may not have an m3u8 playlist if they are raw mp4s.
-            // B2 direct videos currently don't go through HLS packaging.
-            if (data.b2_direct) {
-              masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/${data.filename}`;
-            }
-
-            if (videoEl.canPlayType("application/vnd.apple.mpegurl")) {
-              // Safari/iOS native HLS
-              videoEl.src = masterUrl;
-            } else if (typeof Hls !== "undefined" && Hls.isSupported()) {
-              window.currentHls = new Hls({
-                enableWorker: true,
-                backBufferLength: 90,
-              });
-              window.currentHls.loadSource(masterUrl);
-              window.currentHls.attachMedia(videoEl);
-              window.currentHls.on(Hls.Events.ERROR, function (event, data) {
-                if (data.fatal) {
-                  switch (data.type) {
-                    case Hls.ErrorTypes.NETWORK_ERROR:
-                      console.error("HLS Network Error, retrying in 2s...");
-                      setTimeout(() => {
-                        if (window.currentHls) window.currentHls.startLoad();
-                      }, 5000);
-                      break;
-                    case Hls.ErrorTypes.MEDIA_ERROR:
-                      window.currentHls.recoverMediaError();
-                      break;
-                    default:
-                      window.currentHls.destroy();
-                      break;
-                  }
-                }
-              });
-            }
+            // B2 direct videos are raw mp4s, playable directly via src natively in all modern browsers.
+            let masterUrl = `https://api.moo.qzz.io/${mediaRoute}/${uploadId}/${data.filename}`;
+            videoEl.src = masterUrl;
 
             startWatchingLog(
               fileName,
