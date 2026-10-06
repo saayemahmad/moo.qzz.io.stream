@@ -765,10 +765,9 @@
               </button>
             </div>
           </div>
-
+          </div>
           <!-- সার্ভার থেকে ফাইল ফেচ করে এখানে কার্ড আকারে দেখানো হয় (বর্তমানে মেইনটেনেন্স এর জন্য হাইড করা) -->
           <div id="fileGrid" class="card-grid-3d" style="display: none"></div>
-          </div>
         </section>
       </div>
       <!-- Selection Action Bar -->
@@ -1864,12 +1863,15 @@
         const hideBtn = document.getElementById("hideFilesBtn");
         const fileRevealBox = document.getElementById("fileRevealBox");
 
+        const searchInput = document.getElementById("searchInput");
+        const query = searchInput ? searchInput.value.trim() : "";
+
         if (!window.currentUser) {
           // Logged out: reset to default hidden state
           window.isFileGridRevealed = false;
           if (loginWarning) loginWarning.style.display = "block";
           if (fileRevealBox) fileRevealBox.style.display = "none";
-          if (grid) grid.style.display = "none";
+          if (grid && !query) grid.style.display = "none";
           if (hideBtn) hideBtn.style.display = "none";
 
           // Hide upload content, show login prompt
@@ -1906,7 +1908,7 @@
         }
 
         if (!window.isFileGridRevealed) {
-          if (grid) grid.style.display = "none";
+          if (grid && !query) grid.style.display = "none";
           if (fileRevealBox) fileRevealBox.style.display = "flex";
         } else {
           if (fileRevealBox) fileRevealBox.style.display = "none";
@@ -3486,6 +3488,11 @@
           document
             .querySelectorAll(".klipy-gif-card")
             .forEach((el) => el.remove());
+          
+          const mMsg = document.getElementById("maintenanceMessageMain");
+          if (mMsg) mMsg.style.display = "flex";
+          
+          window.updateFileGridRevealUI();
           window.filterFiles();
           return;
         }
@@ -3517,6 +3524,10 @@
           isFetchingKlipy = false;
           return;
         }
+
+        grid.style.display = "flex";
+        const mMsg = document.getElementById("maintenanceMessageMain");
+        if (mMsg) mMsg.style.display = "none";
 
         const oldEmpty = document.getElementById("noFilterResults");
         if (oldEmpty) oldEmpty.remove();
