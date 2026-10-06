@@ -241,33 +241,6 @@
   </head>
 
   <body>
-    <!--
-    =============================================================================
-    [ ফাইল গাইড (File Guide): index.html ]
-    এখানে কোন সেকশন/কোড কী কাজ করে তার একটি সহজ তালিকা দেওয়া হলো:
-
-    ১. হেড সেকশন (Line 4 - 240): 
-       - Error Logging: `window.sendClientErrorToServer` ফাংশন দিয়ে ক্লায়েন্টের কোনো এরর হলে তা সার্ভারে পাঠানো হয়।
-       - Firebase & External Scripts: ফায়ারবেস ডেটাবেস এবং HLS (ভিডিও প্লেয়ার), TUS (আপলোডার) লোড করা হয়।
-       - Facebook Emoji System: চ্যাটে ফেসবুকের মতো ইমোজি রেন্ডার করার ফাংশনগুলো (`renderFbEmoji`, `renderTextWithFbEmoji`) এখানে আছে।
-
-    ২. লগইন ও সিকিউরিটি মডাল:
-       - `#loginModal`: পিন দিয়ে ফাইল/ড্রাইভ আনলক করার জন্য যে সিক্রেট লগইন কনসোল আসে, তার HTML কোড।
-
-    ৩. সাইডবার এবং আপলোড প্যানেল:
-       - `#leftSidebar`: বাম দিকের সাইডবার যেখানে "আমার ড্রাইভ", "ট্র্যাশ" এবং স্টোরেজ ইনফো থাকে।
-       - `#rightSidebar`: ডান দিকের প্যানেল যেখানে ফাইল আপলোডের ফর্ম (TUS বা B2 এর জন্য) এবং লগইন প্রম্পট থাকে। (বর্তমানে এটি মেইনটেনেন্স মেসেজ দিয়ে হাইড করা আছে)।
-
-    ৪. মেইন ফাইল গ্রিড (ফাইল দেখার জায়গা):
-       - `#mainFileSection`: এখানে ফিল্টার বাটন (Niqab, Sayem ইত্যাদি) থাকে।
-       - `#fileGrid`: সার্ভার থেকে ফাইল ফেচ করে এখানে কার্ড আকারে দেখানো হয় (বর্তমানে মেইনটেনেন্স এর জন্য হাইড করা)।
-       - `#maintenanceMessageMain`: ফাইল সিস্টেম হাইড করে রাখা হয়েছে যে মেসেজ দিয়ে তা এখানেই।
-
-    ৫. চ্যাট সিস্টেম এবং ফায়ারবেস প্রেজেন্স (জাভাস্ক্রিপ্ট):
-       - ফাইলের শেষের দিকে বিশাল জাভাস্ক্রিপ্ট কোড রয়েছে যা Firebase Realtime Database ব্যবহার করে রিয়েলটাইম চ্যাটিং এবং অনলাইনে কে আছে (Presence) তা ট্র্যাক করে।
-    =============================================================================
-    -->
-
     <div id="welcomeOverlay" class="welcome-overlay">
       <img src="extracted_img_1.png" alt="Welcome" class="welcome-text" />
 
@@ -297,6 +270,7 @@
       </div>
     </div>
 
+    <!-- পিন দিয়ে ফাইল/ড্রাইভ আনলক করার জন্য যে সিক্রেট লগইন কনসোল আসে, তার কোড -->
     <dialog id="loginModal" class="login-console-modal">
       <div class="scene" aria-hidden="true">
         <div class="star star-a">✦</div>
@@ -466,6 +440,7 @@
     ></div>
 
     <!-- Left Sidebar -->
+    <!-- বাম দিকের সাইডবার যেখানে "আমার ড্রাইভ", "ট্র্যাশ" এবং স্টোরেজ ইনফো থাকে -->
     <aside class="sidebar left-sidebar" id="leftSidebar">
       <div class="logo">
         <i
@@ -623,6 +598,7 @@
       </header>
 
       <div class="content-scroll">
+        <!-- ফাইল দেখার মূল এরিয়া (যেখানে ফিল্টার বাটনগুলো থাকে) -->
         <section class="section" id="mainFileSection">
           <!-- Filter Tabs -->
           <div class="filter-tabs" id="categoryFilterBar">
@@ -791,6 +767,7 @@
             </div>
           </div>
 
+          <!-- সার্ভার থেকে ফাইল ফেচ করে এখানে কার্ড আকারে দেখানো হয় (বর্তমানে মেইনটেনেন্স এর জন্য হাইড করা) -->
           <div id="fileGrid" class="card-grid-3d" style="display: none"></div>
           </div>
         </section>
@@ -813,6 +790,7 @@
 
     <!-- Right Sidebar (Compact Upload Flow) -->
     <!-- Right Sidebar (Compact Upload Flow) -->
+    <!-- ডান দিকের প্যানেল যেখানে ফাইল আপলোডের ফর্ম থাকে (বর্তমানে মেইনটেনেন্স মেসেজ দিয়ে হাইড করা) -->
     <aside
       class="sidebar right-sidebar"
       id="rightSidebar"
