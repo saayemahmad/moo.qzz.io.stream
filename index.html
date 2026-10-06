@@ -3537,13 +3537,13 @@
         loadingMsg.className = "klipy-gif-card";
         loadingMsg.style.cssText =
           "grid-column: 1 / -1; text-align: center; padding: 40px 20px; color: var(--text-muted); font-weight: 700;";
-        loadingMsg.innerText = "Searching Klipy GIFs...";
+        loadingMsg.innerText = "Searching Klipy Stickers...";
         grid.appendChild(loadingMsg);
 
         try {
           const limit = 20;
           const res = await fetch(
-            `https://api.klipy.co/api/v1/${KLIPY_API_KEY}/gifs/search?q=${encodeURIComponent(currentKlipyQuery)}&limit=${limit}&page=${currentKlipyPage}`,
+            `https://api.klipy.co/api/v1/${KLIPY_API_KEY}/stickers/search?q=${encodeURIComponent(currentKlipyQuery)}&limit=${limit}&page=${currentKlipyPage}`,
           );
           const data = await res.json();
 
@@ -3563,7 +3563,7 @@
               noMsg.className = "klipy-gif-card";
               noMsg.style.cssText =
                 "grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-muted); font-weight: 700;";
-              noMsg.innerText = "কোনো GIF পাওয়া যায়নি (No GIFs found)";
+              noMsg.innerText = "কোনো Sticker পাওয়া যায়নি (No Stickers found)";
               grid.appendChild(noMsg);
             }
             isFetchingKlipy = false;
