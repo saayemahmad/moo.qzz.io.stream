@@ -258,8 +258,8 @@ textarea {
   --c-storage-bg: #831843;
   --c-storage-used: #f472b6;
   --c-chat-bg: #13030d;
-  --chat-bg-image: none;
-  --chat-bg-overlay: rgba(19, 3, 13, 0.85);
+  --chat-bg-image: url('IMG568_IMG568.jpg');
+  --chat-bg-overlay: rgba(19, 3, 13, 0.62);
   --c-lightbox-bg: rgba(0, 0, 0, 0.9);
   --c-highlight-bg: #db2777;
   --c-highlight-border: #be185d;
@@ -1299,7 +1299,7 @@ button {
     linear-gradient(var(--chat-bg-overlay), var(--chat-bg-overlay)),
     var(--chat-bg-image);
   background-size: cover;
-  background-position: center center;
+  background-position: top center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   display: flex;
