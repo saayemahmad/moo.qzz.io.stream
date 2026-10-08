@@ -4889,6 +4889,21 @@
       let dbLastSeen = {};
       let _lastNotifMsgCount = 0;
 
+      window._isKeyboardOpen = false;
+      if (window.visualViewport) {
+        let baseHeight = window.visualViewport.height;
+        window.visualViewport.addEventListener("resize", () => {
+          if (window.visualViewport.height > baseHeight) {
+            baseHeight = window.visualViewport.height;
+          }
+          const isKbo = baseHeight - window.visualViewport.height > 100;
+          if (window._isKeyboardOpen !== isKbo) {
+            window._isKeyboardOpen = isKbo;
+            if (window.updatePresenceState) window.updatePresenceState();
+          }
+        });
+      }
+
       // Track Shajeda's previous online state so we can detect offline→online transition
       let _shajedaWasOnline = false;
 
@@ -4972,6 +4987,9 @@
             connData.watching_file = null;
             parentData.watching_file = null;
           }
+
+          connData.keyboard_open = !!window._isKeyboardOpen;
+          parentData.keyboard_open = !!window._isKeyboardOpen;
         }
 
         set(myConnectionRef, connData);
@@ -5257,7 +5275,8 @@
             let partnerChatMode = null,
               partnerLoginSource = null,
               partnerDriveStatus = "closed",
-              partnerWatchingFile = null;
+              partnerWatchingFile = null,
+              partnerKeyboardOpen = false;
             if (partnerName === "Shajeda") {
               connections.forEach((conn) => {
                 if (typeof conn === "object") {
@@ -5267,6 +5286,8 @@
                     partnerDriveStatus = "opened";
                   if (conn.watching_file !== undefined)
                     partnerWatchingFile = conn.watching_file;
+                  if (conn.keyboard_open !== undefined)
+                    partnerKeyboardOpen = conn.keyboard_open;
                 }
               });
               if (!partnerChatMode && data?.chat_mode)
@@ -5285,6 +5306,8 @@
                 data?.watching_file !== undefined
               )
                 partnerWatchingFile = data.watching_file;
+              if (partnerKeyboardOpen === false && data?.keyboard_open !== undefined)
+                partnerKeyboardOpen = data.keyboard_open;
             }
 
             const isPartnerOnline =
@@ -5398,6 +5421,15 @@
                   hasBadges = true;
                   if (ctxBar)
                     ctxBar.innerHTML += `<span class="partner-micro-badge active-red" title="Not watching any file"><i class="ph-bold ph-eye-slash"></i><span>Nothing</span></span>`;
+                }
+                
+                // Keyboard status badge
+                hasBadges = true;
+                const kbColor = partnerKeyboardOpen ? "active-green" : "active-red";
+                const kbText = partnerKeyboardOpen ? "K-O" : "K-C";
+                const kbTitle = partnerKeyboardOpen ? "Keyboard: Open" : "Keyboard: Closed";
+                if (ctxBar) {
+                  ctxBar.innerHTML += `<span class="partner-micro-badge ${kbColor}" title="${kbTitle}"><i class="ph-bold ph-keyboard"></i><span>${kbText}</span></span>`;
                 }
               }
 
