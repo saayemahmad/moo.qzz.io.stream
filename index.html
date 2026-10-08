@@ -5386,9 +5386,10 @@
                 if (partnerDriveStatus) {
                   hasBadges = true;
                   const isClosed = partnerDriveStatus !== "opened";
-                  const colorClass = isClosed ? "active-red" : "active-green";
+                  const driveColor = isClosed ? "#ef4444" : "#10b981";
+                  const driveBg = isClosed ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)";
                   if (ctxBar)
-                    ctxBar.innerHTML += `<span class="partner-micro-badge ${colorClass}" title="Drive: ${isClosed ? "Closed" : "Opened"}"><i class="ph-bold ${isClosed ? "ph-folder-notch" : "ph-folder-open"}"></i><span>${isClosed ? "D-C" : "D-O"}</span></span>`;
+                    ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: ${driveBg}; color: ${driveColor};" title="Drive: ${isClosed ? "Closed" : "Opened"}"><i class="ph-bold ${isClosed ? "ph-folder-notch" : "ph-folder-open"}"></i><span>${isClosed ? "D-C" : "D-O"}</span></span>`;
                 }
                 if (partnerLoginSource) {
                   hasBadges = true;
@@ -5416,20 +5417,21 @@
                 if (partnerWatchingFile) {
                   hasBadges = true;
                   if (ctxBar)
-                    ctxBar.innerHTML += `<span class="partner-micro-badge active-green" title="Watching: ${partnerWatchingFile}"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
+                    ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(139, 92, 246, 0.15); color: #8b5cf6;" title="Watching: ${partnerWatchingFile}"><i class="ph-bold ph-eye"></i><span>W-F: ${partnerWatchingFile}</span></span>`;
                 } else {
                   hasBadges = true;
                   if (ctxBar)
-                    ctxBar.innerHTML += `<span class="partner-micro-badge active-red" title="Not watching any file"><i class="ph-bold ph-eye-slash"></i><span>Nothing</span></span>`;
+                    ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: rgba(148, 163, 184, 0.15); color: #94a3b8;" title="Not watching any file"><i class="ph-bold ph-eye-slash"></i><span>Nothing</span></span>`;
                 }
                 
                 // Keyboard status badge
                 hasBadges = true;
-                const kbColor = partnerKeyboardOpen ? "active-green" : "active-red";
+                const kbColor = partnerKeyboardOpen ? "#f97316" : "#ec4899";
+                const kbBg = partnerKeyboardOpen ? "rgba(249, 115, 22, 0.15)" : "rgba(236, 72, 153, 0.15)";
                 const kbText = partnerKeyboardOpen ? "K-O" : "K-C";
                 const kbTitle = partnerKeyboardOpen ? "Keyboard: Open" : "Keyboard: Closed";
                 if (ctxBar) {
-                  ctxBar.innerHTML += `<span class="partner-micro-badge ${kbColor}" title="${kbTitle}"><i class="ph-bold ph-keyboard"></i><span>${kbText}</span></span>`;
+                  ctxBar.innerHTML += `<span class="partner-micro-badge" style="background: ${kbBg}; color: ${kbColor};" title="${kbTitle}"><i class="ph-bold ph-keyboard"></i><span>${kbText}</span></span>`;
                 }
               }
 
