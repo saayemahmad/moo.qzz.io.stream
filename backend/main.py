@@ -240,6 +240,12 @@ def get_cached_presigned_url(account: dict, key: str, expires_in: int = 86400) -
         url, exp = _presigned_url_cache[cache_key]
         if exp - now > 3600:
             return url
+    # Memory guard for Render free tier (512MB RAM): prune expired entries if cache exceeds 1000 items
+    if len(_presigned_url_cache) > 1000:
+        expired = [k for k, (_, exp) in _presigned_url_cache.items() if exp <= now]
+        for k in expired:
+            _presigned_url_cache.pop(k, None)
+
     client = get_b2_client_for(account)
     params = {'Bucket': account['bucket'], 'Key': key}
     if key.endswith(('.jpg', '.jpeg', '.png', '.webp', '.gif')):
