@@ -324,6 +324,10 @@ async def delete_uploads_bulk(request: Request, db=Depends(get_db)):
                 db.reference(f'uploads/{uid}').delete()
             except Exception as e:
                 print(f"Error deleting upload {uid} from DB: {e}")
+            _upload_account_cache.pop(uid, None)
+            keys_to_pop = [k for k in list(_presigned_url_cache.keys()) if uid in str(k)]
+            for k in keys_to_pop:
+                _presigned_url_cache.pop(k, None)
 
     await asyncio.to_thread(_delete_sync)
     return {"status": "ok", "deleted": len(ids)}
