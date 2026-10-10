@@ -241,9 +241,12 @@ def get_cached_presigned_url(account: dict, key: str, expires_in: int = 86400) -
         if exp - now > 3600:
             return url
     client = get_b2_client_for(account)
+    params = {'Bucket': account['bucket'], 'Key': key}
+    if key.endswith(('.jpg', '.jpeg', '.png', '.webp', '.gif')):
+        params['ResponseCacheControl'] = 'public, max-age=604800'
     url = client.generate_presigned_url(
         'get_object',
-        Params={'Bucket': account['bucket'], 'Key': key},
+        Params=params,
         ExpiresIn=expires_in
     )
     _presigned_url_cache[cache_key] = (url, now + expires_in)
