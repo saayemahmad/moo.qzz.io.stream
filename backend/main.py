@@ -1,4 +1,5 @@
 import os
+import time
 from dotenv import load_dotenv
 load_dotenv(os.path.join(os.path.dirname(__file__), '.env'))
 import re
@@ -167,6 +168,87 @@ def get_status(upload_id: str, db=Depends(get_db)):
         "b2_direct": session.get('b2_direct', False)
     }
 
+# --- Backblaze B2 & Caching Core ---
+import boto3
+from botocore.config import Config
+
+_b2_clients: dict = {}
+_accounts_cache = {"data": None, "timestamp": 0}
+_upload_account_cache: dict = {}
+_presigned_url_cache: dict = {}
+
+def _make_b2_client(endpoint: str, key_id: str, app_key: str):
+    return boto3.client(
+        's3',
+        endpoint_url=endpoint,
+        aws_access_key_id=key_id,
+        aws_secret_access_key=app_key,
+        config=Config(signature_version='s3v4')
+    )
+
+def get_b2_client_for(account: dict):
+    aid = account.get("id") or account.get("endpoint", "default")
+    if aid not in _b2_clients:
+        _b2_clients[aid] = _make_b2_client(
+            account["endpoint"], account["key_id"], account["app_key"]
+        )
+    return _b2_clients[aid]
+
+def _load_all_b2_accounts(db, force_refresh: bool = False) -> list:
+    global _accounts_cache
+    now = time.time()
+    if not force_refresh and _accounts_cache["data"] is not None and (now - _accounts_cache["timestamp"] < 300):
+        return _accounts_cache["data"]
+
+    accounts = []
+    try:
+        fb_accounts = db.reference('b2_accounts').get() or {}
+        for aid, acc in fb_accounts.items():
+            if acc.get('enabled', True):
+                if not acc.get('endpoint') or not acc.get('key_id') or not acc.get('app_key'):
+                    continue
+                acc['id'] = aid
+                accounts.append(acc)
+    except Exception as e:
+        print(f"[B2] Failed to load accounts from Firebase: {e}")
+
+    env_endpoint = os.getenv("B2_ENDPOINT")
+    env_key_id = os.getenv("B2_KEY_ID")
+    env_app_key = os.getenv("B2_APP_KEY")
+    env_bucket = os.getenv("B2_BUCKET")
+    if env_endpoint and env_key_id and env_app_key and env_bucket:
+        if not any(a.get('id') == 'default' for a in accounts):
+            accounts.append({
+                "id": "default",
+                "label": "Default (.env)",
+                "endpoint": env_endpoint,
+                "key_id": env_key_id,
+                "app_key": env_app_key,
+                "bucket": env_bucket,
+                "enabled": True
+            })
+
+    _accounts_cache["data"] = accounts
+    _accounts_cache["timestamp"] = now
+    return accounts
+
+def get_cached_presigned_url(account: dict, key: str, expires_in: int = 86400) -> str:
+    aid = account.get("id") or "default"
+    cache_key = (aid, key)
+    now = time.time()
+    if cache_key in _presigned_url_cache:
+        url, exp = _presigned_url_cache[cache_key]
+        if exp - now > 3600:
+            return url
+    client = get_b2_client_for(account)
+    url = client.generate_presigned_url(
+        'get_object',
+        Params={'Bucket': account['bucket'], 'Key': key},
+        ExpiresIn=expires_in
+    )
+    _presigned_url_cache[cache_key] = (url, now + expires_in)
+    return url
+
 @app.get("/uploads")
 def list_uploads(db=Depends(get_db)):
     print("[API LOG] Client requested /uploads")
@@ -176,6 +258,10 @@ def list_uploads(db=Depends(get_db)):
         
     now = datetime.utcnow()
     sessions = []
+
+    all_accounts = _load_all_b2_accounts(db)
+    accounts_by_id = {a['id']: a for a in all_accounts}
+    default_acc = accounts_by_id.get('default') or (all_accounts[0] if all_accounts else None)
     
     for uid, s in uploads_ref.items():
         if s.get('expires_at'):
@@ -194,6 +280,17 @@ def list_uploads(db=Depends(get_db)):
             # ----------------------------
             s_dict = dict(s)
             s_dict['id'] = s.get('id') or uid
+
+            acc_id = s.get('b2_account_id')
+            _upload_account_cache[uid] = acc_id
+
+            if s.get('b2_direct') and default_acc:
+                acc = accounts_by_id.get(acc_id, default_acc)
+                try:
+                    s_dict['thumb_url'] = get_cached_presigned_url(acc, f"{uid}/thumb.jpg", expires_in=86400)
+                except Exception:
+                    s_dict['thumb_url'] = None
+
             sessions.append(s_dict)
             
     sessions.sort(key=lambda x: x.get('created_at', ''), reverse=True)
@@ -680,68 +777,6 @@ def read_root():
 
 # --- Direct B2 Upload Endpoints (Multi-Account) ---
 
-import boto3
-from botocore.config import Config
-
-# Per-account boto3 client cache: account_id -> client
-_b2_clients: dict = {}
-
-def _make_b2_client(endpoint: str, key_id: str, app_key: str):
-    return boto3.client(
-        's3',
-        endpoint_url=endpoint,
-        aws_access_key_id=key_id,
-        aws_secret_access_key=app_key,
-        config=Config(signature_version='s3v4')
-    )
-
-def get_b2_client_for(account: dict):
-    """Return a cached boto3 client for the given account dict."""
-    aid = account.get("id") or account.get("endpoint", "default")
-    if aid not in _b2_clients:
-        _b2_clients[aid] = _make_b2_client(
-            account["endpoint"], account["key_id"], account["app_key"]
-        )
-    return _b2_clients[aid]
-
-def _load_all_b2_accounts(db) -> list:
-    """
-    Load all B2 accounts. Always includes the .env fallback account (id='default').
-    Firebase DB node: b2_accounts/{id} = {id, label, endpoint, key_id, app_key, bucket, enabled}
-    """
-    accounts = []
-    # Firebase accounts
-    try:
-        fb_accounts = db.reference('b2_accounts').get() or {}
-        for aid, acc in fb_accounts.items():
-            if acc.get('enabled', True):
-                if not acc.get('endpoint') or not acc.get('key_id') or not acc.get('app_key'):
-                    # Skip incomplete Firebase entries so .env fallback can apply
-                    continue
-                acc['id'] = aid
-                accounts.append(acc)
-    except Exception as e:
-        print(f"[B2] Failed to load accounts from Firebase: {e}")
-
-    # Always include .env fallback if configured
-    env_endpoint = os.getenv("B2_ENDPOINT")
-    env_key_id = os.getenv("B2_KEY_ID")
-    env_app_key = os.getenv("B2_APP_KEY")
-    env_bucket = os.getenv("B2_BUCKET")
-    if env_endpoint and env_key_id and env_app_key and env_bucket:
-        # Only add if no firebase account has id='default'
-        if not any(a.get('id') == 'default' for a in accounts):
-            accounts.append({
-                "id": "default",
-                "label": "Default (.env)",
-                "endpoint": env_endpoint,
-                "key_id": env_key_id,
-                "app_key": env_app_key,
-                "bucket": env_bucket,
-                "enabled": True
-            })
-    return accounts
-
 def _get_account_used_bytes(client, bucket: str) -> int:
     """Get total bytes used in a B2 bucket via list_objects_v2."""
     total = 0
@@ -918,6 +953,7 @@ def b2_init_upload(req: B2InitRequest, db=Depends(get_db)):
         "b2_account_id": account['id']   # store which account was used
     }
 
+    _upload_account_cache[upload_id] = account['id']
     db.reference(f'uploads/{upload_id}').set(session_data)
 
     return {
@@ -945,38 +981,41 @@ def b2_finalize(upload_id: str, db=Depends(get_db)):
 
 @app.get("/b2-media/{upload_id}/{filename}")
 def get_b2_media(upload_id: str, filename: str, db=Depends(get_db)):
-    print(f"!!! HIT get_b2_media: {upload_id}/{filename}")
-    """Serve B2 media from the correct account (looks up b2_account_id in DB)."""
-    # Try to find which account this upload used
-    account = None
-    try:
-        session = db.reference(f'uploads/{upload_id}').get()
-        if session and session.get('b2_account_id'):
-            acc_id = session['b2_account_id']
-            all_accounts = _load_all_b2_accounts(db)
-            account = next((a for a in all_accounts if a['id'] == acc_id), None)
-    except Exception:
-        pass
+    """Serve B2 media from the correct account with in-memory caching & 302 redirect."""
+    all_accounts = _load_all_b2_accounts(db)
+    accounts_by_id = {a['id']: a for a in all_accounts}
+    default_acc = accounts_by_id.get('default') or (all_accounts[0] if all_accounts else None)
+
+    acc_id = _upload_account_cache.get(upload_id)
+    account = accounts_by_id.get(acc_id) if acc_id else None
 
     if not account:
-        # Fallback: try .env default
-        env_endpoint = os.getenv("B2_ENDPOINT")
-        env_key_id = os.getenv("B2_KEY_ID")
-        env_app_key = os.getenv("B2_APP_KEY")
-        env_bucket = os.getenv("B2_BUCKET")
-        if env_endpoint and env_key_id and env_app_key and env_bucket:
-            account = {"id": "default", "endpoint": env_endpoint, "key_id": env_key_id,
-                       "app_key": env_app_key, "bucket": env_bucket}
-        else:
-            raise HTTPException(status_code=503, detail="No B2 account available")
+        try:
+            session = db.reference(f'uploads/{upload_id}').get()
+            if session and session.get('b2_account_id'):
+                acc_id = session['b2_account_id']
+                _upload_account_cache[upload_id] = acc_id
+                account = accounts_by_id.get(acc_id)
+        except Exception:
+            pass
 
-    client = get_b2_client_for(account)
-    url = client.generate_presigned_url(
-        'get_object',
-        Params={'Bucket': account['bucket'], 'Key': f"{upload_id}/{filename}"},
-        ExpiresIn=3600
+    if not account:
+        account = default_acc
+
+    if not account:
+        raise HTTPException(status_code=503, detail="No B2 account available")
+
+    key = f"{upload_id}/{filename}"
+    url = get_cached_presigned_url(account, key, expires_in=86400)
+
+    return RedirectResponse(
+        url,
+        status_code=302,
+        headers={
+            "Cache-Control": "public, max-age=86400",
+            "Access-Control-Allow-Origin": "*",
+        }
     )
-    return RedirectResponse(url)
 
 
 # ─── B2 Account Management (Admin) ──────────────────────────────────────────
@@ -1063,8 +1102,10 @@ def add_b2_account(request: Request, req: B2AccountRequest, db=Depends(get_db)):
         "created_at": datetime.utcnow().isoformat() + "Z"
     }
     db.reference(f'b2_accounts/{new_id}').set(account_data)
-    # Invalidate client cache
+    # Invalidate client and account caches
     _b2_clients.pop(new_id, None)
+    _accounts_cache["timestamp"] = 0
+    _presigned_url_cache.clear()
     return {"status": "added", "id": new_id}
 
 @app.patch("/api/b2/accounts/{account_id}/toggle")
@@ -1078,6 +1119,8 @@ def toggle_b2_account(account_id: str, request: Request, db=Depends(get_db)):
         raise HTTPException(status_code=404, detail="Account not found")
     new_state = not acc.get('enabled', True)
     ref.update({'enabled': new_state})
+    _accounts_cache["timestamp"] = 0
+    _presigned_url_cache.clear()
     return {"status": "toggled", "enabled": new_state}
 
 @app.delete("/api/b2/accounts/{account_id}")
@@ -1087,5 +1130,7 @@ def delete_b2_account(account_id: str, request: Request, db=Depends(get_db)):
         raise HTTPException(status_code=400, detail="Cannot delete the default .env account")
     db.reference(f'b2_accounts/{account_id}').delete()
     _b2_clients.pop(account_id, None)
+    _accounts_cache["timestamp"] = 0
+    _presigned_url_cache.clear()
     return {"status": "deleted"}
 

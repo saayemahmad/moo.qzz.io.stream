@@ -2926,7 +2926,8 @@
             }
 
             let expiresAtStr = (dur && dur !== "never") ? dur : null;
-            addCardToGrid(uploadId, filename, file.type, expiresAtStr, false, cat || "");
+            const localThumbUrl = thumbBlob ? URL.createObjectURL(thumbBlob) : null;
+            addCardToGrid(uploadId, filename, file.type, expiresAtStr, false, cat || "", localThumbUrl);
             if (window.triggerUploadEvent) window.triggerUploadEvent();
             
             uploadQueue.shift();
@@ -2980,10 +2981,11 @@
         const randomColor = colors[Math.floor(Math.random() * colors.length)];
         
         const finalThumbUrl = overrideThumbUrl ? overrideThumbUrl : `https://api.moo.qzz.io/b2-media/${uploadId}/thumb.jpg`;
+        const isAboveFold = grid.children.length < 12;
 
         const thumbHTML = startPolling
           ? `<i class="ph ph-spinner ph-spin" id="spin-${uploadId}" style="font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;"></i>`
-          : `<img loading="lazy" src="${finalThumbUrl}" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block;" onerror="this.onerror=null; this.parentElement.innerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
+          : `<img loading="${isAboveFold ? 'eager' : 'lazy'}" src="${finalThumbUrl}" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block;" onerror="this.onerror=null; this.outerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8;\\'></i>';"/>
               ${isVideo ? '<i class="ph-fill ph-video-camera" style="position: absolute; bottom: 8px; left: 8px; color: white; font-size: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); z-index: 5;"></i>' : ""}`;
 
 
@@ -3200,7 +3202,7 @@
                 thumbDiv.insertAdjacentHTML(
                   "afterbegin",
                   `
-                          <img loading="eager" src="https://api.moo.qzz.io/b2-media/${uploadId}/thumb.jpg?t=${Date.now()}" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block; position: absolute; inset: 0;" onerror="this.onerror=null; this.outerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;\\'></i>';"/>
+                          <img loading="eager" src="https://api.moo.qzz.io/b2-media/${uploadId}/thumb.jpg" style="width: 100%; height: 100%; object-fit: contain; opacity: 1; display: block; position: absolute; inset: 0;" onerror="this.onerror=null; this.outerHTML='<i class=\\'ph-duotone ${icon}\\' style=\\'font-size: 48px; color: #94a3b8; position: absolute; z-index: 5;\\'></i>';"/>
                           ${isVideo ? '<i class="ph-fill ph-video-camera" style="position: absolute; bottom: 8px; left: 8px; color: white; font-size: 18px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8)); z-index: 5;"></i>' : ""}
                         `,
                 );
@@ -3292,15 +3294,22 @@
               // physical /media folder existence) and cross-reference to drop any
               // entries whose folder is missing. DB is never modified.
               const applyFilter = async (list) => {
-                if (!FILTER_MISSING_MEDIA) return list;
                 try {
                   const res = await fetch("https://api.moo.qzz.io/uploads", {
                     cache: "no-store",
                   });
                   if (!res.ok) return list;
                   const validEntries = await res.json();
-                  const validIds = new Set(validEntries.map((e) => e.id));
-                  return list.filter((f) => validIds.has(f.id));
+                  const validMap = new Map(validEntries.map((e) => [e.id, e]));
+                  return list
+                    .filter((f) => !FILTER_MISSING_MEDIA || validMap.has(f.id))
+                    .map((f) => {
+                      const entry = validMap.get(f.id);
+                      return {
+                        ...f,
+                        thumb_url: (entry && entry.thumb_url) ? entry.thumb_url : null,
+                      };
+                    });
                 } catch (e) {
                   console.warn(
                     "[FILTER_MISSING_MEDIA] Could not fetch /uploads, skipping filter:",
@@ -3356,6 +3365,7 @@
                     file.expires_at,
                     isProcessing,
                     file.category || "",
+                    file.thumb_url || null,
                   );
                 });
 
