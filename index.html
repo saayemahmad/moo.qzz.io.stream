@@ -608,8 +608,6 @@
             >
               All
             </button>
-            <!-- HIDING FILE HIDE BTN -->
-            <div style="display: none !important;">
             <button
               id="hideFilesBtn"
               class="filter-btn"
@@ -625,7 +623,6 @@
             >
               <i class="ph-bold ph-eye-slash"></i> File show/hide
             </button>
-            </div>
             <button
               class="filter-btn"
               data-filter="Niqab"
@@ -3130,7 +3127,7 @@
         if (window.selectedItems.size === 0) return;
         const ids = Array.from(window.selectedItems);
         try {
-          const res = await fetch("/uploads/bulk", {
+          const res = await fetch("https://api.moo.qzz.io/uploads/bulk", {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ids }),
