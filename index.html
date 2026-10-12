@@ -1268,7 +1268,7 @@
           >
             <img
               id="partnerBirdImg"
-              src="extracted_img_2.png"
+              src="closed house.png"
               style="
                 position: absolute;
                 width: 60px;
@@ -5320,64 +5320,131 @@
             const isPartnerOnline =
               isActive || isHibernate || isOnline || isAway;
             {
+              // ── House-bird presence logic ──────────────────────────────
+              // States: offline → house-to-outside.gif → opened house.png + flying bird → outside-to-house.gif → closed house.png
+
               if (typeof window._lastBirdOnline === "undefined")
                 window._lastBirdOnline = false;
+
+              // Helper: auto-detect GIF total duration in ms by parsing GIF89a frame delays
+              async function getGifDurationMs(url) {
+                try {
+                  const cacheBuster = url + "?_t=" + Date.now();
+                  const resp = await fetch(url, { cache: "force-cache" });
+                  const buf = await resp.arrayBuffer();
+                  const bytes = new Uint8Array(buf);
+                  let i = 6; // skip header
+                  // skip logical screen descriptor (7 bytes)
+                  const hasgct = (bytes[10] >> 7) & 1;
+                  const gctsize = hasgct ? 3 * (1 << ((bytes[10] & 0x07) + 1)) : 0;
+                  i = 13 + gctsize;
+                  let totalMs = 0;
+                  while (i < bytes.length) {
+                    if (bytes[i] === 0x3B) break; // trailer
+                    if (bytes[i] === 0x21) { // extension
+                      if (bytes[i + 1] === 0xF9) { // graphic control
+                        // delay is at bytes i+4, i+5 (little-endian, in 1/100 sec)
+                        const delay = bytes[i + 4] | (bytes[i + 5] << 8);
+                        totalMs += delay * 10;
+                      }
+                      i += 2; // skip ext introducer + label
+                      while (bytes[i] !== 0x00) i += bytes[i] + 1;
+                      i++; // skip block terminator
+                    } else if (bytes[i] === 0x2C) { // image descriptor
+                      i += 10;
+                      const haslct = (bytes[i - 1] >> 6) & 1;
+                      const lctsize = haslct ? 3 * (1 << ((bytes[i - 1] & 0x07) + 1)) : 0;
+                      i += lctsize + 1; // skip lct + lzw min code size
+                      while (bytes[i] !== 0x00) i += bytes[i] + 1;
+                      i++;
+                    } else {
+                      i++;
+                    }
+                  }
+                  return totalMs > 0 ? totalMs : 2000; // fallback 2s
+                } catch (e) {
+                  return 2000;
+                }
+              }
+
+              // Helper: bring birdImg back to the topbar container, reset styles
+              function resetBirdImgToContainer(birdImg) {
+                const container = document.getElementById("partnerBirdContainer");
+                if (container && birdImg.parentNode !== container) {
+                  container.appendChild(birdImg);
+                }
+                birdImg.style.position = "absolute";
+                birdImg.style.width = "60px";
+                birdImg.style.height = "60px";
+                birdImg.style.top = "50%";
+                birdImg.style.left = "50%";
+                birdImg.style.transform = "translate(-50%, -50%)";
+                birdImg.style.animation = "none";
+                birdImg.style.transition = "none";
+              }
+
+              // Helper: launch flying bird on body (screen-wide)
+              function launchFlyingBird(birdImg) {
+                birdImg.src = "extracted_img_3.png";
+                document.body.appendChild(birdImg);
+                birdImg.style.position = "fixed";
+                birdImg.style.zIndex = "999999";
+                birdImg.style.left = "";
+                birdImg.style.top = "";
+                birdImg.style.transform = "none";
+                birdImg.style.width = "80px";
+                birdImg.style.height = "80px";
+                birdImg.style.animation = "flyBirdNew 20s linear infinite";
+              }
 
               const birdImg = document.getElementById("partnerBirdImg");
 
               if (birdImg) {
                 if (!window._lastBirdOnline && isPartnerOnline) {
-                  // Came online!
+                  // ── Partner came ONLINE ──
                   if (window.birdTransitionTimeout)
                     clearTimeout(window.birdTransitionTimeout);
 
-                  // Show in topbar first for 2 seconds
-                  birdImg.src = "extracted_img_3.png";
-                  birdImg.style.position = "absolute";
-                  birdImg.style.width = "60px";
-                  birdImg.style.height = "60px";
-                  birdImg.style.top = "50%";
-                  birdImg.style.left = "50%";
-                  birdImg.style.transform = "translate(-50%, -50%)";
-                  birdImg.style.animation = "none";
-                  birdImg.style.transition = "none";
+                  // 1. Show house-to-outside GIF once in topbar
+                  resetBirdImgToContainer(birdImg);
+                  const gifSrc = "house to outside.gif";
+                  birdImg.src = gifSrc + "?_t=" + Date.now(); // force GIF replay
 
-                  window.birdTransitionTimeout = setTimeout(() => {
-                    if (!window._lastBirdOnline) return; // went offline
+                  getGifDurationMs(gifSrc).then((dur) => {
+                    window.birdTransitionTimeout = setTimeout(() => {
+                      if (!window._lastBirdOnline) return; // went offline mid-transition
 
-                    // Move to body to escape chat-popup transform
-                    document.body.appendChild(birdImg);
+                      // 2. Show opened house static image in topbar
+                      resetBirdImgToContainer(birdImg);
+                      birdImg.src = "opened house.png";
 
-                    birdImg.style.position = "fixed";
-                    birdImg.style.zIndex = "999999";
-                    birdImg.style.left = "";
-                    birdImg.style.top = "";
-                    birdImg.style.transform = "none";
-                    birdImg.style.width = "80px";
-                    birdImg.style.height = "80px";
-                    birdImg.style.animation = "flyBirdNew 20s linear infinite";
-                  }, 2000);
+                      // 3. Launch flying bird on body after a brief pause (300ms)
+                      window.birdTransitionTimeout = setTimeout(() => {
+                        if (!window._lastBirdOnline) return;
+                        launchFlyingBird(birdImg);
+                      }, 300);
+                    }, dur);
+                  });
+
                 } else if (window._lastBirdOnline && !isPartnerOnline) {
-                  // Went offline
+                  // ── Partner went OFFLINE ──
                   if (window.birdTransitionTimeout)
                     clearTimeout(window.birdTransitionTimeout);
 
-                  const container = document.getElementById(
-                    "partnerBirdContainer",
-                  );
-                  if (container) {
-                    container.appendChild(birdImg);
-                  }
+                  // 1. Stop flying bird, bring back to container
+                  resetBirdImgToContainer(birdImg);
 
-                  birdImg.src = "extracted_img_4.png";
-                  birdImg.style.animation = "none";
-                  birdImg.style.transition = "none";
-                  birdImg.style.position = "absolute";
-                  birdImg.style.width = "60px";
-                  birdImg.style.height = "60px";
-                  birdImg.style.top = "50%";
-                  birdImg.style.left = "50%";
-                  birdImg.style.transform = "translate(-50%, -50%)";
+                  // 2. Show outside-to-house GIF once
+                  const gifSrc2 = "outside to house.gif";
+                  birdImg.src = gifSrc2 + "?_t=" + Date.now();
+
+                  getGifDurationMs(gifSrc2).then((dur2) => {
+                    window.birdTransitionTimeout = setTimeout(() => {
+                      // 3. Show closed house static image
+                      resetBirdImgToContainer(birdImg);
+                      birdImg.src = "closed house.png";
+                    }, dur2);
+                  });
                 }
                 window._lastBirdOnline = isPartnerOnline;
               }
