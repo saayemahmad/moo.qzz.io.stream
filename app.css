@@ -1358,25 +1358,17 @@ button {
   }
 }
 .chat-msg {
-  /* vine-frame PNG replaces the old solid bubble */
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 0 !important;
-  padding: 14px 28px 16px 28px;
+  background: var(--bg);
+  border: 2px solid var(--ink);
+  padding: 6px 10px;
   font-size: 14px;
   font-weight: 600;
-  max-width: 80%;
-  min-width: 140px;
+  max-width: 75%;
   position: relative;
-  margin-top: 12px;
+  margin-top: 8px;
   width: fit-content;
   word-break: break-word;
   font-family: Outfit, sans-serif;
-  color: #f0e8d0; /* warm cream — readable on the dark blackboard */
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
 .emoji-only-msg {
   background: 0 0 !important;
@@ -1385,8 +1377,6 @@ button {
   font-size: 16px !important;
   padding: 0 !important;
   max-width: 100% !important;
-  min-width: unset !important;
-  color: inherit !important;
   font-family: Outfit, sans-serif !important;
 }
 .emoji-only-large-msg {
@@ -1414,36 +1404,21 @@ button {
   font-family: Outfit, sans-serif;
 }
 .bot-msg {
+  border-bottom-left-radius: 0;
   align-self: flex-start;
-  background-image: url('bubble-bg.png');
-  /* blue bird is top-left — add extra top+left padding */
-  padding: 22px 24px 18px 32px;
+  background: #3d0a1e;
 }
 .user-msg {
+  border-bottom-right-radius: 0;
   align-self: flex-end;
-  background-image: url('bubble-bg-outgoing.png');
-  /* pink bird is top-right — add extra top+right padding */
-  padding: 22px 32px 18px 24px;
-}
-/* Deleted messages: keep subtle styling without vine frame */
-.deleted-msg {
-  background-image: none !important;
-  background: rgba(100,100,100,0.15) !important;
-  border: 1.5px dashed rgba(255,255,255,0.2) !important;
-  color: rgba(240,232,208,0.5) !important;
-  padding: 6px 12px !important;
-  min-width: unset !important;
-}
-/* GIF messages: vine frame with enough room */
-.gif-msg {
-  padding: 18px 24px !important;
+  background: #1a0a2e;
 }
 .chat-msg:first-child {
   margin-top: 0 !important;
 }
 .bot-msg + .bot-msg,
 .user-msg + .user-msg {
-  margin-top: 6px !important;
+  margin-top: 2px !important;
 }
 .chat-footer {
   border-top: none;
