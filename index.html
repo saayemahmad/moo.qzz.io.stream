@@ -5369,6 +5369,10 @@
 
               // Helper: bring birdImg back to the topbar container, reset styles
               function resetBirdImgToContainer(birdImg) {
+                // Remove any house placeholder left while bird was flying
+                const ph = document.getElementById("partnerHousePlaceholder");
+                if (ph) ph.remove();
+
                 const container = document.getElementById("partnerBirdContainer");
                 if (container && birdImg.parentNode !== container) {
                   container.appendChild(birdImg);
@@ -5384,7 +5388,24 @@
               }
 
               // Helper: launch flying bird on body (screen-wide)
+              // Leaves a static 'opened house.png' placeholder in the container
               function launchFlyingBird(birdImg) {
+                // Put a static house placeholder in the container so it's not empty
+                const container = document.getElementById("partnerBirdContainer");
+                if (container) {
+                  let ph = document.getElementById("partnerHousePlaceholder");
+                  if (!ph) {
+                    ph = document.createElement("img");
+                    ph.id = "partnerHousePlaceholder";
+                    ph.alt = "";
+                    ph.style.cssText =
+                      "position:absolute;width:60px;height:60px;top:50%;left:50%;" +
+                      "transform:translate(-50%,-50%);object-fit:contain;pointer-events:none;";
+                    container.appendChild(ph);
+                  }
+                  ph.src = "opened house.png";
+                }
+
                 birdImg.src = "extracted_img_3.png";
                 document.body.appendChild(birdImg);
                 birdImg.style.position = "fixed";
