@@ -7586,12 +7586,20 @@
       menu.style.display = "flex";
       menuOpen = true;
       triggerBtn && triggerBtn.classList.add("vib-active");
+      // Track open state & notify partner (Shajeda→Sayem only)
+      window._isVibMenuOpen = true;
+      if (window.currentUser === "Shajeda" && window.setShajedaVibMenuStatus)
+        window.setShajedaVibMenuStatus(true);
     };
     window.closeVibMenu = function () {
       if (!menu) return;
       menu.style.display = "none";
       menuOpen = false;
       triggerBtn && triggerBtn.classList.remove("vib-active");
+      // Track closed state & notify partner (Shajeda→Sayem only)
+      window._isVibMenuOpen = false;
+      if (window.currentUser === "Shajeda" && window.setShajedaVibMenuStatus)
+        window.setShajedaVibMenuStatus(false);
     };
 
     // ---- High-Performance Drag (Scoped pointer events, zero passive blocking) ----
