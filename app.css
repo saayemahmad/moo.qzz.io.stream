@@ -4035,6 +4035,21 @@ dialog#serverOfflineModal {
   100% { transform: scale(1.05); }
 }
 
+/* Shajeda -> Sayem only: border blink on vibration toggle button when Shajeda opens vibration menu */
+.floating-vib-btn.shajeda-vib-active {
+  animation: vib-shajeda-border-blink 0.85s ease-in-out infinite !important;
+}
+@keyframes vib-shajeda-border-blink {
+  0%, 100% {
+    border-color: var(--border) !important;
+    box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring) !important;
+  }
+  50% {
+    border-color: var(--c-pink-shadow) !important;
+    box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 4px var(--c-pink-ring), 0 0 10px rgba(236, 72, 153, 0.45) !important;
+  }
+}
+
 /* Hide vib btn when keyboard is open */
 body.kb-open .floating-vib-btn {
   display: none !important;

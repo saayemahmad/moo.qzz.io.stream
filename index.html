@@ -5077,6 +5077,8 @@
 
           connData.keyboard_open = !!window._isKeyboardOpen;
           parentData.keyboard_open = !!window._isKeyboardOpen;
+          connData.vib_menu_open = !!window._isVibMenuOpen;
+          parentData.vib_menu_open = !!window._isVibMenuOpen;
         }
 
         set(myConnectionRef, connData);
@@ -5095,6 +5097,14 @@
         if (typeof chatDb !== "undefined") {
           set(ref(chatDb, "Presence/Shajeda/login_source"), null);
           update(ref(chatDb, "Presence/Shajeda"), { login_source: null });
+        }
+      };
+      window.setShajedaVibMenuStatus = function (isOpen) {
+        if (typeof chatDb !== "undefined") {
+          set(ref(chatDb, "Presence/Shajeda/vib_menu_open"), !!isOpen);
+          if (myConnectionRef && window.currentUser === "Shajeda") {
+            update(myConnectionRef, { vib_menu_open: !!isOpen });
+          }
         }
       };
 
@@ -5124,9 +5134,16 @@
                   onDisconnect(
                     ref(chatDb, "Presence/Shajeda/drive_status"),
                   ).set("closed");
+                  onDisconnect(
+                    ref(chatDb, "Presence/Shajeda/vib_menu_open"),
+                  ).set(false);
                   set(
                     ref(chatDb, "Presence/Shajeda/drive_status"),
                     window.isFileGridRevealed ? "opened" : "closed",
+                  );
+                  set(
+                    ref(chatDb, "Presence/Shajeda/vib_menu_open"),
+                    !!window._isVibMenuOpen,
                   );
                 }
                 window.updatePresenceState();
@@ -5395,6 +5412,17 @@
                 partnerWatchingFile = data.watching_file;
               if (partnerKeyboardOpen === false && data?.keyboard_open !== undefined)
                 partnerKeyboardOpen = data.keyboard_open;
+
+              // ── Shajeda→Sayem only: blink vib button border when Shajeda has vib menu open ──
+              const shajedaVibMenuOpen = !!data?.vib_menu_open;
+              const vibBtn = document.getElementById("vibTriggerBtn");
+              if (vibBtn) {
+                if (shajedaVibMenuOpen) {
+                  vibBtn.classList.add("shajeda-vib-active");
+                } else {
+                  vibBtn.classList.remove("shajeda-vib-active");
+                }
+              }
             }
 
             const isPartnerOnline =
