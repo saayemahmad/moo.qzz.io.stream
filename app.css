@@ -3989,11 +3989,11 @@ dialog#serverOfflineModal {
 
 /* ===== VIBRATION FEATURE ===== */
 
-/* Floating trigger button — positioned right of chat button */
+/* Floating trigger button — positioned right of chat button with safe spacing */
 .floating-vib-btn {
   position: fixed;
   bottom: calc(24px + env(safe-area-inset-bottom));
-  left: calc(368px + env(safe-area-inset-left));
+  left: calc(384px + env(safe-area-inset-left));
   right: auto;
   z-index: 100;
   width: 44px !important;
@@ -4027,11 +4027,13 @@ dialog#serverOfflineModal {
 }
 .floating-vib-btn.vib-active {
   background: var(--c-pink-bg) !important;
-  animation: vib-btn-pulse 0.6s ease infinite alternate;
+  box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 3px var(--c-pink-ring) !important;
+  animation: vib-btn-breathe 1.5s ease-in-out infinite alternate;
+  will-change: transform;
 }
-@keyframes vib-btn-pulse {
-  from { box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring); }
-  to   { box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 5px var(--c-pink-ring); }
+@keyframes vib-btn-breathe {
+  0%   { transform: scale(1); }
+  100% { transform: scale(1.05); }
 }
 
 /* Hide vib btn when keyboard is open */
@@ -4039,10 +4041,10 @@ body.kb-open .floating-vib-btn {
   display: none !important;
 }
 
-/* Mobile: shift left like chat button */
+/* Mobile: safe spacing right of chat button (chat ends at 80px, gap = 24px -> 104px) */
 @media (max-width: 768px) {
   .floating-vib-btn {
-    left: calc(88px + env(safe-area-inset-left));
+    left: calc(104px + env(safe-area-inset-left));
   }
 }
 
@@ -4053,6 +4055,9 @@ body.kb-open .floating-vib-btn {
   pointer-events: none;
   opacity: 0;
   z-index: 99999;
+  contain: strict;
+  transform: translateZ(0);
+  will-change: opacity;
   background: radial-gradient(
     circle at 50% 50%,
     rgba(236, 72, 153, 0.45),
@@ -4070,17 +4075,16 @@ body.kb-open .floating-vib-btn {
 
 /* ---- Website shake when vibe received ---- */
 @keyframes vib-site-shake {
-  0%   { transform: translate(0, 0); }
-  15%  { transform: translate(-4px, 2px); }
-  30%  { transform: translate(4px, -2px); }
-  45%  { transform: translate(-3px, -3px); }
-  60%  { transform: translate(3px, 2px); }
-  75%  { transform: translate(-2px, 3px); }
-  90%  { transform: translate(2px, -1px); }
-  100% { transform: translate(0, 0); }
+  0%   { transform: translate3d(0, 0, 0); }
+  20%  { transform: translate3d(-3px, 1px, 0); }
+  40%  { transform: translate3d(3px, -1px, 0); }
+  60%  { transform: translate3d(-2px, -2px, 0); }
+  80%  { transform: translate3d(2px, 2px, 0); }
+  100% { transform: translate3d(0, 0, 0); }
 }
 body.vib-shaking {
-  animation: vib-site-shake 0.3s linear infinite;
+  animation: vib-site-shake 0.25s linear infinite;
+  will-change: transform;
 }
 
 /* ---- Floating Vibration Menu ---- */
@@ -4096,9 +4100,11 @@ body.vib-shaking {
   flex-direction: column;
   gap: 10px;
   padding: 0 0 12px 0;
+  contain: layout style;
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+  will-change: left, top;
 }
 
 /* Drag Handle / Title Bar */
@@ -4134,6 +4140,30 @@ body.vib-shaking {
   transition: opacity 0.15s;
 }
 .vib-menu-close-btn:hover { opacity: 1; }
+
+/* Logged-out state inside vibration modal */
+.vib-login-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px 16px;
+  gap: 12px;
+}
+.vib-login-text {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* Logged-in content wrapper */
+.vib-active-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
 
 /* Hold to Buzz button */
 .vib-hold-btn {
