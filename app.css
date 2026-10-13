@@ -3011,7 +3011,6 @@ dialog#serverOfflineModal {
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  background-attachment: fixed;
   min-height: 100%;
   border-radius: 12px;
 }
@@ -4078,12 +4077,12 @@ body.kb-open .floating-vib-btn {
   0%   { transform: translate3d(0, 0, 0); }
   20%  { transform: translate3d(-3px, 1px, 0); }
   40%  { transform: translate3d(3px, -1px, 0); }
-  60%  { transform: translate3d(-2px, -2px, 0); }
-  80%  { transform: translate3d(2px, 2px, 0); }
+  60%  { transform: translate3d(-2px, 1px, 0); }
+  80%  { transform: translate3d(2px, -1px, 0); }
   100% { transform: translate3d(0, 0, 0); }
 }
 body.vib-shaking {
-  animation: vib-site-shake 0.25s linear infinite;
+  animation: vib-site-shake 0.2s linear infinite;
   will-change: transform;
 }
 
