@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#0b0b12">
+<title>Buzz Pals</title>
+<style>
+  :root {
+    --bg: #0b0b12;
+    --card: #14141f;
+    --line: #232334;
+    --text: #ececf4;
+    --dim: #8a8aa3;
+    --accent: #7c5cff;
+    --accent2: #ff5c8a;
+    --ok: #3ddc97;
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 20px 16px 28px; overflow-x: hidden; }
+  .wrap { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 16px; }
+
+  h1 { margin: 8px 0 0; font-size: 26px; letter-spacing: -0.5px; }
+  h1 span { background: linear-gradient(90deg, var(--accent), var(--accent2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .sub { color: var(--dim); font-size: 14px; margin: 0; }
+
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 16px; }
+  label { font-size: 12px; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+  input { width: 100%; margin-top: 8px; padding: 14px; font-size: 17px; border-radius: 12px;
+    border: 1px solid var(--line); background: #0e0e17; color: var(--text); outline: none; }
+  input:focus { border-color: var(--accent); }
+
+  button { font: inherit; color: var(--text); border: 0; cursor: pointer; }
+  .primary { width: 100%; margin-top: 14px; padding: 15px; border-radius: 12px; font-weight: 600; font-size: 16px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2)); }
+  .primary:active { transform: scale(.98); }
+
+  .status { display: flex; align-items: center; justify-content: space-between; }
+  .pill { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--dim); }
+  .dot.on { background: var(--ok); box-shadow: 0 0 10px var(--ok); }
+  .dot.wait { background: #ffb84d; }
+  .room { font-size: 13px; color: var(--dim); }
+  .room b { color: var(--text); }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .pat { padding: 16px 10px; border-radius: 14px; background: #1b1b2b; border: 1px solid var(--line); font-size: 15px; font-weight: 600; }
+  .pat small { display: block; font-weight: 400; color: var(--dim); font-size: 12px; margin-top: 3px; }
+  .pat:active { background: #26263c; transform: scale(.97); }
+
+  .hold { height: 130px; width: 100%; border-radius: 20px; font-size: 18px; font-weight: 700; user-select: none; -webkit-user-select: none;
+    touch-action: none; background: radial-gradient(circle at 50% 30%, #3a2a8f, #1b1440); border: 1px solid #3b2f8a; }
+  .hold.down { background: radial-gradient(circle at 50% 30%, #ff5c8a, #8f1f4a); transform: scale(.985); }
+  .hold small { display: block; font-weight: 400; font-size: 12px; opacity: .7; margin-top: 4px; }
+
+  .log { font-size: 13px; color: var(--dim); display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow: hidden; }
+  .log div b { color: var(--text); font-weight: 600; }
+
+  .warn { font-size: 13px; color: #ffb84d; display: none; }
+
+  /* flash when a buzz arrives (works on iPhone too, where vibration doesn't) */
+  .flash { position: fixed; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle, rgba(255,92,138,.55), rgba(124,92,255,.25) 60%, transparent 80%); }
+  .flash.go { animation: flash .35s ease-out; }
+  @keyframes flash { 0% { opacity: 1 } 100% { opacity: 0 } }
+  body.shaking .wrap { animation: shake .12s linear infinite; }
+  @keyframes shake { 0%{transform:translate(0,0)} 25%{transform:translate(-3px,2px)} 50%{transform:translate(3px,-2px)} 75%{transform:translate(-2px,-3px)} 100%{transform:translate(0,0)} }
+
+  .hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="flash" id="flash"></div>
+
+<div class="wrap">
+  <h1>Buzz <span>Pals</span></h1>
+  <p class="sub">Ek phone-e tap koro, arek phone vibrate korbe.</p>
+
+  <!-- join -->
+  <div class="card" id="joinCard">
+    <label for="roomInput">Room code</label>
+    <input id="roomInput" value="fun" maxlength="24" autocapitalize="off" autocomplete="off" spellcheck="false">
+    <button class="primary" id="joinBtn">Join</button>
+    <p class="warn" id="supportWarn" style="margin-top:12px">Ei browser-e vibration support nai (iPhone/Safari). Tumi pathate parbe, kintu receive korle shudhu screen flash hobe.</p>
+  </div>
+
+  <!-- main -->
+  <div id="main" class="hidden" style="display:flex;flex-direction:column;gap:16px">
+    <div class="card status">
+      <div class="pill"><span class="dot wait" id="dot"></span><span id="statusText">connecting...</span></div>
+      <div class="room">room <b id="roomName"></b> &middot; <b id="count">1</b> online</div>
+    </div>
+
+    <button class="hold" id="hold">Hold to buzz<small>dhore rakhle jotokkhon dhorbe, otokkhon vibrate</small></button>
+
+    <div class="grid">
+      <button class="pat" data-p="buzz">Buzz<small>ek jhatka</small></button>
+      <button class="pat" data-p="double">Double<small>tuk-tuk</small></button>
+      <button class="pat" data-p="ring">Ring<small>phone call</small></button>
+      <button class="pat" data-p="heartbeat">Heartbeat<small>dhuk-dhuk</small></button>
+      <button class="pat" data-p="sos">SOS<small>... --- ...</small></button>
+      <button class="pat" data-p="chaos">Chaos<small>pagol</small></button>
+    </div>
+
+    <div class="card log" id="log"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const PATTERNS = {
+    buzz:      [250],
+    double:    [150, 100, 150],
+    ring:      [800, 400, 800, 1500, 800, 400, 800],
+    heartbeat: [100, 100, 220, 600, 100, 100, 220],
+    sos:       [100,100,100,100,100,100, 300,100,300,100,300,100, 100,100,100,100,100],
+    chaos:     [60,40,120,40,60,40,300,40,60,40,60,40,200,40,60,40,400]
+  };
+  const LABELS = { buzz:'Buzz', double:'Double', ring:'Ring', heartbeat:'Heartbeat', sos:'SOS', chaos:'Chaos' };
+
+  const $ = (id) => document.getElementById(id);
+  const canVibrate = 'vibrate' in navigator;
+  if (!canVibrate) $('supportWarn').style.display = 'block';
+
+  let myId, room, es, shakeTimer;
+  try { myId = sessionStorage.getItem('bp-id'); } catch {}
+  if (!myId) {
+    myId = Math.random().toString(36).slice(2, 10);
+    try { sessionStorage.setItem('bp-id', myId); } catch {}
+  }
+
+  function log(html) {
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    const l = $('log');
+    l.prepend(el);
+    while (l.children.length > 5) l.lastChild.remove();
+  }
+
+  function feel(pattern) {
+    if (canVibrate) navigator.vibrate(pattern);
+    // visual feedback too
+    const f = $('flash');
+    f.classList.remove('go'); void f.offsetWidth; f.classList.add('go');
+    document.body.classList.add('shaking');
+    const total = pattern.reduce((a, b) => a + b, 0);
+    setTimeout(() => document.body.classList.remove('shaking'), Math.min(total, 3000));
+  }
+
+  async function send(payload) {
+    try {
+      const r = await fetch('/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ room, id: myId, ...payload })
+      });
+      return await r.json();
+    } catch { return null; }
+  }
+
+  function connect() {
+    es = new EventSource(`/events?room=${encodeURIComponent(room)}&id=${myId}`);
+    es.onopen = () => {
+      $('dot').className = 'dot on';
+      $('statusText').textContent = 'live';
+    };
+    es.onerror = () => {
+      $('dot').className = 'dot wait';
+      $('statusText').textContent = 'reconnecting...';
+    };
+    es.addEventListener('presence', (e) => {
+      $('count').textContent = JSON.parse(e.data).count;
+    });
+    es.addEventListener('vibe', (e) => {
+      const d = JSON.parse(e.data);
+      if (d.hold) {
+        // continuous-hold pulse: just vibrate + shake, no flash/log spam
+        if (canVibrate) navigator.vibrate(d.pattern);
+        document.body.classList.add('shaking');
+        clearTimeout(shakeTimer);
+        shakeTimer = setTimeout(() => document.body.classList.remove('shaking'), 450);
+        return;
+      }
+      feel(d.pattern);
+      log(`<b>${d.label || 'Buzz'}</b> received`);
+    });
+    es.addEventListener('stop', () => {
+      if (canVibrate) navigator.vibrate(0);
+      document.body.classList.remove('shaking');
+    });
+  }
+
+  // join (this tap also unlocks vibration for the page)
+  $('joinBtn').addEventListener('click', () => {
+    room = ($('roomInput').value || 'fun').toLowerCase().replace(/[^a-z0-9_-]/g, '') || 'fun';
+    if (canVibrate) navigator.vibrate(30); // grants user-activation
+    $('joinCard').classList.add('hidden');
+    $('main').classList.remove('hidden');
+    $('roomName').textContent = room;
+    connect();
+  });
+
+  // pattern buttons
+  document.querySelectorAll('.pat').forEach((b) => {
+    b.addEventListener('click', async () => {
+      const key = b.dataset.p;
+      const res = await send({ type: 'vibe', pattern: PATTERNS[key], label: LABELS[key] });
+      log(res ? `Sent <b>${LABELS[key]}</b> to ${res.delivered} phone${res.delivered === 1 ? '' : 's'}` : 'Send failed');
+    });
+  });
+
+  // hold to buzz
+  // Sends short pulses while held (instead of one long vibration), so a lost
+  // "stop" message can never leave the other phone buzzing for long.
+  const hold = $('hold');
+  let holdTimer = null;
+  function pulse() { send({ type: 'vibe', pattern: [400], label: 'Hold', hold: true }); }
+  function holdStart(e) {
+    e.preventDefault();
+    if (holdTimer) return;
+    try { hold.setPointerCapture(e.pointerId); } catch {}
+    hold.classList.add('down');
+    pulse();
+    holdTimer = setInterval(pulse, 250);
+  }
+  function holdEnd() {
+    if (!holdTimer) return;
+    clearInterval(holdTimer);
+    holdTimer = null;
+    hold.classList.remove('down');
+    send({ type: 'stop' });
+    setTimeout(() => send({ type: 'stop' }), 150); // belt and braces
+  }
+  hold.addEventListener('pointerdown', holdStart);
+  hold.addEventListener('pointerup', holdEnd);
+  hold.addEventListener('pointercancel', holdEnd);
+  hold.addEventListener('lostpointercapture', holdEnd);
+  window.addEventListener('pointerup', holdEnd);
+  window.addEventListener('blur', holdEnd);
+  document.addEventListener('visibilitychange', () => { if (document.hidden) holdEnd(); });
+  hold.addEventListener('contextmenu', (e) => e.preventDefault());
+})();
+</script>
+</body>
+</html>

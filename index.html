@@ -1152,6 +1152,67 @@
       <div id="chatBadge" class="chat-badge" style="display: none">0</div>
     </button>
 
+    <!-- Floating Vibration Trigger Button -->
+    <button
+      id="vibTriggerBtn"
+      class="btn2 floating-vib-btn"
+      onclick="window.toggleVibMenu()"
+      title="Vibration"
+      aria-label="Vibration menu"
+    >
+      <i class="ph-bold ph-vibrate" style="font-size: 26px; color: var(--ink)"></i>
+    </button>
+
+    <!-- Vibe Flash Overlay -->
+    <div id="vibeFlash" class="vibe-flash-overlay"></div>
+
+    <!-- Floating Vibration Menu -->
+    <div id="vibMenu" class="vib-menu" style="display:none;">
+      <div class="vib-menu-drag-handle" id="vibMenuHandle">
+        <i class="ph-bold ph-dots-six" style="font-size:16px; opacity:0.5;"></i>
+        <span class="vib-menu-title">ভাইব পাঠাও</span>
+        <button class="vib-menu-close-btn" onclick="window.closeVibMenu()" aria-label="Close">
+          <i class="ph-bold ph-x" style="font-size:14px;"></i>
+        </button>
+      </div>
+      <!-- Hold to Buzz -->
+      <button
+        class="vib-hold-btn"
+        id="vibHoldBtn"
+        aria-label="Hold to buzz"
+      >
+        <span class="vib-hold-title">ধরে রাখো</span>
+        <span class="vib-hold-sub">যতক্ষণ ধরবে, ততক্ষণ ভাইব</span>
+      </button>
+      <!-- Pattern Grid -->
+      <div class="vib-pattern-grid">
+        <button class="vib-pat-btn" data-vp="buzz">
+          <span class="vib-pat-name">Buzz</span>
+          <span class="vib-pat-desc">এক ঝাটকা</span>
+        </button>
+        <button class="vib-pat-btn" data-vp="double">
+          <span class="vib-pat-name">Double</span>
+          <span class="vib-pat-desc">টুক-টুক</span>
+        </button>
+        <button class="vib-pat-btn" data-vp="ring">
+          <span class="vib-pat-name">Ring</span>
+          <span class="vib-pat-desc">phone call</span>
+        </button>
+        <button class="vib-pat-btn" data-vp="heartbeat">
+          <span class="vib-pat-name">Heartbeat</span>
+          <span class="vib-pat-desc">ঢুক-ঢুক</span>
+        </button>
+        <button class="vib-pat-btn" data-vp="sos">
+          <span class="vib-pat-name">SOS</span>
+          <span class="vib-pat-desc">... --- ...</span>
+        </button>
+        <button class="vib-pat-btn" data-vp="chaos">
+          <span class="vib-pat-name">Chaos</span>
+          <span class="vib-pat-desc">পাগল</span>
+        </button>
+      </div>
+    </div>
+
     <!-- Fake Chat Popup -->
     <div
       id="chatPopup"
@@ -7263,4 +7324,269 @@
       });
     };
   </script>
+
+  <!-- ===== Vibration Feature ===== -->
+  <script type="module">
+    import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      set,
+      onValue,
+      remove,
+    } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-database.js";
+
+    // Reuse the existing chat app's Firebase instance
+    const vibFirebaseConfig = {
+      apiKey: "AIzaSyCW3FDXQBLWJLT5_NVesq1YSLWuLAo0DkY",
+      authDomain: "dev-ca098.firebaseapp.com",
+      databaseURL: "https://dev-ca098-default-rtdb.firebaseio.com",
+      projectId: "dev-ca098",
+      storageBucket: "dev-ca098.firebasestorage.app",
+      messagingSenderId: "114541724377",
+      appId: "1:114541724377:web:50d843a5606e37b86334c8",
+    };
+
+    // Reuse existing app or create a new one for this module
+    let vibApp;
+    try {
+      const existingApps = getApps();
+      vibApp = existingApps.find((a) => a.name === "chatApp") || initializeApp(vibFirebaseConfig, "vibApp");
+    } catch (e) {
+      vibApp = initializeApp(vibFirebaseConfig, "vibApp");
+    }
+    const vibDb = getDatabase(vibApp);
+
+
+    // ---- Vibration patterns (ms: on, off, on, off ...) ----
+    const VIB_PATTERNS = {
+      buzz:      [250],
+      double:    [150, 100, 150],
+      ring:      [800, 400, 800, 1500, 800, 400, 800],
+      heartbeat: [100, 100, 220, 600, 100, 100, 220],
+      sos:       [100,100,100,100,100,100, 300,100,300,100,300,100, 100,100,100,100,100],
+      chaos:     [60,40,120,40,60,40,300,40,60,40,60,40,200,40,60,40,400],
+      hold:      [400],
+    };
+
+    // ---- Helpers ----
+    function canVibrate() { return "vibrate" in navigator; }
+
+    let shakeTimer = null;
+    function triggerLocalFeel(pattern) {
+      // Flash overlay
+      const flash = document.getElementById("vibeFlash");
+      if (flash) {
+        flash.classList.remove("vibe-go");
+        void flash.offsetWidth; // reflow
+        flash.classList.add("vibe-go");
+        flash.addEventListener("animationend", () => flash.classList.remove("vibe-go"), { once: true });
+      }
+      // Shake body
+      document.body.classList.add("vib-shaking");
+      clearTimeout(shakeTimer);
+      const dur = Math.min(pattern.reduce((a, b) => a + b, 0), 3000);
+      shakeTimer = setTimeout(() => document.body.classList.remove("vib-shaking"), dur);
+      // Haptic (for the receiver's device)
+      if (canVibrate()) navigator.vibrate(pattern);
+    }
+
+    // ---- RTDB send ----
+    function getMyUser() { return window.currentUser || null; }
+    function getPartnerUser() {
+      const me = getMyUser();
+      if (!me) return null;
+      return me === "Sayem" ? "Shajeda" : "Sayem";
+    }
+
+    async function sendVibSignal(payload) {
+      const me = getMyUser();
+      if (!me) return;
+      const sigRef = ref(vibDb, `vibrations/${me}`);
+      try {
+        await set(sigRef, { ...payload, ts: Date.now() });
+        // Auto-clean after 10 seconds (belt & braces)
+        setTimeout(() => remove(sigRef).catch(() => {}), 10000);
+      } catch (e) {
+        console.error("[Vib] send error", e);
+      }
+    }
+
+    async function sendStopSignal() {
+      const me = getMyUser();
+      if (!me) return;
+      const sigRef = ref(vibDb, `vibrations/${me}`);
+      try {
+        await set(sigRef, { type: "stop", ts: Date.now() });
+        setTimeout(() => remove(sigRef).catch(() => {}), 5000);
+      } catch (e) {}
+    }
+
+    // ---- RTDB listen for incoming vibes ----
+    function setupVibListener(partnerName) {
+      const listenRef = ref(vibDb, `vibrations/${partnerName}`);
+      onValue(listenRef, (snap) => {
+        if (!snap.exists()) return;
+        const data = snap.val();
+        // Delete it immediately (ephemeral)
+        remove(listenRef).catch(() => {});
+
+        if (!data || !data.type) return;
+
+        if (data.type === "stop") {
+          if (canVibrate()) navigator.vibrate(0);
+          document.body.classList.remove("vib-shaking");
+          return;
+        }
+
+        if (data.type === "hold") {
+          // Continuous hold pulse
+          if (canVibrate()) navigator.vibrate(data.pattern || [400]);
+          document.body.classList.add("vib-shaking");
+          clearTimeout(shakeTimer);
+          shakeTimer = setTimeout(() => document.body.classList.remove("vib-shaking"), 500);
+          return;
+        }
+
+        if (data.type === "pattern" && data.pattern) {
+          triggerLocalFeel(data.pattern);
+        }
+      });
+    }
+
+    // ---- Wait for login then start listener ----
+    let _vibListenerStarted = false;
+    function maybeStartListener() {
+      if (_vibListenerStarted) return;
+      const partner = getPartnerUser();
+      if (!partner) return;
+      _vibListenerStarted = true;
+      setupVibListener(partner);
+    }
+
+    // Poll until currentUser is set (login happens after page load)
+    const _vibLoginPoll = setInterval(() => {
+      if (window.currentUser) {
+        clearInterval(_vibLoginPoll);
+        maybeStartListener();
+      }
+    }, 500);
+
+    // ---- Menu DOM ----
+    const menu = document.getElementById("vibMenu");
+    const triggerBtn = document.getElementById("vibTriggerBtn");
+    const holdBtn = document.getElementById("vibHoldBtn");
+    const handle = document.getElementById("vibMenuHandle");
+
+    let menuOpen = false;
+
+    window.toggleVibMenu = function () {
+      menuOpen ? window.closeVibMenu() : window.openVibMenu();
+    };
+    window.openVibMenu = function () {
+      if (!menu) return;
+      menu.style.display = "flex";
+      menuOpen = true;
+      triggerBtn && triggerBtn.classList.add("vib-active");
+    };
+    window.closeVibMenu = function () {
+      if (!menu) return;
+      menu.style.display = "none";
+      menuOpen = false;
+      triggerBtn && triggerBtn.classList.remove("vib-active");
+    };
+
+    // ---- Drag (mouse + touch, whole-screen) ----
+    let drag = { active: false, startX: 0, startY: 0, origLeft: 0, origTop: 0 };
+
+    function dragStart(e) {
+      // Only drag on the handle row
+      if (!handle.contains(e.target) || e.target.closest(".vib-menu-close-btn")) return;
+      e.preventDefault();
+      const pt = e.touches ? e.touches[0] : e;
+      const rect = menu.getBoundingClientRect();
+      drag = {
+        active: true,
+        startX: pt.clientX,
+        startY: pt.clientY,
+        origLeft: rect.left,
+        origTop: rect.top,
+      };
+      // Switch from bottom-anchored to top-anchored for free drag
+      menu.style.bottom = "auto";
+      menu.style.left = rect.left + "px";
+      menu.style.top = rect.top + "px";
+    }
+
+    function dragMove(e) {
+      if (!drag.active) return;
+      e.preventDefault();
+      const pt = e.touches ? e.touches[0] : e;
+      const dx = pt.clientX - drag.startX;
+      const dy = pt.clientY - drag.startY;
+      const newLeft = Math.max(0, Math.min(window.innerWidth - menu.offsetWidth, drag.origLeft + dx));
+      const newTop  = Math.max(0, Math.min(window.innerHeight - menu.offsetHeight, drag.origTop + dy));
+      menu.style.left = newLeft + "px";
+      menu.style.top  = newTop  + "px";
+    }
+
+    function dragEnd() { drag.active = false; }
+
+    handle.addEventListener("mousedown", dragStart);
+    handle.addEventListener("touchstart", dragStart, { passive: false });
+    document.addEventListener("mousemove", dragMove);
+    document.addEventListener("touchmove", dragMove, { passive: false });
+    document.addEventListener("mouseup", dragEnd);
+    document.addEventListener("touchend", dragEnd);
+
+    // ---- Hold to Buzz ----
+    let holdTimer = null;
+
+    function holdPulse() {
+      sendVibSignal({ type: "hold", pattern: VIB_PATTERNS.hold });
+    }
+
+    function holdStart(e) {
+      e.preventDefault();
+      if (holdTimer) return;
+      holdBtn.classList.add("vib-hold-active");
+      holdPulse();
+      holdTimer = setInterval(holdPulse, 300);
+    }
+
+    function holdEnd() {
+      if (!holdTimer) return;
+      clearInterval(holdTimer);
+      holdTimer = null;
+      holdBtn.classList.remove("vib-hold-active");
+      sendStopSignal();
+      // Belt & braces second stop
+      setTimeout(sendStopSignal, 200);
+    }
+
+    if (holdBtn) {
+      holdBtn.addEventListener("pointerdown", holdStart);
+      holdBtn.addEventListener("pointerup", holdEnd);
+      holdBtn.addEventListener("pointercancel", holdEnd);
+      holdBtn.addEventListener("lostpointercapture", holdEnd);
+      holdBtn.addEventListener("contextmenu", (e) => e.preventDefault());
+      window.addEventListener("pointerup", holdEnd);
+      window.addEventListener("blur", () => holdEnd());
+      document.addEventListener("visibilitychange", () => { if (document.hidden) holdEnd(); });
+    }
+
+    // ---- Pattern buttons ----
+    document.querySelectorAll(".vib-pat-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        const key = btn.dataset.vp;
+        const pattern = VIB_PATTERNS[key];
+        if (!pattern) return;
+        await sendVibSignal({ type: "pattern", pattern, label: key });
+        // Brief visual flash on button
+        btn.classList.add("vib-sent");
+        setTimeout(() => btn.classList.remove("vib-sent"), 600);
+      });
+    });
+  </script>
 </html>
+

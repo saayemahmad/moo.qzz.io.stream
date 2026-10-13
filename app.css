@@ -3986,3 +3986,229 @@ dialog#serverOfflineModal {
   height: 100%;
   margin: 0;
 }
+
+/* ===== VIBRATION FEATURE ===== */
+
+/* Floating trigger button — positioned right of chat button */
+.floating-vib-btn {
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  left: calc(368px + env(safe-area-inset-left));
+  right: auto;
+  z-index: 100;
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  max-width: 44px !important;
+  max-height: 44px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 !important;
+  box-sizing: border-box !important;
+  line-height: 0 !important;
+  background: var(--bg-alt) !important;
+  border: 2px solid var(--border) !important;
+  box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring) !important;
+  transform: none !important;
+  transition: opacity 0.3s ease, transform 0.1s ease !important;
+}
+.floating-vib-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 1px 1px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring) !important;
+}
+.floating-vib-btn i {
+  line-height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block;
+}
+.floating-vib-btn.vib-active {
+  background: var(--c-pink-bg) !important;
+  animation: vib-btn-pulse 0.6s ease infinite alternate;
+}
+@keyframes vib-btn-pulse {
+  from { box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 2px var(--c-pink-ring); }
+  to   { box-shadow: 3px 3px 0 var(--c-pink-shadow), 0 0 0 5px var(--c-pink-ring); }
+}
+
+/* Hide vib btn when keyboard is open */
+body.kb-open .floating-vib-btn {
+  display: none !important;
+}
+
+/* Mobile: shift left like chat button */
+@media (max-width: 768px) {
+  .floating-vib-btn {
+    left: calc(88px + env(safe-area-inset-left));
+  }
+}
+
+/* ---- Vibe Flash Overlay ---- */
+.vibe-flash-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 99999;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(236, 72, 153, 0.45),
+    rgba(190, 24, 93, 0.2) 55%,
+    transparent 80%
+  );
+}
+.vibe-flash-overlay.vibe-go {
+  animation: vibe-flash-anim 0.45s ease-out forwards;
+}
+@keyframes vibe-flash-anim {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* ---- Website shake when vibe received ---- */
+@keyframes vib-site-shake {
+  0%   { transform: translate(0, 0); }
+  15%  { transform: translate(-4px, 2px); }
+  30%  { transform: translate(4px, -2px); }
+  45%  { transform: translate(-3px, -3px); }
+  60%  { transform: translate(3px, 2px); }
+  75%  { transform: translate(-2px, 3px); }
+  90%  { transform: translate(2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+body.vib-shaking {
+  animation: vib-site-shake 0.3s linear infinite;
+}
+
+/* ---- Floating Vibration Menu ---- */
+.vib-menu {
+  position: fixed;
+  z-index: 99998;
+  width: 280px;
+  bottom: calc(94px + env(safe-area-inset-bottom));
+  left: calc(24px + env(safe-area-inset-left));
+  background: var(--bg-alt);
+  border: 2px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0 0 12px 0;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Drag Handle / Title Bar */
+.vib-menu-drag-handle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px 8px;
+  cursor: grab;
+  border-bottom: 2px solid var(--border);
+  background: var(--bg);
+}
+.vib-menu-drag-handle:active { cursor: grabbing; }
+.vib-menu-title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--text-muted);
+  letter-spacing: 0.5px;
+}
+.vib-menu-close-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  opacity: 0.7;
+  transition: opacity 0.15s;
+}
+.vib-menu-close-btn:hover { opacity: 1; }
+
+/* Hold to Buzz button */
+.vib-hold-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 12px;
+  height: 80px;
+  border: 2px solid var(--border);
+  background: linear-gradient(135deg, var(--bg) 0%, var(--bg-alt) 100%);
+  color: var(--ink);
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.08s;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.vib-hold-btn.vib-hold-active {
+  background: linear-gradient(135deg, var(--c-pink-bg) 0%, var(--c-blue-dark) 100%);
+  transform: scale(0.97);
+}
+.vib-hold-title {
+  font-size: 17px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.3px;
+}
+.vib-hold-sub {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+
+/* Pattern grid */
+.vib-pattern-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 0 12px;
+}
+.vib-pat-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px 10px;
+  border: 2px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.12s, transform 0.08s;
+  -webkit-tap-highlight-color: transparent;
+}
+.vib-pat-btn:active {
+  background: var(--hover-bg);
+  transform: scale(0.96);
+}
+.vib-pat-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+  line-height: 1;
+}
+.vib-pat-desc {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-pink-shadow);
+  margin-top: 4px;
+}
+
+/* Sent flash on pattern buttons */
+.vib-pat-btn.vib-sent {
+  background: var(--hover-bg);
+  border-color: var(--c-blue-border);
+}
+
