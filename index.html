@@ -1229,7 +1229,6 @@
       id="chatPopup"
       class="chat-popup"
       style="
-        background-image: url('2c48c0ce-bce4-442b-8113-8aa2d18fa93e.jpg');
         background-size: cover;
         background-position: top center;
       "
@@ -2273,6 +2272,7 @@
         if (window.applyCachedTheme) window.applyCachedTheme();
         if (window.initVibForUser) window.initVibForUser(window.currentUser);
         if (window.updateVibAuthUI) window.updateVibAuthUI();
+        if (window.refreshChatBgImage) window.refreshChatBgImage();
 
         if (window.currentUser === "Sayem") {
           window.requestSayemNotifPermission();
@@ -2360,6 +2360,7 @@
         if (window.closeVibMenu) window.closeVibMenu();
         if (window.cleanupVib) window.cleanupVib();
         if (window.updateVibAuthUI) window.updateVibAuthUI();
+        if (window.refreshChatBgImage) window.refreshChatBgImage();
       }
 
       // --- Compact Upload Logic ---
@@ -6240,6 +6241,7 @@
 
         // If user is truly not logged in (and not auto-logging in)
         if (!window.currentUser && !hasSavedPin) {
+          if (window.refreshChatBgImage) window.refreshChatBgImage();
           chatBody.innerHTML = `
           <div id="demoMsg1" class="chat-msg bot-msg">লগইন করে চ্যাট শুরু করুন! (Login to start chatting!)</div>
           <button class="btn2" onclick="performLogin('chatbox')" style="margin-top: 10px; font-size: 14px; padding: 6px 12px; align-self: flex-start;">লগইন করুন (Login)</button>
@@ -6724,16 +6726,38 @@
 
     <!-- Theme & Settings Logic -->
     <script>
-      // Theme Initialization
-      // Cache buster for chat background image so newly replaced files never show stale cache
+      // Cache buster and auth-aware setter for chat background image
       window.refreshChatBgImage = function (forceNew = false) {
         if (forceNew || !window._chatBgVersion) {
           window._chatBgVersion = Date.now();
         }
-        document.documentElement.style.setProperty(
-          "--chat-bg-image",
-          `url('2c48c0ce-bce4-442b-8113-8aa2d18fa93e.jpg')`,
-        );
+        const hasSavedPin =
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("savedUserPin");
+        const isLogged = !!(window.currentUser || hasSavedPin);
+
+        const chatPopup = document.getElementById("chatPopup");
+        const chatBody = document.querySelector(".chat-body");
+
+        if (isLogged) {
+          const imgUrl = `url('2c48c0ce-bce4-442b-8113-8aa2d18fa93e.jpg')`;
+          document.documentElement.style.setProperty("--chat-bg-image", imgUrl);
+          if (chatPopup) {
+            chatPopup.style.backgroundImage = imgUrl;
+          }
+          if (chatBody) {
+            chatBody.style.backgroundImage = `linear-gradient(var(--chat-bg-overlay), var(--chat-bg-overlay)), ${imgUrl}`;
+          }
+        } else {
+          document.documentElement.style.setProperty("--chat-bg-image", "none");
+          if (chatPopup) {
+            chatPopup.style.backgroundImage = "none";
+          }
+          if (chatBody) {
+            chatBody.style.backgroundImage = "none";
+            chatBody.style.backgroundColor = "var(--c-chat-bg)";
+          }
+        }
       };
       window.refreshChatBgImage();
       // FIX: previously only read localStorage, so a first-time visitor whose OS

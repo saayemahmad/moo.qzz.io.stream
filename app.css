@@ -258,7 +258,7 @@ textarea {
   --c-storage-bg: #831843;
   --c-storage-used: #f472b6;
   --c-chat-bg: #13030d;
-  --chat-bg-image: url('2c48c0ce-bce4-442b-8113-8aa2d18fa93e.jpg');
+  --chat-bg-image: none;
   --chat-bg-overlay: rgba(19, 3, 13, 0.62);
   --c-lightbox-bg: rgba(0, 0, 0, 0.9);
   --c-highlight-bg: #db2777;
