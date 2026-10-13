@@ -4043,15 +4043,16 @@ dialog#serverOfflineModal {
   content: "";
   position: absolute;
   inset: -3px;
-  border: 3px solid rgb(236, 72, 153);
+  border: 3px solid #7c3aed;
   pointer-events: none;
   z-index: 9999;
-  animation: vib-shajeda-border-blink 0.7s ease-in-out infinite;
+  animation: vib-shajeda-border-blink 0.7s steps(1) infinite;
 }
 @keyframes vib-shajeda-border-blink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
+
 
 /* Hide vib btn when keyboard is open */
 body.kb-open .floating-vib-btn {
