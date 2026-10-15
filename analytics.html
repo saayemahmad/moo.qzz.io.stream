@@ -683,7 +683,8 @@
     /* thumbnail strip */
     .sc-pill-thumb {
       width: 100%;
-      height: auto;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
       display: block;
       background: #161a24;
       flex-shrink: 0;
@@ -2087,6 +2088,80 @@
     /* ---------------- Watch leaderboard ---------------- */
     let cachedLBData = [];
 
+    /* ---------------- Thumbnail LocalStorage Caching ---------------- */
+    const _pendingThumbRequests = new Set();
+
+    function getCachedThumb(mediaId) {
+      if (!mediaId) return null;
+      try {
+        return localStorage.getItem('klipy_thumb_' + mediaId);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function saveCachedThumb(mediaId, dataUrl) {
+      if (!mediaId) return;
+      try {
+        localStorage.setItem('klipy_thumb_' + mediaId, dataUrl);
+      } catch (e) {
+        // QuotaExceededError: purge oldest 25 klipy_thumb_ keys from localStorage
+        try {
+          const keys = [];
+          for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.startsWith('klipy_thumb_')) keys.push(k);
+          }
+          keys.slice(0, 25).forEach(k => localStorage.removeItem(k));
+          localStorage.setItem('klipy_thumb_' + mediaId, dataUrl);
+        } catch (_) {}
+      }
+    }
+
+    async function requestThumbCache(mediaId) {
+      if (!mediaId || _pendingThumbRequests.has(mediaId)) return;
+      _pendingThumbRequests.add(mediaId);
+
+      try {
+        // Fetch through backend thumbnail endpoint (uses in-memory caching and sends direct JPEG bytes with CORS)
+        const res = await fetch(`https://api.moo.qzz.io/api/thumb/${encodeURIComponent(mediaId)}`);
+        if (!res.ok) {
+          saveCachedThumb(mediaId, 'none');
+          return;
+        }
+
+        const blob = await res.blob();
+        if (!blob || blob.size === 0) {
+          saveCachedThumb(mediaId, 'none');
+          return;
+        }
+
+        // Convert blob to Base64 data URL
+        const reader = new FileReader();
+        reader.onloadend = function () {
+          const base64 = reader.result;
+          if (base64 && typeof base64 === 'string' && base64.startsWith('data:image')) {
+            saveCachedThumb(mediaId, base64);
+            // Update any visible thumbnails on screen immediately
+            document.querySelectorAll(`img.sc-pill-thumb[data-thumb-id="${mediaId}"]`).forEach(img => {
+              img.src = base64;
+              img.style.display = 'block';
+            });
+            document.querySelectorAll(`.sc-pill-thumb-placeholder[data-placeholder-id="${mediaId}"]`).forEach(ph => {
+              ph.style.display = 'none';
+            });
+          } else {
+            saveCachedThumb(mediaId, 'none');
+          }
+        };
+        reader.readAsDataURL(blob);
+      } catch (err) {
+        console.warn(`[ThumbCache] Error fetching thumbnail for ${mediaId}:`, err);
+      } finally {
+        _pendingThumbRequests.delete(mediaId);
+      }
+    }
+
     function userHue(str) {
       let h = 5381;
       for (let i = 0; i < str.length; i++) h = ((h << 5) + h) ^ str.charCodeAt(i);
@@ -2101,19 +2176,32 @@
       const dash = (fillPct / 100) * circ;
       const color = `hsl(${hue},85%,62%)`;
       const mediaId = (v.id && v.id !== 'unknown') ? v.id : (v.filename ? v.filename.replace(/\.[^.]+$/, '') : null);
-      const thumbUrl = mediaId ? `https://api.moo.qzz.io/media/${mediaId}/thumb.jpg?t=${Date.now()}` : null;
       const isImage = v.duration === 0 || v.media_type === 'Image';
       const shortName = v.filename.replace(/\.[^.]+$/, '').replace(/_/g, ' ');
 
       const isNew = v.last_watched_at && (new Date(v.last_watched_at).getTime() > adminSessionReferenceTime);
       const newBadge = isNew ? `<span style="position:absolute;top:4px;right:4px;background:var(--red);color:white;padding:2px 4px;font-size:7px;font-weight:bold;line-height:1;z-index:10;border:1px solid var(--bg);">NEW</span>` : '';
 
-      // -- thumbnail --
-      // Use a data-src approach: attempt to load thumb, show styled placeholder on 404
+      // -- thumbnail with persistent localStorage cache (zero Backblaze quota drain) --
       const thumbPlaceholderSVG = `<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="6" width="28" height="20" rx="1" stroke="rgba(126,200,200,0.25)" stroke-width="1.5" fill="rgba(126,200,200,0.04)"/><path d="M2 11h4M2 16h4M2 21h4M26 11h4M26 16h4M26 21h4" stroke="rgba(126,200,200,0.2)" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="none" stroke="rgba(126,200,200,0.3)" stroke-width="1.5"/><path d="M14.5 14.5l5 3-5 3v-6z" fill="rgba(126,200,200,0.3)"/></svg>`;
-      const thumbHTML = thumbUrl
-        ? `<img class="sc-pill-thumb" src="${thumbUrl}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" /><div class="sc-pill-thumb-placeholder" style="display:none;">${thumbPlaceholderSVG}</div>`
-        : `<div class="sc-pill-thumb-placeholder">${thumbPlaceholderSVG}</div>`;
+      
+      let thumbHTML = '';
+      if (!mediaId) {
+        thumbHTML = `<div class="sc-pill-thumb-placeholder">${thumbPlaceholderSVG}</div>`;
+      } else {
+        const cachedThumb = getCachedThumb(mediaId);
+        if (cachedThumb === 'none') {
+          // Confirmed 404/no thumb — never query Backblaze again
+          thumbHTML = `<div class="sc-pill-thumb-placeholder">${thumbPlaceholderSVG}</div>`;
+        } else if (cachedThumb) {
+          // Instant display from localStorage base64 — 0 network latency, 0 Backblaze quota used!
+          thumbHTML = `<img class="sc-pill-thumb" src="${cachedThumb}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="sc-pill-thumb-placeholder" style="display:none;">${thumbPlaceholderSVG}</div>`;
+        } else {
+          // Not cached yet: trigger background fetch & cache to localStorage
+          requestThumbCache(mediaId);
+          thumbHTML = `<img class="sc-pill-thumb" data-thumb-id="${mediaId}" style="display:none;" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="sc-pill-thumb-placeholder" data-placeholder-id="${mediaId}">${thumbPlaceholderSVG}</div>`;
+        }
+      }
 
       // -- timeline track --
       let trackHTML = '';

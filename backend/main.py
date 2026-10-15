@@ -550,9 +550,14 @@ def get_watch_time(request: Request, db=Depends(get_db)):
         sk_sec = int(s.get('skipped_seconds', 0) or 0)
         sk_cnt = int(s.get('skip_count', 0) or 0)
         
-        us = next((v for k, v in uploads_ref.items() if v.get('filename') == fname or k == fname.rsplit('.', 1)[0]), None)
-        vid_id = (us.get('id') if us else None) or fname.rsplit('.', 1)[0]
-        duration = us.get('duration', 0) if us else 0
+        matched = next(((k, v) for k, v in uploads_ref.items() if v.get('filename') == fname or k == fname or k == fname.rsplit('.', 1)[0] or v.get('filename', '').rsplit('.', 1)[0] == fname.rsplit('.', 1)[0] or v.get('id') == fname), None)
+        if matched:
+            up_k, up_v = matched
+            vid_id = up_v.get('id') or up_k
+            duration = up_v.get('duration', 0) or 0
+        else:
+            vid_id = fname.rsplit('.', 1)[0]
+            duration = 0
 
         # Cap legacy inflated watch_seconds if greater than duration
         if duration > 0 and w_sec > duration:
@@ -1029,6 +1034,120 @@ def get_b2_media(upload_id: str, filename: str, db=Depends(get_db)):
             "Access-Control-Allow-Origin": "*",
         }
     )
+
+_thumb_bytes_cache: dict = {}
+
+@app.get("/api/thumb/{media_id}")
+def get_thumbnail_api(media_id: str, db=Depends(get_db)):
+    """
+    Returns thumbnail JPEG bytes directly with full CORS headers so frontend can convert to Base64
+    and cache permanently in localStorage — eliminating repeat downloads from Backblaze B2.
+    """
+    if media_id in _thumb_bytes_cache:
+        return Response(
+            content=_thumb_bytes_cache[media_id],
+            media_type="image/jpeg",
+            headers={
+                "Cache-Control": "public, max-age=2592000",
+                "Access-Control-Allow-Origin": "*",
+            }
+        )
+
+    # 1. Check local media directory
+    local_path = MEDIA_DIR / media_id / "thumb.jpg"
+    if local_path.is_file():
+        try:
+            with open(local_path, "rb") as f:
+                data = f.read()
+            if len(_thumb_bytes_cache) < 300:
+                _thumb_bytes_cache[media_id] = data
+            return Response(
+                content=data,
+                media_type="image/jpeg",
+                headers={
+                    "Cache-Control": "public, max-age=2592000",
+                    "Access-Control-Allow-Origin": "*",
+                }
+            )
+        except Exception:
+            pass
+
+    # 2. Check if media_id is a filename or stem in uploads_ref
+    resolved_id = media_id
+    try:
+        uploads_ref = db.reference('uploads').get() or {}
+        if resolved_id not in uploads_ref:
+            m = next(((k, v) for k, v in uploads_ref.items() if v.get('filename') == media_id or k == media_id or k == media_id.rsplit('.', 1)[0] or v.get('filename', '').rsplit('.', 1)[0] == media_id or v.get('id') == media_id), None)
+            if m:
+                resolved_id = m[0]
+    except Exception:
+        pass
+
+    # Check local again if resolved_id differs
+    if resolved_id != media_id:
+        local_path = MEDIA_DIR / resolved_id / "thumb.jpg"
+        if local_path.is_file():
+            try:
+                with open(local_path, "rb") as f:
+                    data = f.read()
+                if len(_thumb_bytes_cache) < 300:
+                    _thumb_bytes_cache[media_id] = data
+                    _thumb_bytes_cache[resolved_id] = data
+                return Response(
+                    content=data,
+                    media_type="image/jpeg",
+                    headers={
+                        "Cache-Control": "public, max-age=2592000",
+                        "Access-Control-Allow-Origin": "*",
+                    }
+                )
+            except Exception:
+                pass
+
+    # 3. Fetch from Backblaze B2 using boto3 client
+    try:
+        all_accounts = _load_all_b2_accounts(db)
+        accounts_by_id = {a['id']: a for a in all_accounts}
+        default_acc = accounts_by_id.get('default') or (all_accounts[0] if all_accounts else None)
+
+        acc_id = _upload_account_cache.get(resolved_id)
+        if not acc_id:
+            try:
+                sess = db.reference(f'uploads/{resolved_id}').get()
+                if sess and sess.get('b2_account_id'):
+                    acc_id = sess['b2_account_id']
+                    _upload_account_cache[resolved_id] = acc_id
+            except Exception:
+                pass
+        account = accounts_by_id.get(acc_id) or default_acc
+
+        if account:
+            client = get_b2_client_for(account)
+            key = f"{resolved_id}/thumb.jpg"
+            obj = client.get_object(Bucket=account['bucket'], Key=key)
+            data = obj['Body'].read()
+            if len(_thumb_bytes_cache) < 300:
+                _thumb_bytes_cache[media_id] = data
+                _thumb_bytes_cache[resolved_id] = data
+            return Response(
+                content=data,
+                media_type="image/jpeg",
+                headers={
+                    "Cache-Control": "public, max-age=2592000",
+                    "Access-Control-Allow-Origin": "*",
+                }
+            )
+    except Exception as e:
+        print(f"[Thumb Fetch Error] {media_id} / {resolved_id}: {e}")
+
+    raise HTTPException(status_code=404, detail="Thumbnail not found")
+
+@app.get("/media/{upload_id}/{filename}")
+def get_media_fallback(upload_id: str, filename: str, db=Depends(get_db)):
+    if filename == "thumb.jpg":
+        return get_thumbnail_api(upload_id, db)
+    return get_b2_media(upload_id, filename, db)
+
 
 
 # ─── B2 Account Management (Admin) ──────────────────────────────────────────
