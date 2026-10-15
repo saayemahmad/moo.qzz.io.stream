@@ -2090,6 +2090,9 @@
 
     /* ---------------- Thumbnail LocalStorage Caching ---------------- */
     const _pendingThumbRequests = new Set();
+    const _thumbFetchQueue = [];
+    let _activeThumbFetches = 0;
+    const MAX_CONCURRENT_THUMB_FETCHES = 3;
 
     function getCachedThumb(mediaId) {
       if (!mediaId) return null;
@@ -2105,60 +2108,81 @@
       try {
         localStorage.setItem('klipy_thumb_' + mediaId, dataUrl);
       } catch (e) {
-        // QuotaExceededError: purge oldest 25 klipy_thumb_ keys from localStorage
+        // QuotaExceededError: purge oldest 30 klipy_thumb_ keys
         try {
           const keys = [];
           for (let i = 0; i < localStorage.length; i++) {
             const k = localStorage.key(i);
             if (k && k.startsWith('klipy_thumb_')) keys.push(k);
           }
-          keys.slice(0, 25).forEach(k => localStorage.removeItem(k));
+          keys.slice(0, 30).forEach(k => localStorage.removeItem(k));
           localStorage.setItem('klipy_thumb_' + mediaId, dataUrl);
         } catch (_) {}
       }
     }
 
-    async function requestThumbCache(mediaId) {
-      if (!mediaId || _pendingThumbRequests.has(mediaId)) return;
-      _pendingThumbRequests.add(mediaId);
-
+    window.onThumbImgLoaded = function(mediaId, img) {
+      if (!mediaId || getCachedThumb(mediaId)) return;
       try {
-        // Fetch through backend thumbnail endpoint (uses in-memory caching and sends direct JPEG bytes with CORS)
+        // Instant client-side compression to lightweight 128x72 JPEG (~2.5KB)
+        const canvas = document.createElement('canvas');
+        canvas.width = 128;
+        canvas.height = 72;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, 128, 72);
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.75);
+        if (dataUrl && dataUrl.length > 100) {
+          saveCachedThumb(mediaId, dataUrl);
+          return;
+        }
+      } catch (e) {
+        // In case of cross-origin canvas security restriction, use smooth queue
+      }
+      queueBackgroundThumbCache(mediaId);
+    };
+
+    function queueBackgroundThumbCache(mediaId) {
+      if (!mediaId || _pendingThumbRequests.has(mediaId) || getCachedThumb(mediaId)) return;
+      _pendingThumbRequests.add(mediaId);
+      _thumbFetchQueue.push(mediaId);
+      _processThumbQueue();
+    }
+
+    function _processThumbQueue() {
+      while (_activeThumbFetches < MAX_CONCURRENT_THUMB_FETCHES && _thumbFetchQueue.length > 0) {
+        const nextId = _thumbFetchQueue.shift();
+        _activeThumbFetches++;
+        _fetchAndCacheThumb(nextId).finally(() => {
+          _activeThumbFetches--;
+          _processThumbQueue();
+        });
+      }
+    }
+
+    async function _fetchAndCacheThumb(mediaId) {
+      try {
         const res = await fetch(`https://api.moo.qzz.io/api/thumb/${encodeURIComponent(mediaId)}`);
         if (!res.ok) {
           saveCachedThumb(mediaId, 'none');
           return;
         }
-
         const blob = await res.blob();
         if (!blob || blob.size === 0) {
           saveCachedThumb(mediaId, 'none');
           return;
         }
-
-        // Convert blob to Base64 data URL
         const reader = new FileReader();
         reader.onloadend = function () {
           const base64 = reader.result;
           if (base64 && typeof base64 === 'string' && base64.startsWith('data:image')) {
             saveCachedThumb(mediaId, base64);
-            // Update any visible thumbnails on screen immediately
-            document.querySelectorAll(`img.sc-pill-thumb[data-thumb-id="${mediaId}"]`).forEach(img => {
-              img.src = base64;
-              img.style.display = 'block';
-            });
-            document.querySelectorAll(`.sc-pill-thumb-placeholder[data-placeholder-id="${mediaId}"]`).forEach(ph => {
-              ph.style.display = 'none';
-            });
           } else {
             saveCachedThumb(mediaId, 'none');
           }
         };
         reader.readAsDataURL(blob);
       } catch (err) {
-        console.warn(`[ThumbCache] Error fetching thumbnail for ${mediaId}:`, err);
-      } finally {
-        _pendingThumbRequests.delete(mediaId);
+        // ignore background fetch failures
       }
     }
 
@@ -2197,9 +2221,9 @@
           // Instant display from localStorage base64 — 0 network latency, 0 Backblaze quota used!
           thumbHTML = `<img class="sc-pill-thumb" src="${cachedThumb}" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="sc-pill-thumb-placeholder" style="display:none;">${thumbPlaceholderSVG}</div>`;
         } else {
-          // Not cached yet: trigger background fetch & cache to localStorage
-          requestThumbCache(mediaId);
-          thumbHTML = `<img class="sc-pill-thumb" data-thumb-id="${mediaId}" style="display:none;" alt="" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';" /><div class="sc-pill-thumb-placeholder" data-placeholder-id="${mediaId}">${thumbPlaceholderSVG}</div>`;
+          // Not cached yet: DISPLAY IMMEDIATELY with browser native loading & lazy-load, cache in background
+          const thumbUrl = `https://api.moo.qzz.io/api/thumb/${encodeURIComponent(mediaId)}`;
+          thumbHTML = `<img class="sc-pill-thumb" loading="lazy" src="${thumbUrl}" alt="" onload="window.onThumbImgLoaded('${mediaId}', this)" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';saveCachedThumb('${mediaId}','none');" /><div class="sc-pill-thumb-placeholder" style="display:none;">${thumbPlaceholderSVG}</div>`;
         }
       }
 
