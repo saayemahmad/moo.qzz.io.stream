@@ -6,7 +6,7 @@
 fastapi>=0.110.0
 
 # Production ASGI Server (required to run FastAPI)
-uvicorn[standard]>=0.28.0
+uvicorn>=0.28.0
 
 # Form Data Parser (REQUIRED by FastAPI for Form(...) fields like login)
 python-multipart>=0.0.9
