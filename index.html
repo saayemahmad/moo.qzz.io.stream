@@ -1230,7 +1230,7 @@
       class="chat-popup"
       style="
         background-size: cover;
-        background-position: top center;
+        background-position: center center;
       "
     >
       <canvas id="bird" class="flying-bird" width="60" height="60"></canvas>
@@ -1950,7 +1950,7 @@
 
         if (!window.isFileGridRevealed) {
           if (grid && !query) grid.style.display = "none";
-          if (fileRevealBox) fileRevealBox.style.display = "flex";
+          if (fileRevealBox) fileRevealBox.style.display = query ? "none" : "flex";
         } else {
           if (fileRevealBox) fileRevealBox.style.display = "none";
           if (grid) {
@@ -3556,6 +3556,9 @@
           window.filterFiles();
           return;
         }
+
+        const fileRevealBox = document.getElementById("fileRevealBox");
+        if (fileRevealBox) fileRevealBox.style.display = "none";
 
         searchTimeout = setTimeout(() => {
           currentKlipyQuery = query;

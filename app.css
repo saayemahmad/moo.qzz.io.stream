@@ -1061,6 +1061,9 @@ button {
   min-height: min(250px, calc(var(--vv-height, 100dvh) - 110px));
   max-height: calc(var(--vv-height, 100dvh) - 110px);
   background: var(--bg);
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   border: 2px solid var(--ink);
   display: flex;
   flex-direction: column;
@@ -1299,7 +1302,7 @@ button {
     linear-gradient(var(--chat-bg-overlay), var(--chat-bg-overlay)),
     var(--chat-bg-image);
   background-size: cover;
-  background-position: top center;
+  background-position: center center;
   background-repeat: no-repeat;
   background-attachment: scroll;
   display: flex;
