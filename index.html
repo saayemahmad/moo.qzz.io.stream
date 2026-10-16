@@ -5112,31 +5112,46 @@
         const connectedRef = ref(chatDb, ".info/connected");
         unsubConnected = onValue(connectedRef, (snap) => {
           if (snap.val() === true) {
+            // Push a new connection ref SYNCHRONOUSLY so we can register
+            // onDisconnect hooks immediately — before any async write.
+            // Previously all hooks were inside .then(set(null, ...)) which
+            // created a race: if the tab closed during that async gap the
+            // hooks were never registered and lastOnline was never updated.
+            myConnectionRef = push(
+              ref(chatDb, `Presence/${username}/connections`),
+            );
+
+            // Register ALL disconnect handlers right away (server queues them
+            // on the current WebSocket; no race window).
+            onDisconnect(myConnectionRef).remove();
+            onDisconnect(
+              ref(chatDb, `Presence/${username}/lastOnline`),
+            ).set(serverTimestamp());
+            onDisconnect(
+              ref(chatDb, `Presence/${username}/presence_name`),
+            ).set("offline");
+            onDisconnect(ref(chatDb, `Presence/${username}/state`)).set(
+              "offline",
+            );
+            onDisconnect(
+              ref(chatDb, `Presence/${username}/website_status`),
+            ).set("offline");
+            if (username === "Shajeda") {
+              onDisconnect(
+                ref(chatDb, "Presence/Shajeda/drive_status"),
+              ).set("closed");
+              onDisconnect(
+                ref(chatDb, "Presence/Shajeda/vib_menu_open"),
+              ).set(false);
+            }
+
+            // Now clear stale connections from previous sessions and write
+            // the current state.  We keep only the new ref we just created.
             set(ref(chatDb, `Presence/${username}/connections`), null).then(
               () => {
-                myConnectionRef = push(
-                  ref(chatDb, `Presence/${username}/connections`),
-                );
-                onDisconnect(myConnectionRef).remove();
-                onDisconnect(
-                  ref(chatDb, `Presence/${username}/lastOnline`),
-                ).set(serverTimestamp());
-                onDisconnect(
-                  ref(chatDb, `Presence/${username}/presence_name`),
-                ).set("offline");
-                onDisconnect(ref(chatDb, `Presence/${username}/state`)).set(
-                  "offline",
-                );
-                onDisconnect(
-                  ref(chatDb, `Presence/${username}/website_status`),
-                ).set("offline");
+                // Re-set the connection entry after wiping stale ones.
+                window.updatePresenceState();
                 if (username === "Shajeda") {
-                  onDisconnect(
-                    ref(chatDb, "Presence/Shajeda/drive_status"),
-                  ).set("closed");
-                  onDisconnect(
-                    ref(chatDb, "Presence/Shajeda/vib_menu_open"),
-                  ).set(false);
                   set(
                     ref(chatDb, "Presence/Shajeda/drive_status"),
                     window.isFileGridRevealed ? "opened" : "closed",
@@ -5146,7 +5161,6 @@
                     !!window._isVibMenuOpen,
                   );
                 }
-                window.updatePresenceState();
               },
             );
           } else {
