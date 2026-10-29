@@ -4263,3 +4263,215 @@ body.vib-shaking {
   border-color: var(--c-blue-border);
 }
 
+
+/* =============================================
+   Custom QWERTY Keyboard (Gboard-style)
+   ============================================= */
+
+/* Hide keyboard in non-fullscreen mode */
+.chat-popup:not(.cb-fullscreen) #customKeyboard {
+  display: none !important;
+}
+
+.custom-keyboard {
+  background: #1a1a2e;
+  border-top: 2px solid var(--ink);
+  padding: 6px 4px 8px;
+  flex-shrink: 0;
+  /* Slide-up animation */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.custom-keyboard.ck-visible {
+  max-height: 400px;
+  overflow: visible;
+}
+
+/* Tabs */
+.ck-tabs {
+  display: flex;
+  gap: 6px;
+  padding: 0 6px 6px;
+}
+
+.ck-tab {
+  flex: 1;
+  padding: 7px 4px;
+  font-size: 13px;
+  font-weight: 700;
+  background: #2a2a3e;
+  color: #aaa;
+  border: 1px solid #444;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.12s, color 0.12s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.ck-tab.active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+
+/* Keyboard rows */
+.ck-row {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-bottom: 6px;
+  padding: 0 2px;
+}
+
+/* Individual keys */
+.ck-key {
+  background: #2d2d44;
+  color: #eee;
+  border: 1px solid #444;
+  border-bottom: 2px solid #111;
+  border-radius: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  padding: 11px 0;
+  min-width: 28px;
+  flex: 1;
+  max-width: 40px;
+  cursor: pointer;
+  text-align: center;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.05s, transform 0.05s, border-bottom 0.05s;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  line-height: 1;
+}
+
+.ck-key:active,
+.ck-key.pressed {
+  background: #4a4a6a;
+  border-bottom-width: 1px;
+  transform: translateY(1px);
+  box-shadow: none;
+}
+
+/* Number row keys (slightly smaller) */
+.ck-num-row .ck-key {
+  font-size: 13px;
+  padding: 9px 0;
+  max-width: 36px;
+}
+
+/* Special keys */
+.ck-shift,
+.ck-backspace {
+  background: #3a3a54;
+  min-width: 44px;
+  max-width: 56px;
+  font-size: 16px;
+}
+
+.ck-shift.ck-shift-active {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+.ck-space {
+  flex: 4;
+  max-width: 200px;
+  min-width: 80px;
+  background: #3a3a54;
+  font-size: 12px;
+  color: #aaa;
+  letter-spacing: 0.5px;
+}
+
+.ck-enter {
+  background: #4a2a7a;
+  min-width: 58px;
+  max-width: 72px;
+  color: #c084fc;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.ck-enter:active {
+  background: #5a3a8a;
+}
+
+.ck-special {
+  background: #3a3a54;
+  min-width: 44px;
+  max-width: 54px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ck-special.ck-sym-active {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+
+/* Bottom row spacing */
+.ck-bottom-row {
+  margin-bottom: 2px;
+}
+
+/* Emoji Grid */
+#ckEmoji {
+  overflow: hidden;
+}
+
+.ck-emoji-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 3px;
+  padding: 4px 6px;
+  max-height: 280px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ck-emoji-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  font-size: 22px;
+  cursor: pointer;
+  padding: 5px 2px;
+  border-radius: 6px;
+  text-align: center;
+  line-height: 1;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.08s;
+}
+
+.ck-emoji-btn:active {
+  background: #3a3a54;
+  border-color: #555;
+}
+
+/* Scrollbar styling for emoji grid */
+.ck-emoji-grid::-webkit-scrollbar {
+  width: 4px;
+}
+.ck-emoji-grid::-webkit-scrollbar-track {
+  background: transparent;
+}
+.ck-emoji-grid::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 2px;
+}
+
+/* Panel visibility */
+.ck-panel {
+  /* panels shown/hidden via JS */
+}
+
+/* Custom focus style for textarea when keyboard is active */
+.cb-fullscreen #chatInput[readonly] {
+  caret-color: var(--ink);
+  outline: none;
+}

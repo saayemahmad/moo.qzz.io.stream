@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <script>
@@ -1427,6 +1427,176 @@
         >
           <i class="ph-bold ph-x"></i>
         </button>
+      </div>
+      <!-- Custom Keyboard (fullscreen only) -->
+      <div id="customKeyboard" class="custom-keyboard">
+        <!-- Tabs -->
+        <div class="ck-tabs">
+          <button class="ck-tab active" data-tab="abc">ABC</button>
+          <button class="ck-tab" data-tab="emoji">&#128522;</button>
+        </div>
+        <!-- ABC Panel -->
+        <div class="ck-panel" id="ckABC">
+          <!-- Number row -->
+          <div class="ck-row ck-num-row" id="ckNumRow">
+            <button class="ck-key ck-num" data-char="1">1</button>
+            <button class="ck-key ck-num" data-char="2">2</button>
+            <button class="ck-key ck-num" data-char="3">3</button>
+            <button class="ck-key ck-num" data-char="4">4</button>
+            <button class="ck-key ck-num" data-char="5">5</button>
+            <button class="ck-key ck-num" data-char="6">6</button>
+            <button class="ck-key ck-num" data-char="7">7</button>
+            <button class="ck-key ck-num" data-char="8">8</button>
+            <button class="ck-key ck-num" data-char="9">9</button>
+            <button class="ck-key ck-num" data-char="0">0</button>
+          </div>
+          <!-- Symbol row (hidden by default) -->
+          <div class="ck-row ck-sym-row" id="ckSymRow" style="display:none;">
+            <button class="ck-key ck-num" data-char="!">!</button>
+            <button class="ck-key ck-num" data-char="@">@</button>
+            <button class="ck-key ck-num" data-char="#">#</button>
+            <button class="ck-key ck-num" data-char="$">$</button>
+            <button class="ck-key ck-num" data-char="%">%</button>
+            <button class="ck-key ck-num" data-char="^">^</button>
+            <button class="ck-key ck-num" data-char="&amp;">&amp;</button>
+            <button class="ck-key ck-num" data-char="*">*</button>
+            <button class="ck-key ck-num" data-char="(">(</button>
+            <button class="ck-key ck-num" data-char=")">)</button>
+          </div>
+          <!-- QWERTY row 1 -->
+          <div class="ck-row">
+            <button class="ck-key" data-char="q">q</button>
+            <button class="ck-key" data-char="w">w</button>
+            <button class="ck-key" data-char="e">e</button>
+            <button class="ck-key" data-char="r">r</button>
+            <button class="ck-key" data-char="t">t</button>
+            <button class="ck-key" data-char="y">y</button>
+            <button class="ck-key" data-char="u">u</button>
+            <button class="ck-key" data-char="i">i</button>
+            <button class="ck-key" data-char="o">o</button>
+            <button class="ck-key" data-char="p">p</button>
+          </div>
+          <!-- QWERTY row 2 -->
+          <div class="ck-row">
+            <button class="ck-key" data-char="a">a</button>
+            <button class="ck-key" data-char="s">s</button>
+            <button class="ck-key" data-char="d">d</button>
+            <button class="ck-key" data-char="f">f</button>
+            <button class="ck-key" data-char="g">g</button>
+            <button class="ck-key" data-char="h">h</button>
+            <button class="ck-key" data-char="j">j</button>
+            <button class="ck-key" data-char="k">k</button>
+            <button class="ck-key" data-char="l">l</button>
+          </div>
+          <!-- QWERTY row 3 -->
+          <div class="ck-row">
+            <button class="ck-key ck-shift" id="ckShiftBtn">&#8679;</button>
+            <button class="ck-key" data-char="z">z</button>
+            <button class="ck-key" data-char="x">x</button>
+            <button class="ck-key" data-char="c">c</button>
+            <button class="ck-key" data-char="v">v</button>
+            <button class="ck-key" data-char="b">b</button>
+            <button class="ck-key" data-char="n">n</button>
+            <button class="ck-key" data-char="m">m</button>
+            <button class="ck-key ck-backspace" id="ckBackspaceBtn">&#9003;</button>
+          </div>
+          <!-- Bottom row -->
+          <div class="ck-row ck-bottom-row">
+            <button class="ck-key ck-special" id="ckSymToggle">?!</button>
+            <button class="ck-key ck-space" id="ckSpaceBtn">space</button>
+            <button class="ck-key ck-enter" id="ckEnterBtn">&#8629;</button>
+          </div>
+        </div>
+        <!-- Emoji Panel -->
+        <div class="ck-panel" id="ckEmoji" style="display:none;">
+          <div class="ck-emoji-grid">
+            <button class="ck-emoji-btn" data-char="&#10084;&#65039;">&#10084;&#65039;</button>
+            <button class="ck-emoji-btn" data-char="&#128525;">&#128525;</button>
+            <button class="ck-emoji-btn" data-char="&#128536;">&#128536;</button>
+            <button class="ck-emoji-btn" data-char="&#129392;">&#129392;</button>
+            <button class="ck-emoji-btn" data-char="&#128149;">&#128149;</button>
+            <button class="ck-emoji-btn" data-char="&#128150;">&#128150;</button>
+            <button class="ck-emoji-btn" data-char="&#128151;">&#128151;</button>
+            <button class="ck-emoji-btn" data-char="&#128147;">&#128147;</button>
+            <button class="ck-emoji-btn" data-char="&#128158;">&#128158;</button>
+            <button class="ck-emoji-btn" data-char="&#128157;">&#128157;</button>
+            <button class="ck-emoji-btn" data-char="&#128522;">&#128522;</button>
+            <button class="ck-emoji-btn" data-char="&#128514;">&#128514;</button>
+            <button class="ck-emoji-btn" data-char="&#129315;">&#129315;</button>
+            <button class="ck-emoji-btn" data-char="&#128557;">&#128557;</button>
+            <button class="ck-emoji-btn" data-char="&#128546;">&#128546;</button>
+            <button class="ck-emoji-btn" data-char="&#128517;">&#128517;</button>
+            <button class="ck-emoji-btn" data-char="&#128518;">&#128518;</button>
+            <button class="ck-emoji-btn" data-char="&#128513;">&#128513;</button>
+            <button class="ck-emoji-btn" data-char="&#128516;">&#128516;</button>
+            <button class="ck-emoji-btn" data-char="&#128515;">&#128515;</button>
+            <button class="ck-emoji-btn" data-char="&#128512;">&#128512;</button>
+            <button class="ck-emoji-btn" data-char="&#128578;">&#128578;</button>
+            <button class="ck-emoji-btn" data-char="&#128523;">&#128523;</button>
+            <button class="ck-emoji-btn" data-char="&#128539;">&#128539;</button>
+            <button class="ck-emoji-btn" data-char="&#128541;">&#128541;</button>
+            <button class="ck-emoji-btn" data-char="&#128540;">&#128540;</button>
+            <button class="ck-emoji-btn" data-char="&#129322;">&#129322;</button>
+            <button class="ck-emoji-btn" data-char="&#128526;">&#128526;</button>
+            <button class="ck-emoji-btn" data-char="&#129395;">&#129395;</button>
+            <button class="ck-emoji-btn" data-char="&#129321;">&#129321;</button>
+            <button class="ck-emoji-btn" data-char="&#129402;">&#129402;</button>
+            <button class="ck-emoji-btn" data-char="&#128563;">&#128563;</button>
+            <button class="ck-emoji-btn" data-char="&#128561;">&#128561;</button>
+            <button class="ck-emoji-btn" data-char="&#129327;">&#129327;</button>
+            <button class="ck-emoji-btn" data-char="&#128548;">&#128548;</button>
+            <button class="ck-emoji-btn" data-char="&#128580;">&#128580;</button>
+            <button class="ck-emoji-btn" data-char="&#128527;">&#128527;</button>
+            <button class="ck-emoji-btn" data-char="&#128530;">&#128530;</button>
+            <button class="ck-emoji-btn" data-char="&#129393;">&#129393;</button>
+            <button class="ck-emoji-btn" data-char="&#128564;">&#128564;</button>
+            <button class="ck-emoji-btn" data-char="&#128164;">&#128164;</button>
+            <button class="ck-emoji-btn" data-char="&#128554;">&#128554;</button>
+            <button class="ck-emoji-btn" data-char="&#129316;">&#129316;</button>
+            <button class="ck-emoji-btn" data-char="&#129319;">&#129319;</button>
+            <button class="ck-emoji-btn" data-char="&#129314;">&#129314;</button>
+            <button class="ck-emoji-btn" data-char="&#129318;">&#129318;</button>
+            <button class="ck-emoji-btn" data-char="&#129326;">&#129326;</button>
+            <button class="ck-emoji-btn" data-char="&#128128;">&#128128;</button>
+            <button class="ck-emoji-btn" data-char="&#128123;">&#128123;</button>
+            <button class="ck-emoji-btn" data-char="&#128520;">&#128520;</button>
+            <button class="ck-emoji-btn" data-char="&#129313;">&#129313;</button>
+            <button class="ck-emoji-btn" data-char="&#128169;">&#128169;</button>
+            <button class="ck-emoji-btn" data-char="&#127801;">&#127801;</button>
+            <button class="ck-emoji-btn" data-char="&#127802;">&#127802;</button>
+            <button class="ck-emoji-btn" data-char="&#127800;">&#127800;</button>
+            <button class="ck-emoji-btn" data-char="&#127799;">&#127799;</button>
+            <button class="ck-emoji-btn" data-char="&#127803;">&#127803;</button>
+            <button class="ck-emoji-btn" data-char="&#127774;">&#127774;</button>
+            <button class="ck-emoji-btn" data-char="&#127752;">&#127752;</button>
+            <button class="ck-emoji-btn" data-char="&#11088;">&#11088;</button>
+            <button class="ck-emoji-btn" data-char="&#127775;">&#127775;</button>
+            <button class="ck-emoji-btn" data-char="&#128171;">&#128171;</button>
+            <button class="ck-emoji-btn" data-char="&#10024;">&#10024;</button>
+            <button class="ck-emoji-btn" data-char="&#128293;">&#128293;</button>
+            <button class="ck-emoji-btn" data-char="&#128165;">&#128165;</button>
+            <button class="ck-emoji-btn" data-char="&#10052;&#65039;">&#10052;&#65039;</button>
+            <button class="ck-emoji-btn" data-char="&#127881;">&#127881;</button>
+            <button class="ck-emoji-btn" data-char="&#127882;">&#127882;</button>
+            <button class="ck-emoji-btn" data-char="&#127880;">&#127880;</button>
+            <button class="ck-emoji-btn" data-char="&#127873;">&#127873;</button>
+            <button class="ck-emoji-btn" data-char="&#127942;">&#127942;</button>
+            <button class="ck-emoji-btn" data-char="&#128081;">&#128081;</button>
+            <button class="ck-emoji-btn" data-char="&#128142;">&#128142;</button>
+            <button class="ck-emoji-btn" data-char="&#127925;">&#127925;</button>
+            <button class="ck-emoji-btn" data-char="&#127926;">&#127926;</button>
+            <button class="ck-emoji-btn" data-char="&#127928;">&#127928;</button>
+            <button class="ck-emoji-btn" data-char="&#127929;">&#127929;</button>
+            <button class="ck-emoji-btn" data-char="&#128077;">&#128077;</button>
+            <button class="ck-emoji-btn" data-char="&#128078;">&#128078;</button>
+            <button class="ck-emoji-btn" data-char="&#128079;">&#128079;</button>
+            <button class="ck-emoji-btn" data-char="&#128591;">&#128591;</button>
+            <button class="ck-emoji-btn" data-char="&#129309;">&#129309;</button>
+            <button class="ck-emoji-btn" data-char="&#128170;">&#128170;</button>
+            <button class="ck-emoji-btn" data-char="&#129782;">&#129782;</button>
+            <button class="ck-emoji-btn" data-char="&#128535;">&#128535;</button>
+          </div>
+        </div>
       </div>
       <div class="chat-footer">
         <textarea
@@ -4894,6 +5064,318 @@
           document.addEventListener("DOMContentLoaded", () => SM.init());
         } else {
           SM.init();
+        }
+      })();
+    </script>
+    <!-- Custom QWERTY Keyboard Logic -->
+    <script>
+      (function () {
+        "use strict";
+
+        var ckState = {
+          shift: false,
+          caps: false,
+          symMode: false,
+          bsInterval: null,
+          visible: false,
+        };
+
+        function getTextarea() {
+          return document.getElementById("chatInput");
+        }
+
+        function getSendBtn() {
+          return document.querySelector(".chat-send");
+        }
+
+        function getKeyboard() {
+          return document.getElementById("customKeyboard");
+        }
+
+        // Insert character at cursor position
+        function insertChar(ch) {
+          var ta = getTextarea();
+          if (!ta) return;
+          var start = ta.selectionStart;
+          var end = ta.selectionEnd;
+          var val = ta.value;
+          ta.value = val.substring(0, start) + ch + val.substring(end);
+          var pos = start + ch.length;
+          ta.setSelectionRange(pos, pos);
+          ta.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        // Delete char before cursor
+        function doBackspace() {
+          var ta = getTextarea();
+          if (!ta) return;
+          var start = ta.selectionStart;
+          var end = ta.selectionEnd;
+          if (start !== end) {
+            // Delete selection
+            ta.value = ta.value.substring(0, start) + ta.value.substring(end);
+            ta.setSelectionRange(start, start);
+          } else if (start > 0) {
+            // Handle emoji/surrogate pairs - delete full code point
+            var val = ta.value;
+            var before = val.substring(0, start);
+            // Use Array.from to get unicode chars properly
+            var chars = Array.from(before);
+            chars.pop();
+            var newBefore = chars.join("");
+            ta.value = newBefore + val.substring(end);
+            ta.setSelectionRange(newBefore.length, newBefore.length);
+          }
+          ta.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+
+        // Update all letter key labels for shift state
+        function applyShiftState() {
+          var keys = document.querySelectorAll("#ckABC .ck-key[data-char]");
+          keys.forEach(function (btn) {
+            var ch = btn.getAttribute("data-char");
+            if (ch && ch.length === 1 && ch >= "a" && ch <= "z") {
+              btn.textContent = ckState.shift ? ch.toUpperCase() : ch;
+            }
+          });
+          var shiftBtn = document.getElementById("ckShiftBtn");
+          if (shiftBtn) {
+            shiftBtn.classList.toggle("ck-shift-active", ckState.shift);
+            shiftBtn.style.color = ckState.shift ? "var(--ink)" : "";
+          }
+        }
+
+        // Show/hide keyboard
+        function showKeyboard() {
+          var kb = getKeyboard();
+          if (!kb) return;
+          kb.style.display = "";
+          // Force reflow then add visible class for animation
+          void kb.offsetHeight;
+          kb.classList.add("ck-visible");
+          ckState.visible = true;
+
+          // Prevent native keyboard
+          var ta = getTextarea();
+          if (ta) {
+            ta.setAttribute("inputmode", "none");
+            ta.setAttribute("readonly", "readonly");
+            ta.style.caretColor = "var(--ink)";
+          }
+        }
+
+        function hideKeyboard() {
+          var kb = getKeyboard();
+          if (!kb) return;
+          kb.classList.remove("ck-visible");
+          ckState.visible = false;
+          // Hide after transition
+          setTimeout(function () {
+            if (!ckState.visible) kb.style.display = "none";
+          }, 300);
+
+          // Restore normal textarea
+          var ta = getTextarea();
+          if (ta) {
+            ta.removeAttribute("inputmode");
+            ta.removeAttribute("readonly");
+            ta.style.caretColor = "";
+          }
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+          var abcPanel = document.getElementById("ckABC");
+          var emojiPanel = document.getElementById("ckEmoji");
+          var tabs = document.querySelectorAll(".ck-tab");
+          tabs.forEach(function (t) {
+            t.classList.toggle("active", t.getAttribute("data-tab") === tabName);
+          });
+          if (abcPanel) abcPanel.style.display = tabName === "abc" ? "" : "none";
+          if (emojiPanel) emojiPanel.style.display = tabName === "emoji" ? "" : "none";
+        }
+
+        // Symbol row toggle
+        function toggleSymRow() {
+          ckState.symMode = !ckState.symMode;
+          var numRow = document.getElementById("ckNumRow");
+          var symRow = document.getElementById("ckSymRow");
+          var symBtn = document.getElementById("ckSymToggle");
+          if (numRow) numRow.style.display = ckState.symMode ? "none" : "";
+          if (symRow) symRow.style.display = ckState.symMode ? "" : "none";
+          if (symBtn) symBtn.classList.toggle("ck-sym-active", ckState.symMode);
+        }
+
+        // Handle key press from data-char
+        function handleCharKey(ch) {
+          if (ckState.shift) {
+            ch = ch.toUpperCase();
+            ckState.shift = false;
+            applyShiftState();
+          }
+          insertChar(ch);
+        }
+
+        // Initialize keyboard event listeners
+        function initKeyboard() {
+          var kb = getKeyboard();
+          if (!kb || kb._ckInit) return;
+          kb._ckInit = true;
+
+          // Tab switching
+          kb.querySelectorAll(".ck-tab").forEach(function (tab) {
+            tab.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              switchTab(this.getAttribute("data-tab"));
+            });
+          });
+
+          // Character keys (all .ck-key with data-char, plus emoji btns)
+          kb.addEventListener("pointerdown", function (e) {
+            var btn = e.target.closest("[data-char]");
+            if (!btn) return;
+            if (btn.classList.contains("ck-tab")) return;
+            e.preventDefault();
+            var ch = btn.getAttribute("data-char");
+            if (ch) handleCharKey(ch);
+          });
+
+          // Shift key
+          var shiftBtn = document.getElementById("ckShiftBtn");
+          if (shiftBtn) {
+            shiftBtn.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              ckState.shift = !ckState.shift;
+              applyShiftState();
+            });
+          }
+
+          // Backspace key - single press + hold to repeat
+          var bsBtn = document.getElementById("ckBackspaceBtn");
+          if (bsBtn) {
+            bsBtn.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              doBackspace();
+              // Start repeat after 400ms hold
+              ckState.bsTimeout = setTimeout(function () {
+                ckState.bsInterval = setInterval(doBackspace, 60);
+              }, 400);
+            });
+            var stopBS = function () {
+              clearTimeout(ckState.bsTimeout);
+              clearInterval(ckState.bsInterval);
+            };
+            bsBtn.addEventListener("pointerup", stopBS);
+            bsBtn.addEventListener("pointercancel", stopBS);
+            bsBtn.addEventListener("pointerleave", stopBS);
+          }
+
+          // Space key
+          var spaceBtn = document.getElementById("ckSpaceBtn");
+          if (spaceBtn) {
+            spaceBtn.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              insertChar(" ");
+            });
+          }
+
+          // Enter key - sends message
+          var enterBtn = document.getElementById("ckEnterBtn");
+          if (enterBtn) {
+            enterBtn.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              var sendBtn = getSendBtn();
+              if (sendBtn) sendBtn.click();
+            });
+          }
+
+          // Symbol toggle
+          var symToggle = document.getElementById("ckSymToggle");
+          if (symToggle) {
+            symToggle.addEventListener("pointerdown", function (e) {
+              e.preventDefault();
+              toggleSymRow();
+            });
+          }
+
+          // Prevent keyboard from stealing focus from textarea
+          kb.addEventListener("mousedown", function (e) {
+            e.preventDefault();
+          });
+          kb.addEventListener("touchstart", function (e) {
+            // Don't prevent default here to allow pointer events
+          }, { passive: true });
+        }
+
+        // Hook into ChatboxSM state transitions
+        function hookChatboxSM() {
+          var sm = window.ChatboxSM;
+          if (!sm) return false;
+
+          var origToFullscreen = sm.toFullscreen.bind(sm);
+          var origToFloating = sm.toFloating.bind(sm);
+          var origToHibernated = sm.toHibernated.bind(sm);
+
+          sm.toFullscreen = function (reason) {
+            origToFullscreen(reason);
+            showKeyboard();
+          };
+
+          sm.toFloating = function (fromHibernate) {
+            origToFloating(fromHibernate);
+            hideKeyboard();
+          };
+
+          sm.toHibernated = function () {
+            origToHibernated();
+            hideKeyboard();
+          };
+
+          // If already in fullscreen at init time, show keyboard
+          if (sm.state === "FULLSCREEN") {
+            showKeyboard();
+          }
+
+          return true;
+        }
+
+        // MutationObserver fallback
+        function watchClassChanges() {
+          var popup = document.getElementById("chatPopup");
+          if (!popup) return;
+          var wasFullscreen = popup.classList.contains("cb-fullscreen");
+          var observer = new MutationObserver(function () {
+            var isFullscreen = popup.classList.contains("cb-fullscreen");
+            if (isFullscreen && !wasFullscreen) {
+              showKeyboard();
+            } else if (!isFullscreen && wasFullscreen) {
+              hideKeyboard();
+            }
+            wasFullscreen = isFullscreen;
+          });
+          observer.observe(popup, { attributes: true, attributeFilter: ["class"] });
+        }
+
+        function init() {
+          initKeyboard();
+          watchClassChanges();
+
+          // Try to hook immediately, retry if SM not yet available
+          if (!hookChatboxSM()) {
+            var attempts = 0;
+            var retryInterval = setInterval(function () {
+              attempts++;
+              if (hookChatboxSM() || attempts > 20) {
+                clearInterval(retryInterval);
+              }
+            }, 100);
+          }
+        }
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", init);
+        } else {
+          init();
         }
       })();
     </script>
