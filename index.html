@@ -1428,6 +1428,36 @@
           <i class="ph-bold ph-x"></i>
         </button>
       </div>
+      <div class="chat-footer">
+        <button
+          id="ckToggleBtn"
+          class="chat-kb-toggle"
+          type="button"
+          tabindex="-1"
+          aria-label="Toggle keyboard"
+          title="Toggle keyboard / emojis"
+        >
+          <i class="ph-bold ph-keyboard"></i>
+        </button>
+        <textarea
+          id="chatInput"
+          placeholder="মেসেজ লিখুন..."
+          rows="1"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="sentences"
+          spellcheck="false"
+        ></textarea>
+        <button
+          class="chat-send"
+          type="button"
+          tabindex="-1"
+          aria-label="Send message"
+        >
+          <i class="ph-bold ph-paper-plane-right"></i>
+        </button>
+      </div>
+
       <!-- Custom Keyboard (fullscreen only) -->
       <div id="customKeyboard" class="custom-keyboard">
         <!-- Tabs -->
@@ -1597,25 +1627,6 @@
             <button class="ck-emoji-btn" data-char="&#128535;">&#128535;</button>
           </div>
         </div>
-      </div>
-      <div class="chat-footer">
-        <textarea
-          id="chatInput"
-          placeholder="মেসেজ লিখুন..."
-          rows="1"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="sentences"
-          spellcheck="false"
-        ></textarea>
-        <button
-          class="chat-send"
-          type="button"
-          tabindex="-1"
-          aria-label="Send message"
-        >
-          <i class="ph-bold ph-paper-plane-right"></i>
-        </button>
       </div>
 
       <div
@@ -4820,10 +4831,6 @@
             } else if (!kbNowOpen && this.kbOpen) {
               this.kbOpen = false;
               document.body.classList.remove("kb-open");
-              // Only auto-revert if THIS fullscreen was triggered by the keyboard
-              if (this.state === "FULLSCREEN" && this._kbAutoUpgraded) {
-                this.toFloating();
-              }
             }
           },
 
@@ -5076,9 +5083,15 @@
           shift: false,
           caps: false,
           symMode: false,
-          bsInterval: null,
           visible: false,
         };
+
+        function isMobileClient() {
+          var isTouchOnly = window.matchMedia && window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+          var isSmall = window.innerWidth <= 850;
+          var isUA = /Android|iPhone|iPad|iPod|webOS|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          return isUA || (isTouchOnly && isSmall);
+        }
 
         function getTextarea() {
           return document.getElementById("chatInput");
@@ -5092,44 +5105,63 @@
           return document.getElementById("customKeyboard");
         }
 
-        // Insert character at cursor position
+        function getToggleBtn() {
+          return document.getElementById("ckToggleBtn");
+        }
+
+        // Insert character at cursor position with robust caret & event handling
         function insertChar(ch) {
           var ta = getTextarea();
           if (!ta) return;
-          var start = ta.selectionStart;
-          var end = ta.selectionEnd;
-          var val = ta.value;
+          var val = ta.value || "";
+          var start = (typeof ta.selectionStart === "number" && !isNaN(ta.selectionStart)) ? ta.selectionStart : val.length;
+          var end = (typeof ta.selectionEnd === "number" && !isNaN(ta.selectionEnd)) ? ta.selectionEnd : val.length;
+
           ta.value = val.substring(0, start) + ch + val.substring(end);
-          var pos = start + ch.length;
-          ta.setSelectionRange(pos, pos);
+          var newPos = start + ch.length;
+          try {
+            ta.setSelectionRange(newPos, newPos);
+          } catch (e) {}
+
           ta.dispatchEvent(new Event("input", { bubbles: true }));
+          if (typeof window.autoResizeChatInput === "function") {
+            window.autoResizeChatInput(ta);
+          }
+          try {
+            ta.focus();
+          } catch (e) {}
         }
 
-        // Delete char before cursor
+        // Delete char before cursor (unicode-aware for emoji support)
         function doBackspace() {
           var ta = getTextarea();
           if (!ta) return;
-          var start = ta.selectionStart;
-          var end = ta.selectionEnd;
+          var val = ta.value || "";
+          var start = (typeof ta.selectionStart === "number" && !isNaN(ta.selectionStart)) ? ta.selectionStart : val.length;
+          var end = (typeof ta.selectionEnd === "number" && !isNaN(ta.selectionEnd)) ? ta.selectionEnd : val.length;
+
           if (start !== end) {
-            // Delete selection
-            ta.value = ta.value.substring(0, start) + ta.value.substring(end);
-            ta.setSelectionRange(start, start);
+            ta.value = val.substring(0, start) + val.substring(end);
+            try { ta.setSelectionRange(start, start); } catch (e) {}
           } else if (start > 0) {
-            // Handle emoji/surrogate pairs - delete full code point
-            var val = ta.value;
             var before = val.substring(0, start);
-            // Use Array.from to get unicode chars properly
             var chars = Array.from(before);
             chars.pop();
             var newBefore = chars.join("");
             ta.value = newBefore + val.substring(end);
-            ta.setSelectionRange(newBefore.length, newBefore.length);
+            var newPos = newBefore.length;
+            try { ta.setSelectionRange(newPos, newPos); } catch (e) {}
           }
           ta.dispatchEvent(new Event("input", { bubbles: true }));
+          if (typeof window.autoResizeChatInput === "function") {
+            window.autoResizeChatInput(ta);
+          }
+          try {
+            ta.focus();
+          } catch (e) {}
         }
 
-        // Update all letter key labels for shift state
+        // Update letter key labels for shift state
         function applyShiftState() {
           var keys = document.querySelectorAll("#ckABC .ck-key[data-char]");
           keys.forEach(function (btn) {
@@ -5146,22 +5178,43 @@
         }
 
         // Show/hide keyboard
-        function showKeyboard() {
+        function showKeyboard(force) {
+          var popup = document.getElementById("chatPopup");
+          var isFullscreen = popup && popup.classList.contains("cb-fullscreen");
+          if (!isFullscreen) return;
+
+          // On desktop/laptop: don't auto-open unless user clicked the toggle button
+          if (!force && !isMobileClient()) {
+            return;
+          }
+
           var kb = getKeyboard();
           if (!kb) return;
           kb.style.display = "";
-          // Force reflow then add visible class for animation
           void kb.offsetHeight;
           kb.classList.add("ck-visible");
           ckState.visible = true;
 
-          // Prevent native keyboard
+          var tBtn = getToggleBtn();
+          if (tBtn) {
+            tBtn.classList.add("ck-active");
+            tBtn.innerHTML = '<i class="ph-bold ph-caret-down"></i>';
+          }
+
           var ta = getTextarea();
           if (ta) {
-            ta.setAttribute("inputmode", "none");
-            ta.setAttribute("readonly", "readonly");
+            if (isMobileClient()) {
+              // Suppress native OS soft keyboard while keeping textarea focusable
+              ta.setAttribute("inputmode", "none");
+            } else {
+              ta.removeAttribute("inputmode");
+            }
+            ta.removeAttribute("readonly");
             ta.style.caretColor = "var(--ink)";
+            try { ta.focus(); } catch (e) {}
           }
+
+          if (window.scrollToBottom) window.scrollToBottom();
         }
 
         function hideKeyboard() {
@@ -5169,17 +5222,30 @@
           if (!kb) return;
           kb.classList.remove("ck-visible");
           ckState.visible = false;
-          // Hide after transition
-          setTimeout(function () {
-            if (!ckState.visible) kb.style.display = "none";
-          }, 300);
 
-          // Restore normal textarea
+          var tBtn = getToggleBtn();
+          if (tBtn) {
+            tBtn.classList.remove("ck-active");
+            tBtn.innerHTML = '<i class="ph-bold ph-keyboard"></i>';
+          }
+
+          setTimeout(function () {
+            if (!ckState.visible && kb) kb.style.display = "none";
+          }, 280);
+
           var ta = getTextarea();
           if (ta) {
             ta.removeAttribute("inputmode");
             ta.removeAttribute("readonly");
             ta.style.caretColor = "";
+          }
+        }
+
+        function toggleKeyboard() {
+          if (ckState.visible) {
+            hideKeyboard();
+          } else {
+            showKeyboard(true);
           }
         }
 
@@ -5193,6 +5259,7 @@
           });
           if (abcPanel) abcPanel.style.display = tabName === "abc" ? "" : "none";
           if (emojiPanel) emojiPanel.style.display = tabName === "emoji" ? "" : "none";
+          if (window.scrollToBottom) window.scrollToBottom();
         }
 
         // Symbol row toggle
@@ -5208,12 +5275,49 @@
 
         // Handle key press from data-char
         function handleCharKey(ch) {
-          if (ckState.shift) {
+          if (ckState.shift && ch.length === 1 && ch >= "a" && ch <= "z") {
             ch = ch.toUpperCase();
             ckState.shift = false;
             applyShiftState();
           }
           insertChar(ch);
+        }
+
+        // Universal touch/click binder
+        function bindKey(btn, action) {
+          var touched = false;
+          btn.addEventListener("touchstart", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            touched = true;
+            btn.classList.add("pressed");
+            action(e);
+          }, { passive: false });
+
+          btn.addEventListener("touchend", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.remove("pressed");
+            setTimeout(function () { touched = false; }, 250);
+          }, { passive: false });
+
+          btn.addEventListener("pointerdown", function (e) {
+            if (touched) return;
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.add("pressed");
+            action(e);
+          });
+
+          btn.addEventListener("pointerup", function () {
+            btn.classList.remove("pressed");
+          });
+          btn.addEventListener("pointercancel", function () {
+            btn.classList.remove("pressed");
+          });
+          btn.addEventListener("pointerleave", function () {
+            btn.classList.remove("pressed");
+          });
         }
 
         // Initialize keyboard event listeners
@@ -5222,68 +5326,114 @@
           if (!kb || kb._ckInit) return;
           kb._ckInit = true;
 
+          // Toggle button in footer
+          var tBtn = getToggleBtn();
+          if (tBtn) {
+            tBtn.addEventListener("click", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleKeyboard();
+            });
+            tBtn.addEventListener("touchstart", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              toggleKeyboard();
+            }, { passive: false });
+          }
+
+          // Input tap on mobile: transition to fullscreen automatically without native keyboard
+          var ta = getTextarea();
+          if (ta) {
+            ta.addEventListener("pointerdown", function (e) {
+              if (isMobileClient() && window.ChatboxSM && window.ChatboxSM.state === "FLOATING") {
+                e.preventDefault();
+                ta.setAttribute("inputmode", "none");
+                window.ChatboxSM.toFullscreen("input");
+                setTimeout(function () {
+                  try { ta.focus(); } catch (err) {}
+                }, 80);
+              }
+            });
+          }
+
           // Tab switching
           kb.querySelectorAll(".ck-tab").forEach(function (tab) {
-            tab.addEventListener("pointerdown", function (e) {
-              e.preventDefault();
-              switchTab(this.getAttribute("data-tab"));
+            bindKey(tab, function () {
+              switchTab(tab.getAttribute("data-tab"));
             });
           });
 
-          // Character keys (all .ck-key with data-char, plus emoji btns)
-          kb.addEventListener("pointerdown", function (e) {
-            var btn = e.target.closest("[data-char]");
-            if (!btn) return;
+          // Character keys & emoji buttons
+          kb.querySelectorAll("[data-char]").forEach(function (btn) {
             if (btn.classList.contains("ck-tab")) return;
-            e.preventDefault();
-            var ch = btn.getAttribute("data-char");
-            if (ch) handleCharKey(ch);
+            bindKey(btn, function () {
+              var ch = btn.getAttribute("data-char");
+              if (ch) handleCharKey(ch);
+            });
           });
 
           // Shift key
           var shiftBtn = document.getElementById("ckShiftBtn");
           if (shiftBtn) {
-            shiftBtn.addEventListener("pointerdown", function (e) {
-              e.preventDefault();
+            bindKey(shiftBtn, function () {
               ckState.shift = !ckState.shift;
               applyShiftState();
             });
           }
 
-          // Backspace key - single press + hold to repeat
+          // Backspace key (with repeat on hold)
           var bsBtn = document.getElementById("ckBackspaceBtn");
           if (bsBtn) {
+            var bsTimer = null;
+            var bsInterval = null;
+            function startBs() {
+              doBackspace();
+              clearTimeout(bsTimer);
+              clearInterval(bsInterval);
+              bsTimer = setTimeout(function () {
+                bsInterval = setInterval(doBackspace, 60);
+              }, 350);
+            }
+            function stopBs() {
+              clearTimeout(bsTimer);
+              clearInterval(bsInterval);
+              bsBtn.classList.remove("pressed");
+            }
+
+            bsBtn.addEventListener("touchstart", function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              bsBtn.classList.add("pressed");
+              startBs();
+            }, { passive: false });
+            bsBtn.addEventListener("touchend", function (e) {
+              e.preventDefault();
+              stopBs();
+            }, { passive: false });
+
             bsBtn.addEventListener("pointerdown", function (e) {
               e.preventDefault();
-              doBackspace();
-              // Start repeat after 400ms hold
-              ckState.bsTimeout = setTimeout(function () {
-                ckState.bsInterval = setInterval(doBackspace, 60);
-              }, 400);
+              e.stopPropagation();
+              bsBtn.classList.add("pressed");
+              startBs();
             });
-            var stopBS = function () {
-              clearTimeout(ckState.bsTimeout);
-              clearInterval(ckState.bsInterval);
-            };
-            bsBtn.addEventListener("pointerup", stopBS);
-            bsBtn.addEventListener("pointercancel", stopBS);
-            bsBtn.addEventListener("pointerleave", stopBS);
+            bsBtn.addEventListener("pointerup", stopBs);
+            bsBtn.addEventListener("pointercancel", stopBs);
+            bsBtn.addEventListener("pointerleave", stopBs);
           }
 
           // Space key
           var spaceBtn = document.getElementById("ckSpaceBtn");
           if (spaceBtn) {
-            spaceBtn.addEventListener("pointerdown", function (e) {
-              e.preventDefault();
+            bindKey(spaceBtn, function () {
               insertChar(" ");
             });
           }
 
-          // Enter key - sends message
+          // Enter key
           var enterBtn = document.getElementById("ckEnterBtn");
           if (enterBtn) {
-            enterBtn.addEventListener("pointerdown", function (e) {
-              e.preventDefault();
+            bindKey(enterBtn, function () {
               var sendBtn = getSendBtn();
               if (sendBtn) sendBtn.click();
             });
@@ -5292,19 +5442,15 @@
           // Symbol toggle
           var symToggle = document.getElementById("ckSymToggle");
           if (symToggle) {
-            symToggle.addEventListener("pointerdown", function (e) {
-              e.preventDefault();
+            bindKey(symToggle, function () {
               toggleSymRow();
             });
           }
 
-          // Prevent keyboard from stealing focus from textarea
+          // Prevent keyboard background clicks from stealing focus
           kb.addEventListener("mousedown", function (e) {
             e.preventDefault();
           });
-          kb.addEventListener("touchstart", function (e) {
-            // Don't prevent default here to allow pointer events
-          }, { passive: true });
         }
 
         // Hook into ChatboxSM state transitions
@@ -5318,7 +5464,12 @@
 
           sm.toFullscreen = function (reason) {
             origToFullscreen(reason);
-            showKeyboard();
+            // On mobile, show custom keyboard automatically in fullscreen
+            if (isMobileClient()) {
+              showKeyboard(true);
+            } else {
+              hideKeyboard();
+            }
           };
 
           sm.toFloating = function (fromHibernate) {
@@ -5331,9 +5482,8 @@
             hideKeyboard();
           };
 
-          // If already in fullscreen at init time, show keyboard
-          if (sm.state === "FULLSCREEN") {
-            showKeyboard();
+          if (sm.state === "FULLSCREEN" && isMobileClient()) {
+            showKeyboard(true);
           }
 
           return true;
@@ -5347,7 +5497,7 @@
           var observer = new MutationObserver(function () {
             var isFullscreen = popup.classList.contains("cb-fullscreen");
             if (isFullscreen && !wasFullscreen) {
-              showKeyboard();
+              if (isMobileClient()) showKeyboard(true);
             } else if (!isFullscreen && wasFullscreen) {
               hideKeyboard();
             }
@@ -5360,7 +5510,6 @@
           initKeyboard();
           watchClassChanges();
 
-          // Try to hook immediately, retry if SM not yet available
           if (!hookChatboxSM()) {
             var attempts = 0;
             var retryInterval = setInterval(function () {

@@ -28,3 +28,5 @@ esp32_notifier.ino
 New folder/
 INDEX_GUIDE.md
 b2-uploader/
+app.py
+chat-viewer.html

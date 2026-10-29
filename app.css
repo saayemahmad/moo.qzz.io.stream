@@ -1296,6 +1296,7 @@ button {
 .chat-body {
   padding: 8px;
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   background-color: var(--c-chat-bg);
   background-image:
@@ -4268,26 +4269,60 @@ body.vib-shaking {
    Custom QWERTY Keyboard (Gboard-style)
    ============================================= */
 
+/* Keyboard toggle button in chat footer */
+.chat-kb-toggle {
+  background: var(--hover-bg);
+  border: 2px solid var(--ink);
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--ink);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  color: var(--ink);
+  font-size: 20px;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.1s ease-out, box-shadow 0.1s ease-out, background 0.1s ease-out;
+}
+
+.chat-kb-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.chat-kb-toggle.ck-active {
+  background: var(--ink);
+  color: var(--bg);
+}
+
 /* Hide keyboard in non-fullscreen mode */
 .chat-popup:not(.cb-fullscreen) #customKeyboard {
   display: none !important;
 }
 
 .custom-keyboard {
-  background: #1a1a2e;
+  background: #181828;
   border-top: 2px solid var(--ink);
-  padding: 6px 4px 8px;
+  padding: 6px 4px calc(6px + env(safe-area-inset-bottom, 0px));
   flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
   /* Slide-up animation */
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.28s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
   -webkit-user-select: none;
+  touch-action: manipulation;
 }
 
 .custom-keyboard.ck-visible {
-  max-height: 400px;
+  max-height: 380px;
   overflow: visible;
 }
 
@@ -4295,7 +4330,7 @@ body.vib-shaking {
 .ck-tabs {
   display: flex;
   gap: 6px;
-  padding: 0 6px 6px;
+  padding: 0 4px 6px;
 }
 
 .ck-tab {
@@ -4303,13 +4338,14 @@ body.vib-shaking {
   padding: 7px 4px;
   font-size: 13px;
   font-weight: 700;
-  background: #2a2a3e;
-  color: #aaa;
-  border: 1px solid #444;
+  background: #252538;
+  color: #999;
+  border: 1px solid #3c3c50;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
   transition: background 0.12s, color 0.12s;
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
 .ck-tab.active {
@@ -4322,36 +4358,40 @@ body.vib-shaking {
 .ck-row {
   display: flex;
   justify-content: center;
-  gap: 5px;
-  margin-bottom: 6px;
+  gap: 4px;
+  margin-bottom: 5px;
   padding: 0 2px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Individual keys */
 .ck-key {
-  background: #2d2d44;
-  color: #eee;
-  border: 1px solid #444;
-  border-bottom: 2px solid #111;
+  background: #28283e;
+  color: #f0f0f5;
+  border: 1px solid #3d3d55;
+  border-bottom: 2px solid #11111c;
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
-  padding: 11px 0;
-  min-width: 28px;
+  padding: 10px 0;
+  min-width: 26px;
   flex: 1;
-  max-width: 40px;
+  max-width: 42px;
   cursor: pointer;
   text-align: center;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: background 0.05s, transform 0.05s, border-bottom 0.05s;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.4);
+  transition: background 0.05s, transform 0.05s;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.3);
   line-height: 1;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .ck-key:active,
 .ck-key.pressed {
-  background: #4a4a6a;
+  background: #44446a !important;
   border-bottom-width: 1px;
   transform: translateY(1px);
   box-shadow: none;
@@ -4360,29 +4400,31 @@ body.vib-shaking {
 /* Number row keys (slightly smaller) */
 .ck-num-row .ck-key {
   font-size: 13px;
-  padding: 9px 0;
+  padding: 8px 0;
   max-width: 36px;
+  background: #222234;
 }
 
 /* Special keys */
 .ck-shift,
 .ck-backspace {
-  background: #3a3a54;
-  min-width: 44px;
+  background: #34344e;
+  min-width: 42px;
   max-width: 56px;
   font-size: 16px;
 }
 
 .ck-shift.ck-shift-active {
-  color: var(--ink);
-  border-color: var(--ink);
+  background: #50507a;
+  color: #a78bfa;
+  border-color: #a78bfa;
 }
 
 .ck-space {
   flex: 4;
-  max-width: 200px;
+  max-width: 220px;
   min-width: 80px;
-  background: #3a3a54;
+  background: #34344e;
   font-size: 12px;
   color: #aaa;
   letter-spacing: 0.5px;
@@ -4390,31 +4432,32 @@ body.vib-shaking {
 
 .ck-enter {
   background: #4a2a7a;
-  min-width: 58px;
+  min-width: 56px;
   max-width: 72px;
   color: #c084fc;
   font-weight: 800;
   font-size: 18px;
 }
 
-.ck-enter:active {
-  background: #5a3a8a;
+.ck-enter:active,
+.ck-enter.pressed {
+  background: #5a3a8a !important;
 }
 
 .ck-special {
-  background: #3a3a54;
-  min-width: 44px;
+  background: #34344e;
+  min-width: 42px;
   max-width: 54px;
   font-size: 12px;
   font-weight: 700;
 }
 
 .ck-special.ck-sym-active {
-  color: var(--ink);
-  border-color: var(--ink);
+  background: #50507a;
+  color: #a78bfa;
+  border-color: #a78bfa;
 }
 
-/* Bottom row spacing */
 .ck-bottom-row {
   margin-bottom: 2px;
 }
@@ -4427,9 +4470,9 @@ body.vib-shaking {
 .ck-emoji-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 3px;
+  gap: 4px;
   padding: 4px 6px;
-  max-height: 280px;
+  max-height: 240px;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
 }
@@ -4439,21 +4482,24 @@ body.vib-shaking {
   border: 1px solid transparent;
   font-size: 22px;
   cursor: pointer;
-  padding: 5px 2px;
+  padding: 6px 2px;
   border-radius: 6px;
   text-align: center;
   line-height: 1;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
   transition: background 0.08s;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.ck-emoji-btn:active {
+.ck-emoji-btn:active,
+.ck-emoji-btn.pressed {
   background: #3a3a54;
   border-color: #555;
+  transform: scale(1.15);
 }
 
-/* Scrollbar styling for emoji grid */
 .ck-emoji-grid::-webkit-scrollbar {
   width: 4px;
 }
@@ -4465,13 +4511,7 @@ body.vib-shaking {
   border-radius: 2px;
 }
 
-/* Panel visibility */
-.ck-panel {
-  /* panels shown/hidden via JS */
-}
-
-/* Custom focus style for textarea when keyboard is active */
-.cb-fullscreen #chatInput[readonly] {
+/* Textarea in fullscreen chat */
+.cb-fullscreen #chatInput {
   caret-color: var(--ink);
-  outline: none;
 }
